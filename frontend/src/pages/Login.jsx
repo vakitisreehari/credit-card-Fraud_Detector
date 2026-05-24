@@ -4,7 +4,7 @@ import {
   Loader2, ChevronDown, ChevronRight, ExternalLink, X,
   RefreshCw, Eye, EyeOff, Link2, Smartphone, Building2,
   TrendingUp, Zap, Users, Globe, CheckCheck, ArrowRight,
-  Sun, Moon, ShieldAlert, Send
+  Sun, Moon, ShieldAlert, Send, User, Sparkles
 } from 'lucide-react';
 import { login, register } from '../utils/api';
 
@@ -107,8 +107,8 @@ const FEATURES = [
    ============================================================ */
 const LOGIN_MODES = [
   { id: 'password', label: 'Password',   Icon: Lock },
-  { id: 'magic',    label: 'Magic Link', Icon: Link2 },
   { id: 'otp',      label: 'OTP',        Icon: Smartphone },
+  { id: 'magic',    label: 'Magic Link', Icon: Link2 },
   { id: 'sso',      label: 'SSO',        Icon: Building2 },
   { id: 'biometric',label: 'Biometric',  Icon: Fingerprint },
 ];
@@ -130,24 +130,41 @@ const SSO_PROVIDERS = [
    ============================================================ */
 const Login = ({ onLoginSuccess }) => {
   /* ----------------------------------------------------------
+     Flow Controller ('signin' | 'signup' | 'forgot' | 'forgot_sent')
+  ---------------------------------------------------------- */
+  const [authFlow, setAuthFlow] = useState('signin');
+
+  /* ----------------------------------------------------------
      UI state
   ---------------------------------------------------------- */
   const [isDark, setIsDark]           = useState(true);
   const [lang, setLang]               = useState('EN');
   const [loginMode, setLoginMode]     = useState('password');
-  const [isSignUp, setIsSignUp]       = useState(false);
   const [showPw, setShowPw]           = useState(false);
+  const [isShaking, setIsShaking]     = useState(false);
 
   /* ----------------------------------------------------------
-     Form state
+     Form state — Sign In
   ---------------------------------------------------------- */
   const [username, setUsername]       = useState('');
-  const [email, setEmail]             = useState('');
   const [password, setPassword]       = useState('');
   const [otp, setOtp]                 = useState(['', '', '', '', '', '']);
   const [magicEmail, setMagicEmail]   = useState('');
   const [magicSent, setMagicSent]     = useState(false);
   const otpRefs = useRef([]);
+
+  /* ----------------------------------------------------------
+     Form state — Register / Sign Up
+  ---------------------------------------------------------- */
+  const [regUsername, setRegUsername] = useState('');
+  const [regEmail, setRegEmail]       = useState('');
+  const [regPassword, setRegPassword] = useState('');
+  const [pwStrength, setPwStrength]   = useState({ score: 0, label: '', color: 'bg-slate-300', text: 'text-slate-400' });
+
+  /* ----------------------------------------------------------
+     Form state — Forgot Password
+  ---------------------------------------------------------- */
+  const [forgotEmail, setForgotEmail] = useState('');
 
   /* ----------------------------------------------------------
      Async/loading state
@@ -183,31 +200,102 @@ const Login = ({ onLoginSuccess }) => {
   }, []);
 
   /* ----------------------------------------------------------
-     Handlers — Password Sign In
+     Trigger validation shake animation on error
   ---------------------------------------------------------- */
-  const handleSubmit = async (e) => {
+  const triggerShake = () => {
+    setIsShaking(true);
+    setTimeout(() => setIsShaking(false), 500);
+  };
+
+  /* ----------------------------------------------------------
+     Password Strength Validator
+  ---------------------------------------------------------- */
+  useEffect(() => {
+    if (!regPassword) {
+      setPwStrength({ score: 0, label: '', color: 'bg-slate-300', text: 'text-slate-400' });
+      return;
+    }
+    let score = 0;
+    if (regPassword.length >= 8) score++;
+    if (/[A-Z]/.test(regPassword)) score++;
+    if (/[0-9]/.test(regPassword)) score++;
+    if (/[^A-Za-z0-9]/.test(regPassword)) score++;
+
+    if (score <= 1) {
+      setPwStrength({ score, label: 'Weak', color: 'bg-red-500', text: 'text-red-500' });
+    } else if (score <= 3) {
+      setPwStrength({ score, label: 'Medium', color: 'bg-amber-500', text: 'text-amber-500' });
+    } else {
+      setPwStrength({ score, label: 'Strong', color: 'bg-emerald-500', text: 'text-emerald-500' });
+    }
+  }, [regPassword]);
+
+  /* ----------------------------------------------------------
+     Handlers — Sign In (Password)
+  ---------------------------------------------------------- */
+  const handleSignInSubmit = async (e) => {
     e.preventDefault();
     setError(''); setSuccess('');
-    if (isSignUp && password.length < 8) return setError('Password must be at least 8 characters.');
     setLoading(true);
     try {
-      if (isSignUp) {
-        const r = await register({ username, email, password });
-        if (r.data.success) {
-          setSuccess('Registration successful! Please sign in.');
-          setIsSignUp(false); setPassword(''); setUsername(email);
-        }
-      } else {
-        const r = await login({ username, password });
-        if (r.data.success) {
-          localStorage.setItem('token', r.data.token);
-          localStorage.setItem('user', JSON.stringify(r.data.user));
-          onLoginSuccess(r.data.user);
-        }
+      const r = await login({ username, password });
+      if (r.data.success) {
+        localStorage.setItem('token', r.data.token);
+        localStorage.setItem('user', JSON.stringify(r.data.user));
+        onLoginSuccess(r.data.user);
       }
     } catch (err) {
+      triggerShake();
       setError(err.response?.data?.message || 'Connection to backend failed. Make sure the server is running.');
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* ----------------------------------------------------------
+     Handlers — Sign Up / Register
+  ---------------------------------------------------------- */
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
+    setError(''); setSuccess('');
+
+    if (regPassword.length < 8) {
+      triggerShake();
+      return setError('Password must be at least 8 characters long.');
+    }
+
+    setLoading(true);
+    try {
+      const r = await register({ username: regUsername, email: regEmail, password: regPassword });
+      if (r.data.success) {
+        setSuccess('Registration successful! You can now log in.');
+        setAuthFlow('signin');
+        setUsername(regUsername);
+        setPassword('');
+        // Clean fields
+        setRegUsername('');
+        setRegEmail('');
+        setRegPassword('');
+      }
+    } catch (err) {
+      triggerShake();
+      setError(err.response?.data?.message || 'Sign up failed. Please try a different username or email.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* ----------------------------------------------------------
+     Handlers — Forgot Password
+  ---------------------------------------------------------- */
+  const handleForgotSubmit = async (e) => {
+    e.preventDefault();
+    setError(''); setSuccess('');
+    setLoading(true);
+    // Simulate API round-trip
+    await new Promise(r => setTimeout(r, 1200));
+    setLoading(false);
+    setAuthFlow('forgot_sent');
   };
 
   /* ----------------------------------------------------------
@@ -215,6 +303,7 @@ const Login = ({ onLoginSuccess }) => {
   ---------------------------------------------------------- */
   const handleMagicLink = async (e) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
     await new Promise(r => setTimeout(r, 1200));
     setMagicSent(true);
@@ -230,23 +319,30 @@ const Login = ({ onLoginSuccess }) => {
     setOtp(next);
     if (val && idx < 5) otpRefs.current[idx + 1]?.focus();
   };
+
   const handleOtpKeyDown = (idx, e) => {
     if (e.key === 'Backspace' && !otp[idx] && idx > 0) otpRefs.current[idx - 1]?.focus();
   };
+
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     const code = otp.join('');
     if (code.length < 6) return setError('Please enter all 6 digits.');
     setLoading(true);
     try {
+      // Simulate validation / bypass on demo OTP (123456)
       const r = await login({ username: 'admin', password: 'admin123' });
       if (r.data.success) {
         localStorage.setItem('token', r.data.token);
         localStorage.setItem('user', JSON.stringify(r.data.user));
         onLoginSuccess(r.data.user);
       }
-    } catch { setError('OTP verification failed.'); }
-    finally { setLoading(false); }
+    } catch {
+      triggerShake();
+      setError('OTP verification failed.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   /* ----------------------------------------------------------
@@ -264,8 +360,11 @@ const Login = ({ onLoginSuccess }) => {
         localStorage.setItem('user', JSON.stringify(user));
         onLoginSuccess(user);
       }
-    } catch { setError(`${providerId} SSO failed.`); }
-    finally { setLoading(false); }
+    } catch {
+      setError(`${providerId} SSO failed.`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   /* ----------------------------------------------------------
@@ -291,7 +390,10 @@ const Login = ({ onLoginSuccess }) => {
             setShowBiometricModal(false);
             onLoginSuccess(r.data.user);
           }
-        } catch { setError('Biometric login failed.'); setShowBiometricModal(false); }
+        } catch {
+          setError('Biometric login failed.');
+          setShowBiometricModal(false);
+        }
       }, 500);
     }, p * 22));
   };
@@ -331,443 +433,621 @@ const Login = ({ onLoginSuccess }) => {
     amber:   { ring: 'bg-amber-600/30',   text: 'text-amber-400' },
   };
 
-  /* ----------------------------------------------------------
-     RENDER
-  ---------------------------------------------------------- */
   return (
-    <div className={`min-h-screen flex font-sans overflow-hidden ${isDark ? '' : 'bg-slate-50'}`}>
+    <div className={`min-h-screen flex font-sans overflow-hidden ${isDark ? 'bg-[#090d16]' : 'bg-slate-50'}`}>
+      
+      {/* Dynamic Keyframe Injection for Shake & Envelope Pulse */}
+      <style>{`
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          20%, 60% { transform: translateX(-6px); }
+          40%, 80% { transform: translateX(6px); }
+        }
+        .shake-element {
+          animation: shake 0.4s ease-in-out;
+        }
+        @keyframes pulseEnvelope {
+          0% { transform: scale(1); opacity: 0.9; }
+          50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 25px rgba(99, 102, 241, 0.4); }
+          100% { transform: scale(1); opacity: 0.9; }
+        }
+        .pulse-envelope {
+          animation: pulseEnvelope 2s infinite ease-in-out;
+        }
+      `}</style>
 
       {/* ======================================================
-          LEFT HERO PANEL (dark always)
+          LEFT HERO PANEL (Premium Fintech Branding)
           ====================================================== */}
-      <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0a0e27 0%, #0d1340 40%, #0f1855 100%)' }}>
+      <div className="hidden lg:flex lg:w-[50%] relative flex-col justify-between overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #090c21 0%, #0d123d 50%, #0f1754 100%)' }}>
 
-        {/* Grid texture overlay */}
-        <div className="absolute inset-0 opacity-[0.04]"
+        {/* Dynamic Matrix-style grid texture */}
+        <div className="absolute inset-0 opacity-[0.03]"
           style={{ backgroundImage: 'linear-gradient(#6366f1 1px,transparent 1px),linear-gradient(90deg,#6366f1 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
 
-        {/* Radial glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)' }} />
+        {/* Ambient radial glows */}
+        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full filter blur-[80px]"
+          style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)' }} />
 
         {/* ── HEADER ── */}
         <div className="relative z-10 p-8 flex items-center space-x-3">
           <div className="bg-indigo-600/20 border border-indigo-500/30 p-2.5 rounded-xl">
-            <Shield className="h-6 w-6 text-indigo-400" />
+            <Shield className="h-6 w-6 text-indigo-400 animate-pulse" />
           </div>
           <div>
             <div className="text-white font-extrabold text-lg tracking-tight leading-none">FraudShield AI</div>
-            <div className="text-indigo-400 text-xs font-medium tracking-wider">Rule Engine</div>
+            <div className="text-indigo-400 text-xs font-medium tracking-wider mt-0.5">Autonomous Rule Engine</div>
           </div>
         </div>
 
-        {/* ── FLOATING CARDS ── */}
+        {/* ── FLOATING ANIMATED CARDS ── */}
         {FLOAT_CARDS.map((card, i) => (
           <div key={i}
-            className={`absolute z-20 transition-all duration-700 ${activeFloat === i ? 'scale-105 opacity-100' : 'opacity-60 scale-95'}`}
+            className={`absolute z-20 transition-all duration-700 ${activeFloat === i ? 'scale-105 opacity-100' : 'opacity-50 scale-95'}`}
             style={{ top: card.top, bottom: card.bottom, left: card.left, right: card.right }}>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 min-w-[140px] shadow-xl">
-              <p className="text-white/60 text-[10px] font-medium uppercase tracking-wider mb-1">{card.label}</p>
-              <p className="text-white font-bold text-lg leading-none mb-2">{card.value}</p>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ card.color === 'emerald' ? 'bg-emerald-500/20 text-emerald-400' : card.color === 'indigo' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-violet-500/20 text-violet-300' }`}>
-                {card.status}
+            <div className="bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 min-w-[150px] shadow-2xl">
+              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">{card.label}</p>
+              <p className="text-white font-black text-lg leading-none mb-2">{card.value}</p>
+              <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${
+                card.color === 'emerald' ? 'bg-emerald-500/20 text-emerald-400' : card.color === 'indigo' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-violet-500/20 text-violet-300'
+              }`}>
+                ● {card.status}
               </span>
             </div>
           </div>
         ))}
 
-        {/* ── HERO TEXT ── */}
-        <div className="relative z-10 px-10 flex-1 flex flex-col justify-center space-y-6">
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 w-fit bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-full">
-            <span className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" />
-            <span className="text-emerald-400 text-[11px] font-bold uppercase tracking-widest">Real-Time Protection</span>
+        {/* ── HERO CONTENT ── */}
+        <div className="relative z-10 px-12 flex-1 flex flex-col justify-center space-y-6">
+          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit">
+            <span className="h-2 w-2 bg-emerald-400 rounded-full animate-ping" />
+            <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-widest">Enterprise Security Active</span>
           </div>
 
-          {/* Headline */}
           <div>
             <h1 className="text-4xl xl:text-5xl font-black text-white leading-tight tracking-tight">
-              Smart. Secure.
-            </h1>
-            <h1 className="text-4xl xl:text-5xl font-black leading-tight tracking-tight"
-              style={{ background: 'linear-gradient(90deg,#818cf8,#6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Always One Step<br />Ahead.
+              Real-Time Security.<br />
+              <span style={{ background: 'linear-gradient(90deg,#a5b4fc,#818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Always One Step Ahead.
+              </span>
             </h1>
           </div>
 
           <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-            AI-powered fraud detection and real-time transaction monitoring to protect your customers and your business.
+            Harness machine learning models and customizable business rule filters to secure operations and shield payments seamlessly.
           </p>
 
-          {/* Features */}
-          <div className="space-y-4">
+          {/* Features checkmarks */}
+          <div className="space-y-4 pt-2">
             {FEATURES.map((f, i) => (
               <div key={i} className="flex items-start space-x-3">
-                <div className="bg-indigo-600/20 border border-indigo-500/20 p-2 rounded-xl shrink-0 text-base">{f.icon}</div>
+                <span className="bg-indigo-950 border border-indigo-500/30 p-2 rounded-xl text-base leading-none shrink-0">{f.icon}</span>
                 <div>
-                  <p className="text-white text-sm font-semibold">{f.title}</p>
-                  <p className="text-slate-400 text-xs leading-relaxed mt-0.5">{f.desc}</p>
+                  <p className="text-white text-sm font-bold">{f.title}</p>
+                  <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{f.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── STATS BAR ── */}
-        <div className="relative z-10 mx-6 mb-8 grid grid-cols-4 gap-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4">
+        {/* ── STATS ROW ── */}
+        <div className="relative z-10 mx-8 mb-6 grid grid-cols-4 gap-2 bg-slate-900/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
           {STATS.map(({ icon: Icon, value, label }, i) => (
             <div key={i} className="text-center">
               <div className="flex justify-center mb-1">
                 <Icon className="h-4 w-4 text-indigo-400" />
               </div>
-              <p className="text-white font-black text-lg leading-none">{value}</p>
-              <p className="text-slate-400 text-[10px] mt-0.5 leading-tight">{label}</p>
+              <p className="text-white font-extrabold text-base leading-none">{value}</p>
+              <p className="text-slate-400 text-[9px] uppercase tracking-wider mt-1">{label}</p>
             </div>
           ))}
         </div>
 
-        {/* ── FOOTER LINKS ── */}
-        <div className="relative z-10 pb-5 px-8 flex items-center justify-between text-[11px] text-slate-500">
-          <span>© 2024 FraudShield AI. All rights reserved.</span>
+        {/* ── FOOTER ── */}
+        <div className="relative z-10 pb-6 px-8 flex justify-between text-[11px] text-slate-500 font-medium">
+          <span>© 2026 FraudShield AI. All rights reserved.</span>
           <div className="flex space-x-4">
-            {['Privacy Policy', 'Terms of Service', 'Contact Us'].map(l => (
-              <a key={l} href="#" className="hover:text-slate-300 transition-colors">{l}</a>
-            ))}
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">Terms</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">Security Indicators</a>
           </div>
         </div>
       </div>
 
       {/* ======================================================
-          RIGHT AUTH PANEL (white / light)
+          RIGHT PANEL (Flows: Sign In / Sign Up / Forgot Password)
           ====================================================== */}
-      <div className={`flex-1 flex flex-col overflow-y-auto transition-colors duration-300 ${isDark ? 'bg-[#0f1225]' : 'bg-white'}`}>
-
-        {/* ── TOP BAR ── */}
-        <div className="flex items-center justify-end px-8 pt-6 pb-2 space-x-3">
-          {/* Light / Dark toggle */}
+      <div className={`flex-grow flex flex-col justify-between transition-colors duration-300 ${isDark ? 'bg-[#090d16]' : 'bg-white'}`}>
+        
+        {/* Top Controls */}
+        <div className="flex justify-end items-center px-8 pt-6 space-x-3 shrink-0">
+          {/* Light / Dark */}
           <button onClick={() => setIsDark(!isDark)}
-            className={`flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all cursor-pointer ${isDark ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
-            {isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+            className={`flex items-center space-x-1.5 text-xs font-semibold px-3 py-2 rounded-full border transition-all cursor-pointer ${
+              isDark ? 'border-slate-800 text-slate-300 hover:bg-slate-900' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+            }`}>
+            {isDark ? <Sun className="h-3.5 w-3.5 text-yellow-400" /> : <Moon className="h-3.5 w-3.5" />}
             <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
           </button>
-          {/* Language */}
-          <button className={`flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-all cursor-pointer ${isDark ? 'border-slate-700 text-slate-300 hover:bg-slate-800' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+          
+          {/* Language Selector */}
+          <button className={`flex items-center space-x-1 px-3 py-2 rounded-full border text-xs font-semibold ${
+            isDark ? 'border-slate-800 text-slate-300 hover:bg-slate-900' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+          }`}>
             <Globe className="h-3.5 w-3.5" />
             <span>{lang}</span>
             <ChevronDown className="h-3 w-3" />
           </button>
         </div>
 
-        {/* ── AUTH CARD ── */}
-        <div className="flex-1 flex items-center justify-center px-6 py-6">
-          <div className={`w-full max-w-md transition-colors duration-300 ${isDark ? '' : ''}`}>
+        {/* Core Auth Panel Wrapper */}
+        <div className="flex-1 flex items-center justify-center p-6 md:p-12 overflow-y-auto">
+          <div className={`w-full max-w-md ${isShaking ? 'shake-element' : ''}`}>
 
-            {/* Brand header */}
-            <div className="flex items-center space-x-3 mb-7">
-              <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-indigo-600/20 border-indigo-500/30' : 'bg-indigo-50 border-indigo-200'}`}>
-                <Shield className="h-5 w-5 text-indigo-600" />
-              </div>
-              <div>
-                <h2 className={`font-extrabold text-xl tracking-tight leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  Welcome Back!
-                </h2>
-                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Sign in to continue to your account</p>
-              </div>
-            </div>
-
-            {/* Error / Success banners */}
+            {/* ERROR BANNER */}
             {error && (
-              <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl text-xs flex items-start space-x-2 animate-fade-in">
-                <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+              <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-xs flex items-start space-x-2.5 animate-fade-in shadow-md">
+                <AlertCircle className="h-4.5 w-4.5 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
+
+            {/* SUCCESS BANNER */}
             {success && (
-              <div className="mb-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-3 rounded-xl text-xs flex items-start space-x-2 animate-fade-in">
-                <CheckCircle className="h-4 w-4 shrink-0 mt-0.5" />
+              <div className="mb-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-3 rounded-xl text-xs flex items-start space-x-2.5 animate-fade-in shadow-md">
+                <CheckCircle className="h-4.5 w-4.5 shrink-0 mt-0.5" />
                 <span>{success}</span>
               </div>
             )}
 
-            {/* ── LOGIN MODE TABS ── */}
-            <div className="mb-6">
-              <p className={`text-xs font-semibold uppercase tracking-wider mb-2.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Login Mode</p>
-              <div className={`grid grid-cols-5 gap-1 p-1 rounded-xl ${isDark ? 'bg-slate-800/60' : 'bg-slate-100'}`}>
-                {LOGIN_MODES.map(({ id, label, Icon }) => (
-                  <button key={id} id={`mode-${id}`}
-                    onClick={() => { setLoginMode(id); setError(''); setSuccess(''); if (id === 'biometric') startBiometric(); }}
-                    className={`flex flex-col items-center justify-center py-2 rounded-lg text-[10px] font-semibold transition-all cursor-pointer space-y-1 ${
-                      loginMode === id
-                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
-                        : isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'
-                    }`}>
-                    <Icon className="h-4 w-4" />
-                    <span className="leading-none">{label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* ============================================
-                PASSWORD MODE
-                ============================================ */}
-            {(loginMode === 'password' || loginMode === 'sso') && loginMode === 'password' && (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Username / Email */}
-                <div>
-                  <label className={`block text-xs font-semibold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                    {isSignUp ? 'Email Address' : 'Email or Username'}
-                  </label>
-                  <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                      <Mail className={`h-4 w-4 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
-                    </span>
-                    <input type="text" id="username-input" value={username}
-                      onChange={e => setUsername(e.target.value)} required
-                      placeholder="Enter your email or username"
-                      className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 ${
-                        isDark ? 'bg-slate-800/60 border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400'
-                      }`} />
+            {/* ========================================================
+                1. SIGN IN FLOW (Standard Option Tabs)
+                ======================================================== */}
+            {authFlow === 'signin' && (
+              <div className="animate-scale-up">
+                {/* Title */}
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-indigo-600/10 border-indigo-500/20' : 'bg-indigo-50 border-indigo-200'}`}>
+                    <Shield className="h-5 w-5 text-indigo-600" />
+                  </div>
+                  <div>
+                    <h2 className={`font-black text-xl leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>Welcome back</h2>
+                    <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Access your secure operating console</p>
                   </div>
                 </div>
 
-                {/* Password */}
-                <div>
-                  <label className={`block text-xs font-semibold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Password</label>
-                  <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                      <Lock className={`h-4 w-4 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
-                    </span>
-                    <input type={showPw ? 'text' : 'password'} id="password-input" value={password}
-                      onChange={e => setPassword(e.target.value)} required
-                      placeholder="Enter your password"
-                      className={`w-full pl-10 pr-12 py-3 rounded-xl text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 ${
-                        isDark ? 'bg-slate-800/60 border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400'
-                      }`} />
-                    <button type="button" onClick={() => setShowPw(!showPw)}
-                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center cursor-pointer">
-                      {showPw ? <EyeOff className="h-4 w-4 text-slate-400" /> : <Eye className="h-4 w-4 text-slate-400" />}
-                    </button>
-                  </div>
-                  <div className="flex justify-end mt-1.5">
-                    <button type="button" className="text-xs text-indigo-500 hover:text-indigo-400 transition-colors cursor-pointer font-medium">
-                      Forgot Password?
-                    </button>
-                  </div>
-                </div>
-
-                {/* Submit */}
-                <button type="submit" id="signin-btn" disabled={loading}
-                  className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/25 cursor-pointer flex items-center justify-center space-x-2">
-                  {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span>Sign In</span>}
-                </button>
-
-                {/* Register link */}
-                <p className={`text-center text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
-                  <button type="button" onClick={() => { setIsSignUp(!isSignUp); setError(''); setSuccess(''); }}
-                    className="text-indigo-500 font-semibold hover:text-indigo-400 transition-colors cursor-pointer">
-                    {isSignUp ? 'Sign In' : 'Contact Admin'}
-                  </button>
-                </p>
-              </form>
-            )}
-
-            {/* ============================================
-                OTP MODE
-                ============================================ */}
-            {loginMode === 'otp' && (
-              <form onSubmit={handleOtpSubmit} className="space-y-5">
-                <div>
-                  <label className={`block text-xs font-semibold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email or Username</label>
-                  <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                      <Mail className="h-4 w-4 text-slate-400" />
-                    </span>
-                    <input type="text" value={username} onChange={e => setUsername(e.target.value)} required
-                      placeholder="Enter your email to receive OTP"
-                      className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 ${isDark ? 'bg-slate-800/60 border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400'}`} />
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`block text-xs font-semibold mb-3 text-center ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Enter 6-digit OTP</label>
-                  <div className="flex justify-center space-x-2">
-                    {otp.map((digit, i) => (
-                      <input key={i} ref={el => otpRefs.current[i] = el}
-                        type="text" maxLength={1} value={digit}
-                        onChange={e => handleOtpChange(i, e.target.value)}
-                        onKeyDown={e => handleOtpKeyDown(i, e)}
-                        className={`w-11 h-12 text-center text-lg font-bold rounded-xl border-2 transition-colors focus:outline-none focus:border-indigo-500 ${
-                          isDark ? 'bg-slate-800 border-slate-600 text-white' : 'bg-white border-slate-200 text-slate-900'
-                        } ${digit ? 'border-indigo-500 text-indigo-500' : ''}`} />
+                {/* Login Modes Tab Selection */}
+                <div className="mb-5">
+                  <span className={`block text-[10px] font-bold uppercase tracking-wider mb-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Authentication Mode</span>
+                  <div className={`grid grid-cols-5 gap-1 p-1 rounded-xl ${isDark ? 'bg-slate-900/60' : 'bg-slate-100'}`}>
+                    {LOGIN_MODES.map(({ id, label, Icon }) => (
+                      <button key={id} type="button"
+                        onClick={() => { setLoginMode(id); setError(''); setSuccess(''); if (id === 'biometric') startBiometric(); }}
+                        className={`flex flex-col items-center py-2 rounded-lg text-[9px] font-bold transition-all cursor-pointer ${
+                          loginMode === id
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+                            : isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'
+                        }`}>
+                        <Icon className="h-4.5 w-4.5 mb-1 shrink-0" />
+                        <span>{label}</span>
+                      </button>
                     ))}
                   </div>
-                  <p className={`text-center text-[10px] mt-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                    Demo: use <span className="text-indigo-400 font-mono font-bold">123456</span> to proceed
-                  </p>
                 </div>
 
-                <button type="submit" disabled={loading}
-                  className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/25 cursor-pointer flex items-center justify-center">
-                  {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Verify OTP'}
-                </button>
-              </form>
-            )}
-
-            {/* ============================================
-                MAGIC LINK MODE
-                ============================================ */}
-            {loginMode === 'magic' && (
-              <div className="space-y-4">
-                {!magicSent ? (
-                  <form onSubmit={handleMagicLink} className="space-y-4">
-                    <div className={`rounded-xl border p-4 ${isDark ? 'bg-indigo-950/40 border-indigo-500/30' : 'bg-indigo-50 border-indigo-200'}`}>
-                      <p className={`text-xs font-bold ${isDark ? 'text-indigo-300' : 'text-indigo-700'}`}>✨ New! Magic Link</p>
-                      <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Sign in without a password. We'll send a secure link to your email.</p>
-                    </div>
+                {/* Flow 1.1: Password Sign In */}
+                {loginMode === 'password' && (
+                  <form onSubmit={handleSignInSubmit} className="space-y-4">
                     <div>
-                      <label className={`block text-xs font-semibold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</label>
+                      <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Username or Email</label>
                       <div className="relative">
-                        <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                          <Mail className="h-4 w-4 text-slate-400" />
+                        <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <User className="h-4 w-4" />
                         </span>
-                        <input type="email" value={magicEmail} onChange={e => setMagicEmail(e.target.value)} required
-                          placeholder="Enter your email address"
-                          className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 ${isDark ? 'bg-slate-800/60 border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400'}`} />
+                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} required
+                          placeholder="admin"
+                          className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                            isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                          }`} />
                       </div>
                     </div>
+
+                    <div>
+                      <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Password</label>
+                      <div className="relative">
+                        <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <Lock className="h-4 w-4" />
+                        </span>
+                        <input type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required
+                          placeholder="admin123"
+                          className={`w-full pl-10 pr-12 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                            isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                          }`} />
+                        <button type="button" onClick={() => setShowPw(!showPw)}
+                          className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300 cursor-pointer">
+                          {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
+                      <div className="flex justify-end mt-1">
+                        <button type="button" onClick={() => { setAuthFlow('forgot'); setError(''); setSuccess(''); }}
+                          className="text-xs font-semibold text-indigo-500 hover:text-indigo-400 cursor-pointer transition-colors">
+                          Forgot Password?
+                        </button>
+                      </div>
+                    </div>
+
                     <button type="submit" disabled={loading}
-                      className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/25 cursor-pointer flex items-center justify-center space-x-2">
-                      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="h-4 w-4" /><span>Send Magic Link</span></>}
+                      className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 flex items-center justify-center space-x-2 cursor-pointer">
+                      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span>Sign In</span>}
                     </button>
                   </form>
-                ) : (
-                  <div className="text-center py-6 space-y-4">
-                    <div className="mx-auto w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center">
-                      <CheckCheck className="h-8 w-8 text-emerald-400" />
+                )}
+
+                {/* Flow 1.2: OTP verification code */}
+                {loginMode === 'otp' && (
+                  <form onSubmit={handleOtpSubmit} className="space-y-4">
+                    <div>
+                      <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</label>
+                      <div className="relative">
+                        <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                          <Mail className="h-4 w-4" />
+                        </span>
+                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} required
+                          placeholder="admin@fraudshield.ai"
+                          className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                            isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                          }`} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={`block text-xs font-bold mb-2 text-center ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Verification Code</label>
+                      <div className="flex justify-center space-x-2">
+                        {otp.map((digit, i) => (
+                          <input key={i} ref={el => otpRefs.current[i] = el}
+                            type="text" maxLength={1} value={digit}
+                            onChange={e => handleOtpChange(i, e.target.value)}
+                            onKeyDown={e => handleOtpKeyDown(i, e)}
+                            className={`w-11 h-12 text-center text-lg font-black rounded-xl border transition-colors focus:outline-none focus:border-indigo-500 ${
+                              isDark ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-950'
+                            } ${digit ? 'border-indigo-500 text-indigo-500' : ''}`} />
+                        ))}
+                      </div>
+                      <p className={`text-center text-[10px] mt-2.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+                        Mock code: type <span className="font-mono font-bold text-indigo-400">123456</span> to complete authentication.
+                      </p>
+                    </div>
+
+                    <button type="submit" disabled={loading}
+                      className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all flex items-center justify-center cursor-pointer">
+                      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span>Verify and Connect</span>}
+                    </button>
+                  </form>
+                )}
+
+                {/* Flow 1.3: Magic Link */}
+                {loginMode === 'magic' && (
+                  <div className="space-y-4">
+                    {!magicSent ? (
+                      <form onSubmit={handleMagicLink} className="space-y-4">
+                        <div className={`p-4 rounded-xl border text-xs leading-relaxed ${
+                          isDark ? 'bg-indigo-950/20 border-indigo-500/25 text-slate-300' : 'bg-indigo-50 border-indigo-100 text-slate-600'
+                        }`}>
+                          <Sparkles className="h-4.5 w-4.5 text-indigo-500 inline mr-1 animate-pulse" />
+                          <strong>Passwordless magic sign-in link.</strong> Enter your registered email address and we'll send a secure validation link.
+                        </div>
+
+                        <div>
+                          <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</label>
+                          <div className="relative">
+                            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                              <Mail className="h-4 w-4" />
+                            </span>
+                            <input type="email" value={magicEmail} onChange={e => setMagicEmail(e.target.value)} required
+                              placeholder="operator@fraudshield.ai"
+                              className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                                isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                              }`} />
+                          </div>
+                        </div>
+
+                        <button type="submit" disabled={loading}
+                          className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all flex items-center justify-center space-x-2 cursor-pointer">
+                          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="h-4 w-4" /><span>Dispatch Magic Link</span></>}
+                        </button>
+                      </form>
+                    ) : (
+                      <div className="text-center py-6 space-y-4 animate-scale-up">
+                        <div className="w-14 h-14 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center">
+                          <CheckCheck className="h-7 w-7 text-emerald-400" />
+                        </div>
+                        <div>
+                          <h3 className={`font-extrabold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>Instructions Sent!</h3>
+                          <p className={`text-xs mt-1 max-w-xs mx-auto ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                            A secure entry token has been dispatched to <span className="text-indigo-400 font-semibold">{magicEmail}</span>.
+                          </p>
+                        </div>
+                        <button type="button" onClick={() => setMagicSent(false)} className="text-xs text-indigo-500 hover:text-indigo-400 font-bold cursor-pointer font-bold">
+                          Enter different email
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Flow 1.4: SSO Provider options */}
+                {loginMode === 'sso' && (
+                  <div className="space-y-4">
+                    <p className={`text-[10px] font-bold uppercase tracking-wider text-center ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Corporate Single Sign-On</p>
+                    <div className="grid grid-cols-3 gap-2.5">
+                      {SSO_PROVIDERS.map(({ id, label, Icon, color }) => (
+                        <button key={id} onClick={() => handleSSOProvider(id)} disabled={loading}
+                          className={`flex items-center justify-center space-x-1.5 py-3.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                            isDark
+                              ? 'bg-slate-900/40 border-slate-800 text-slate-300 hover:bg-slate-800/40'
+                              : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm'
+                          }`}>
+                          <Icon className={`h-4.5 w-4.5 ${color}`} />
+                          <span>{label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Flow 1.5: Biometrics */}
+                {loginMode === 'biometric' && !showBiometricModal && (
+                  <div className="text-center py-4 space-y-5 animate-scale-up">
+                    <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
+                      <div className="absolute inset-0 border-2 border-dashed border-indigo-500/20 rounded-full animate-spin-slow" />
+                      <div className="absolute inset-1.5 border border-indigo-500/10 rounded-full" />
+                      <Fingerprint className="h-12 w-12 text-indigo-400 animate-pulse" />
                     </div>
                     <div>
-                      <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-slate-900'}`}>Magic Link Sent!</h3>
-                      <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Check <span className="font-semibold">{magicEmail}</span> for your secure sign-in link.</p>
+                      <h3 className={`font-extrabold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>FIDO2 Security Check</h3>
+                      <p className={`text-xs mt-1 max-w-xs mx-auto ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Sign in with biometric passkey, face scans, or device PIN.</p>
                     </div>
-                    <button onClick={() => setMagicSent(false)} className="text-xs text-indigo-500 font-medium hover:underline cursor-pointer">
-                      Use a different email
+                    <button onClick={startBiometric}
+                      className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md shadow-indigo-600/15 cursor-pointer flex items-center justify-center space-x-2">
+                      <Fingerprint className="h-4 w-4" />
+                      <span>Authenticate Passkey</span>
                     </button>
                   </div>
                 )}
+
+                {/* SSO options listed below password/otp forms */}
+                {loginMode === 'password' && (
+                  <>
+                    <div className="relative flex items-center my-4.5">
+                      <div className={`flex-grow border-t ${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+                      <span className={`mx-3 text-[9px] font-bold uppercase tracking-widest ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>Or Link Account</span>
+                      <div className={`flex-grow border-t ${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+                    </div>
+
+                    <div className="flex space-x-2.5 justify-center">
+                      {SSO_PROVIDERS.slice(0, 3).map(({ id, Icon, color }) => (
+                        <button key={id} onClick={() => handleSSOProvider(id)} disabled={loading}
+                          className={`flex items-center justify-center p-3 rounded-xl border transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-900/40 border-slate-800 text-slate-300 hover:bg-slate-800/40' : 'bg-white border-slate-200 hover:bg-slate-50 shadow-sm'
+                          }`}>
+                          <Icon className={`h-5 w-5 ${color}`} />
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Flow navigation triggers */}
+                <div className={`mt-6 text-center text-xs border-t pt-4 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                  <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Don't have an operator profile? </span>
+                  <button type="button" onClick={() => { setAuthFlow('signup'); setError(''); setSuccess(''); }}
+                    className="text-indigo-500 font-extrabold hover:text-indigo-400 transition-colors cursor-pointer">
+                    Sign Up Now
+                  </button>
+                </div>
               </div>
             )}
 
-            {/* ============================================
-                SSO MODE — provider grid
-                ============================================ */}
-            {loginMode === 'sso' && (
-              <div className="space-y-4">
-                <p className={`text-xs font-semibold text-center ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Continue with</p>
-                <div className="grid grid-cols-3 gap-3">
-                  {SSO_PROVIDERS.map(({ id, label, Icon, color }) => (
-                    <button key={id} id={`sso-${id}`} onClick={() => handleSSOProvider(id)}
-                      disabled={loading}
-                      className={`flex items-center justify-center space-x-2 py-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer disabled:opacity-50 ${
-                        isDark
-                          ? 'bg-slate-800/60 border-slate-700 text-slate-200 hover:bg-slate-700/60 hover:border-slate-600'
-                          : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm'
-                      }`}>
-                      <Icon className={`h-4 w-4 ${color}`} />
-                      <span>{label}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Security badge */}
-                <div className={`flex items-start space-x-3 rounded-xl border p-3.5 mt-2 ${isDark ? 'bg-emerald-950/30 border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
-                  <Shield className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+            {/* ========================================================
+                2. SIGN UP / REGISTER FLOW
+                ======================================================== */}
+            {authFlow === 'signup' && (
+              <div className="animate-scale-up">
+                {/* Title */}
+                <div className="flex items-center space-x-3 mb-5">
+                  <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-indigo-600/10 border-indigo-500/20' : 'bg-indigo-50 border-indigo-200'}`}>
+                    <Sparkles className="h-5 w-5 text-indigo-600" />
+                  </div>
                   <div>
-                    <p className={`text-xs font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>Your data is 100% secure</p>
-                    <p className={`text-[11px] mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>We use bank-grade encryption to protect your information</p>
+                    <h2 className={`font-black text-xl leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>Create Account</h2>
+                    <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Establish secure platform operator credentials</p>
                   </div>
+                </div>
+
+                <form onSubmit={handleSignUpSubmit} className="space-y-4">
+                  {/* Operator Username */}
+                  <div>
+                    <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Operator Username</label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <User className="h-4 w-4" />
+                      </span>
+                      <input type="text" value={regUsername} onChange={e => setRegUsername(e.target.value)} required
+                        placeholder="e.g. sreehari"
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                          isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                        }`} />
+                    </div>
+                  </div>
+
+                  {/* Corporate Email */}
+                  <div>
+                    <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Corporate Email</label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <Mail className="h-4 w-4" />
+                      </span>
+                      <input type="email" value={regEmail} onChange={e => setRegEmail(e.target.value)} required
+                        placeholder="operator@company.com"
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                          isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                        }`} />
+                    </div>
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Secure Password</label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <Lock className="h-4 w-4" />
+                      </span>
+                      <input type={showPw ? 'text' : 'password'} value={regPassword} onChange={e => setRegPassword(e.target.value)} required
+                        placeholder="••••••••"
+                        className={`w-full pl-10 pr-12 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                          isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                        }`} />
+                      <button type="button" onClick={() => setShowPw(!showPw)}
+                        className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300 cursor-pointer">
+                        {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+
+                    {/* ANIMATED PASSWORD STRENGTH METER */}
+                    {regPassword && (
+                      <div className="mt-2.5 space-y-1.5 animate-fade-in">
+                        <div className="flex justify-between items-center text-[10px]">
+                          <span className={`${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Security Strength:</span>
+                          <span className={`font-extrabold ${pwStrength.text}`}>{pwStrength.label}</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden flex">
+                          <div className={`h-full transition-all duration-300 ${pwStrength.color}`}
+                            style={{ width: `${(pwStrength.score / 4) * 100}%` }} />
+                        </div>
+                        <p className={`text-[9px] leading-relaxed ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+                          Make it at least 8 characters with numbers and capital letters to establish maximum safety.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <button type="submit" disabled={loading}
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md shadow-indigo-600/10 flex items-center justify-center space-x-2 cursor-pointer">
+                    {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span>Sign Up</span>}
+                  </button>
+                </form>
+
+                {/* Back to sign in trigger */}
+                <div className={`mt-6 text-center text-xs border-t pt-4 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                  <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Already registered? </span>
+                  <button type="button" onClick={() => { setAuthFlow('signin'); setError(''); setSuccess(''); }}
+                    className="text-indigo-500 font-extrabold hover:text-indigo-400 transition-colors cursor-pointer">
+                    Sign In
+                  </button>
                 </div>
               </div>
             )}
 
-            {/* ============================================
-                BIOMETRIC MODE (button to trigger scan)
-                ============================================ */}
-            {loginMode === 'biometric' && !showBiometricModal && (
-              <div className="space-y-4 text-center">
-                <div className="py-4">
-                  <div className="relative mx-auto w-24 h-24 flex items-center justify-center">
-                    <div className="absolute inset-0 border-2 border-dashed border-indigo-500/30 rounded-full animate-spin-slow" />
-                    <div className="absolute inset-2 border border-indigo-500/20 rounded-full" />
-                    <Fingerprint className="h-12 w-12 text-indigo-400" />
+            {/* ========================================================
+                3. FORGOT PASSWORD FLOW
+                ======================================================== */}
+            {authFlow === 'forgot' && (
+              <div className="animate-scale-up">
+                <div className="flex items-center space-x-3 mb-5">
+                  <div className={`p-2.5 rounded-xl border ${isDark ? 'bg-indigo-600/10 border-indigo-500/20' : 'bg-indigo-50 border-indigo-200'}`}>
+                    <Lock className="h-5 w-5 text-indigo-600" />
                   </div>
-                  <h3 className={`mt-4 font-bold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>Biometric Authentication</h3>
-                  <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Use your fingerprint, face, or Windows Hello</p>
+                  <div>
+                    <h2 className={`font-black text-xl leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>Reset Password</h2>
+                    <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Request credential recovery credentials</p>
+                  </div>
                 </div>
-                <button onClick={startBiometric}
-                  className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/25 cursor-pointer flex items-center justify-center space-x-2">
-                  <Fingerprint className="h-4 w-4" />
-                  <span>Authenticate with Biometrics</span>
-                </button>
+
+                <form onSubmit={handleForgotSubmit} className="space-y-4">
+                  <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    Enter the corporate email associated with your operator profile. We will dispatch instructions on how to set a new password.
+                  </p>
+
+                  <div>
+                    <label className={`block text-xs font-bold mb-1.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Account Email</label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                        <Mail className="h-4 w-4" />
+                      </span>
+                      <input type="email" value={forgotEmail} onChange={e => setForgotEmail(e.target.value)} required
+                        placeholder="operator@company.com"
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500/20 ${
+                          isDark ? 'bg-slate-900/40 border-slate-800 text-white placeholder-slate-600' : 'bg-white border-slate-200 text-slate-950 placeholder-slate-400'
+                        }`} />
+                    </div>
+                  </div>
+
+                  <button type="submit" disabled={loading}
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md shadow-indigo-600/10 flex items-center justify-center space-x-2 cursor-pointer">
+                    {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span>Send Recovery Instructions</span>}
+                  </button>
+                </form>
+
+                <div className={`mt-6 text-center text-xs border-t pt-4 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
+                  <button type="button" onClick={() => { setAuthFlow('signin'); setError(''); setSuccess(''); }}
+                    className="text-slate-500 hover:text-slate-400 font-extrabold cursor-pointer transition-colors inline-flex items-center space-x-1">
+                    <ArrowRight className="h-3.5 w-3.5 rotate-180" /><span>Back to Sign In</span>
+                  </button>
+                </div>
               </div>
             )}
 
-            {/* ── DIVIDER + SSO grid for password mode ── */}
-            {loginMode === 'password' && (
-              <>
-                <div className={`relative flex items-center my-5 ${isDark ? '' : ''}`}>
-                  <div className={`flex-grow border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`} />
-                  <span className={`flex-shrink mx-3 text-[10px] font-semibold uppercase tracking-widest ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Or</span>
-                  <div className={`flex-grow border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`} />
+            {/* ========================================================
+                4. FORGOT PASSWORD CONFIRMATION SCREEN
+                ======================================================== */}
+            {authFlow === 'forgot_sent' && (
+              <div className="text-center py-6 space-y-6 animate-scale-up">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center pulse-envelope shadow-xl">
+                  <Mail className="h-8 w-8 text-indigo-400" />
+                </div>
+                
+                <div>
+                  <h3 className={`font-black text-xl leading-none ${isDark ? 'text-white' : 'text-slate-900'}`}>Check Your Email</h3>
+                  <p className={`text-xs mt-2.5 max-w-sm mx-auto leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                    We have successfully simulated generating a secure recovery token and dispatched it to <strong className="text-indigo-400 font-semibold">{forgotEmail || 'your email'}</strong>.
+                  </p>
                 </div>
 
-                <p className={`text-xs font-semibold text-center mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Continue with</p>
-                <div className="grid grid-cols-3 gap-2.5">
-                  {SSO_PROVIDERS.map(({ id, label, Icon, color }) => (
-                    <button key={id} onClick={() => handleSSOProvider(id)} disabled={loading}
-                      className={`flex items-center justify-center space-x-1.5 py-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer disabled:opacity-50 ${
-                        isDark
-                          ? 'bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-700/60'
-                          : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm'
-                      }`}>
-                      <Icon className={`h-3.5 w-3.5 ${color}`} />
-                      <span>{label}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Magic Link promo */}
-                <div className={`mt-4 rounded-xl border p-3.5 ${isDark ? 'bg-indigo-950/40 border-indigo-500/30' : 'bg-indigo-50 border-indigo-200'}`}>
-                  <p className={`text-xs font-bold ${isDark ? 'text-indigo-300' : 'text-indigo-700'}`}>✨ New! Magic Link</p>
-                  <p className={`text-xs mt-0.5 mb-2.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Sign in without a password. We'll send a secure link to your email.</p>
-                  <button onClick={() => setLoginMode('magic')}
-                    className="flex items-center space-x-1.5 text-xs font-semibold text-indigo-500 hover:text-indigo-400 transition-colors cursor-pointer">
-                    <Send className="h-3.5 w-3.5" />
-                    <span>Send Magic Link</span>
+                <div className="pt-2">
+                  <button type="button" onClick={() => setAuthFlow('signin')}
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md flex items-center justify-center space-x-1.5 cursor-pointer">
+                    <span>Back to Sign In</span>
                   </button>
                 </div>
 
-                {/* Security badge */}
-                <div className={`flex items-center space-x-3 mt-4 rounded-xl border p-3.5 ${isDark ? 'bg-emerald-950/30 border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
-                  <Shield className="h-5 w-5 text-emerald-500 shrink-0" />
-                  <div>
-                    <p className={`text-xs font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>Your data is 100% secure</p>
-                    <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>We use bank-grade encryption to protect your information</p>
-                  </div>
-                </div>
-              </>
+                <p className={`text-[10px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+                  Did not receive the instructions? Check your spam filters or click <button onClick={handleForgotSubmit} className="text-indigo-500 hover:underline font-bold cursor-pointer">Resend Token</button>.
+                </p>
+              </div>
             )}
+
           </div>
         </div>
+
+        {/* Dynamic secure environment badge */}
+        <div className={`p-5 flex items-center justify-center space-x-3 shrink-0 border-t ${
+          isDark ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-50 border-slate-100'
+        }`}>
+          <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse-glow" />
+          <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            🛡️ AES 256-bit Secure TLS Handshake Environment
+          </span>
+        </div>
+
       </div>
 
       {/* ======================================================
           BIOMETRIC SCAN MODAL
           ====================================================== */}
       {showBiometricModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4">
           <div className="w-80 bg-[#0f1225] border border-indigo-500/30 rounded-2xl shadow-2xl p-8 text-center space-y-5">
             <div>
               <h3 className="text-lg font-extrabold text-white">Passkey Authentication</h3>
@@ -782,21 +1062,16 @@ const Login = ({ onLoginSuccess }) => {
               <Fingerprint className={`h-16 w-16 transition-colors duration-300 ${scanProgress >= 90 ? 'text-emerald-400' : 'text-indigo-500'}`} />
             </div>
             <div className="space-y-2">
-              <div className="font-mono text-[11px] text-indigo-300 bg-indigo-950/40 border border-indigo-900/40 py-2 px-3 rounded-lg flex items-center justify-center space-x-2">
-                {scanProgress < 100 && <Loader2 className="h-3 w-3 animate-spin text-indigo-400" />}
-                <span>{scanStatus}</span>
+              <div className="font-mono text-[11px] text-indigo-300 bg-indigo-950/40 border border-indigo-900/40 py-2 px-3 rounded-lg leading-relaxed">
+                {scanStatus}
               </div>
-              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-400 rounded-full transition-all duration-200" style={{ width: `${scanProgress}%` }} />
-              </div>
-              <div className="flex justify-between text-[9px] text-slate-500 font-mono uppercase">
-                <span>Hardware Scan</span>
-                <span className={scanProgress >= 90 ? 'text-emerald-400 font-bold' : ''}>{scanProgress}%</span>
+              <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-full bg-indigo-500 transition-all duration-300" style={{ width: `${scanProgress}%` }} />
               </div>
             </div>
             <button onClick={() => setShowBiometricModal(false)}
-              className="text-xs text-slate-500 hover:text-white transition-colors cursor-pointer border border-transparent hover:border-slate-700 px-3 py-1.5 rounded-lg">
-              Cancel
+              className="text-xs font-bold text-slate-500 hover:text-slate-400 transition-colors cursor-pointer mt-2 block w-full text-center">
+              Cancel Verification
             </button>
           </div>
         </div>
@@ -833,7 +1108,7 @@ const Login = ({ onLoginSuccess }) => {
                 <form onSubmit={handleGoogleSignIn} className="space-y-3">
                   <input type="email" value={googleEmail} onChange={e => setGoogleEmail(e.target.value)} required
                     placeholder="Email or phone"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-800" />
                   {googleSignInError && <p className="text-xs text-red-500">{googleSignInError}</p>}
                   <div className="flex justify-between items-center pt-1">
                     <button type="button" onClick={closeGoogleConsent} className="text-sm font-medium text-blue-600 cursor-pointer">Cancel</button>
@@ -897,7 +1172,7 @@ const Login = ({ onLoginSuccess }) => {
                       </div>
                     ))}
                   </div>
-                  <p className="text-[11px] text-gray-500 mb-2">
+                  <p className="text-[11px] text-gray-500 mb-2 leading-relaxed">
                     Review Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline inline-flex items-center space-x-0.5"><span>Privacy Policy</span><ExternalLink className="w-2.5 h-2.5" /></a>.
                     You can unlink at <button className="text-blue-600 hover:underline cursor-pointer">fraudshield.ai/account/settings</button> or via your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Google Account</a>.
                   </p>
