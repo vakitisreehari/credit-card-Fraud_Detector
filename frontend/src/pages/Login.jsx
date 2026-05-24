@@ -481,22 +481,12 @@ const Login = ({ onLoginSuccess }) => {
           </div>
         </div>
 
-        {/* ── FLOATING ANIMATED CARDS ── */}
-        {FLOAT_CARDS.map((card, i) => (
-          <div key={i}
-            className={`absolute z-20 transition-all duration-700 ${activeFloat === i ? 'scale-105 opacity-100' : 'opacity-50 scale-95'}`}
-            style={{ top: card.top, bottom: card.bottom, left: card.left, right: card.right }}>
-            <div className="bg-[#0e1320] border border-slate-800 rounded-2xl p-4 min-w-[150px] shadow-2xl">
-              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">{card.label}</p>
-              <p className="text-white font-black text-lg leading-none mb-2">{card.value}</p>
-              <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${
-                card.color === 'emerald' ? 'bg-emerald-500/20 text-emerald-400' : card.color === 'indigo' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-violet-500/20 text-violet-300'
-              }`}>
-                ● {card.status}
-              </span>
-            </div>
+        {/* ── PREMIUM CYBER SECURITY HERO IMAGE ── */}
+        <div className="absolute right-8 top-1/2 -translate-y-[60%] z-20 w-[260px] xl:w-[340px] bg-[#0c101c]/90 border border-slate-800/80 rounded-2xl p-2 shadow-2xl transition-all duration-300 hover:border-indigo-500/30">
+          <div className="overflow-hidden rounded-xl border border-slate-800/50">
+            <img src="/fraud_detection_hero.png" alt="Fraud Detection Security" className="w-full h-auto object-cover" />
           </div>
-        ))}
+        </div>
 
         {/* ── HERO CONTENT ── */}
         <div className="relative z-10 px-12 flex-1 flex flex-col justify-center space-y-6">
