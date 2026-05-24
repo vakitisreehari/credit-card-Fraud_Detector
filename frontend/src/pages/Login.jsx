@@ -486,7 +486,7 @@ const Login = ({ onLoginSuccess }) => {
           <div key={i}
             className={`absolute z-20 transition-all duration-700 ${activeFloat === i ? 'scale-105 opacity-100' : 'opacity-50 scale-95'}`}
             style={{ top: card.top, bottom: card.bottom, left: card.left, right: card.right }}>
-            <div className="bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 min-w-[150px] shadow-2xl">
+            <div className="bg-[#0e1320] border border-slate-800 rounded-2xl p-4 min-w-[150px] shadow-2xl">
               <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">{card.label}</p>
               <p className="text-white font-black text-lg leading-none mb-2">{card.value}</p>
               <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${
@@ -533,7 +533,7 @@ const Login = ({ onLoginSuccess }) => {
         </div>
 
         {/* ── STATS ROW ── */}
-        <div className="relative z-10 mx-8 mb-6 grid grid-cols-4 gap-2 bg-slate-900/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
+        <div className="relative z-10 mx-8 mb-6 grid grid-cols-4 gap-2 bg-[#0c101c] border border-slate-800 rounded-2xl p-4 shadow-xl">
           {STATS.map(({ icon: Icon, value, label }, i) => (
             <div key={i} className="text-center">
               <div className="flex justify-center mb-1">
