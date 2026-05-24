@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FraudShield AI — Real-time Financial Security Node</title>
+  
+  <!-- Modern Outfit Typography from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              bg: '#050811',
+              card: '#0f1322',
+              border: '#1b243c',
+              text: '#f1f5f9',
+              muted: '#8e9bb4'
+            },
+            light: {
+              bg: '#f8fafc',
+              card: '#ffffff',
+              border: '#e2e8f0',
+              text: '#0f172a',
+              muted: '#64748b'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 dark:bg-[#050811] text-slate-900 dark:text-slate-100 transition-colors duration-300 overflow-x-hidden antialiased font-sans">
+
+  <!-- 1. STICKY GLASSMORPHIC NAVBAR -->
+  <nav class="sticky top-0 z-50 glass border-b border-slate-200/40 dark:border-slate-800/40 py-4 px-6 md:px-12 flex items-center justify-between transition-all duration-300">
+    <div class="flex items-center space-x-3">
+      <div class="bg-indigo-600/10 dark:bg-indigo-500/10 p-2 rounded-xl border border-indigo-500/20">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-indigo-500">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+        </svg>
+      </div>
+      <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">FraudShield AI</span>
+    </div>
+
+    <!-- Desktop Menu tabs -->
+    <div class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-600 dark:text-slate-300">
+      <a href="#features" class="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">Features</a>
+      <a href="#dashboard" class="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">Terminal HUD</a>
+      <a href="#security" class="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">Security Node</a>
+      <a href="#integrations" class="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">API Specs</a>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer shadow-sm">
+        <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"></svg>
+      </button>
+
+      <!-- Launch CTA -->
+      <a href="#dashboard" class="hidden sm:inline-flex bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/15 transition-all">
+        Launch Console
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="menu-btn" class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 focus:outline-none cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE HAMBURGER MENU ACCORDION DRAWER -->
+  <div id="mobile-menu" class="hidden fixed inset-x-0 top-[74px] z-45 bg-white/95 dark:bg-[#050811]/95 border-b border-slate-200 dark:border-slate-800 p-6 flex flex-col space-y-4 animate-fade-in md:hidden font-semibold text-sm">
+    <a href="#features" class="text-slate-700 dark:text-slate-300 hover:text-indigo-500">Features</a>
+    <a href="#dashboard" class="text-slate-700 dark:text-slate-300 hover:text-indigo-500">Terminal HUD</a>
+    <a href="#security" class="text-slate-700 dark:text-slate-300 hover:text-indigo-500">Security Node</a>
+    <a href="#integrations" class="text-slate-700 dark:text-slate-300 hover:text-indigo-500">API Specs</a>
+    <a href="#dashboard" class="w-full bg-indigo-600 text-white text-center py-3 rounded-xl font-bold">Launch Console</a>
+  </div>
+
+  <!-- 2. HIGH-FIDELITY HERO SECTION -->
+  <section class="relative min-h-[85vh] flex items-center justify-center py-24 px-6 overflow-hidden">
+    <!-- Ambient glowing backgrounds -->
+    <div class="absolute w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[120px] top-1/4 -left-36 pointer-events-none"></div>
+    <div class="absolute w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[120px] bottom-1/4 -right-36 pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto text-center space-y-8 relative z-10">
+      <div class="inline-flex items-center space-x-2 bg-indigo-500/10 dark:bg-indigo-500/10 border border-indigo-500/25 px-4.5 py-1.5 rounded-full text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider animate-pulse">
+        <span>🛡️ Cybersecurity Hackathon Shield Active</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.08] bg-gradient-to-b from-slate-900 via-slate-800 to-slate-600 dark:from-white dark:via-slate-100 dark:to-slate-400 bg-clip-text text-transparent">
+        Stop Transaction Fraud<br class="hidden md:inline"> Before It Strikes
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+        Integrate our sub-millisecond Explainable AI gateway to validate card numbers, monitor transaction velocities, blacklist geographical anomalies, and confirm identity consent instantly.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <a href="#dashboard" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm px-8 py-3.5 rounded-2xl shadow-lg shadow-indigo-600/25 transition-all text-center">
+          Deploy Security Node
+        </a>
+        <a href="#features" class="w-full sm:w-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs sm:text-sm px-8 py-3.5 rounded-2xl transition-all text-center">
+          Read API Specs
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. COMPREHENSIVE COMPLIANCE CARDS SECTION -->
+  <section id="features" class="py-24 px-6 md:px-12 bg-slate-100/50 dark:bg-[#070b16]/40 border-t border-b border-slate-200/40 dark:border-slate-800/40">
+    <div class="max-w-7xl mx-auto space-y-12">
+      
+      <div class="text-center space-y-3">
+        <h3 class="text-xs font-bold text-indigo-500 uppercase tracking-widest font-mono">Core Capabilities</h3>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">Machine Learning Defense Shields</h2>
+        <p class="max-w-xl mx-auto text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-normal">Four integrated security layers evaluating real-time charge telemetry in under 12 milliseconds.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="glass p-6 rounded-2xl glow-card flex flex-col justify-between space-y-5">
+          <div class="bg-indigo-600/10 p-3 rounded-xl border border-indigo-500/25 text-indigo-500 w-11 h-11 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-sm text-slate-800 dark:text-slate-100">Threshold Policies</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Instantly throttle velocity limits, blacklist country origins, and flag outlier amounts dynamically.</p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass p-6 rounded-2xl glow-card flex flex-col justify-between space-y-5">
+          <div class="bg-purple-600/10 p-3 rounded-xl border border-purple-500/25 text-purple-500 w-11 h-11 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.667 11.72a9.06 9.06 0 00-2.087 2.087 9.065 9.065 0 002.087 2.087m4.666-4.174a9.06 9.06 0 012.087 2.087 9.065 9.065 0 01-2.087 2.087" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-sm text-slate-800 dark:text-slate-100">Explainable AI</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Trace neural-network probability scores with granular feature contribution percentages.</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass p-6 rounded-2xl glow-card flex flex-col justify-between space-y-5">
+          <div class="bg-emerald-600/10 p-3 rounded-xl border border-emerald-500/25 text-emerald-500 w-11 h-11 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-sm text-slate-800 dark:text-slate-100">DigiLocker Identity</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Confirm customer identity via digitally signed Aadhaar or PAN documents verified by governmental gateways.</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="glass p-6 rounded-2xl glow-card flex flex-col justify-between space-y-5">
+          <div class="bg-rose-600/10 p-3 rounded-xl border border-rose-500/25 text-rose-500 w-11 h-11 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-sm text-slate-800 dark:text-slate-100">Device Fingerprinting</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Map browser hash keys, TLS handshake structures, and network velocities to identify hijack attempts.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. RESPONSIVE DASHBOARD MONITOR PREVIEW -->
+  <section id="dashboard" class="py-24 px-6 md:px-12 max-w-7xl mx-auto space-y-16">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+      
+      <div class="space-y-6 lg:max-w-md">
+        <h3 class="text-xs font-bold text-indigo-500 uppercase tracking-widest font-mono">Live Operations Console</h3>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">Interactive Ledger & Risk Analytics</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
+          Monitor incoming payments logs, analyze feature triggers, edit threshold overrides, and verify government-authorized documents through a single unified cybersecurity cockpit.
+        </p>
+        <ul class="space-y-2.5 text-xs text-slate-600 dark:text-slate-300 font-semibold">
+          <li class="flex items-center space-x-2">
+            <span class="h-1.5 w-1.5 bg-indigo-500 rounded-full"></span>
+            <span>Sub-15ms ML Random Forest classifier scores.</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="h-1.5 w-1.5 bg-indigo-500 rounded-full"></span>
+            <span>Real-time Aadhaar consent checks via DigiLocker.</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <span class="h-1.5 w-1.5 bg-indigo-500 rounded-full"></span>
+            <span>Direct CSV & PDF billing statement audit parser.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Mock Dashboard Terminal interface -->
+      <div class="w-full lg:max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-2xl p-4 sm:p-6 space-y-6 font-mono text-[11px]">
+        
+        <!-- Terminal Header -->
+        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div class="flex items-center space-x-1.5">
+            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+            <span class="text-[9px] text-slate-400 font-bold ml-2">fraudshield-ledger-v1.log</span>
+          </div>
+          <div class="px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-500 text-[9px] font-bold">● LIVE RADAR</div>
+        </div>
+
+        <!-- Dynamic Transaction Logs -->
+        <div class="space-y-3.5 leading-relaxed text-slate-500 dark:text-slate-400">
+          <p><span class="text-indigo-400 font-bold">[15:02:11 SEC]</span> Querying geodistance coordinates for John Doe... <span class="text-emerald-400">OK (8.5 km)</span></p>
+          <p><span class="text-indigo-400 font-bold">[15:02:12 AI ]</span> ML Classifier Score: <span class="text-emerald-400 font-bold">12.4% Probability</span> override action: <span class="text-emerald-400 font-bold">APPROVED</span></p>
+          <p><span class="text-indigo-400 font-bold">[15:02:45 SEC]</span> Warning! Sanctioned country billing IP (185.120.10.4 Tehran) detected.</p>
+          <p><span class="text-indigo-400 font-bold">[15:02:46 REG]</span> Target Rule: <span class="text-red-400 font-bold">"Sanctioned Country Blacklist"</span> triggered. Action: <span class="text-red-400 font-bold">BLOCKED</span></p>
+          <p><span class="text-indigo-400 font-bold">[15:03:01 DIG]</span> Decrypting customer digital credentials on UIDAI secure vault...</p>
+          <p><span class="text-indigo-400 font-bold">[15:03:03 GOV]</span> DigiLocker Facematch Verified: <span class="text-emerald-400 font-bold">99.4% Match Confirmed.</span></p>
+        </div>
+
+        <!-- Scored Metrics Grid -->
+        <div class="grid grid-cols-3 gap-3 border-t border-slate-200 dark:border-slate-800 pt-5">
+          <div class="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl">
+            <span class="text-slate-400 text-[9px] block">PROCESSED</span>
+            <span class="text-slate-700 dark:text-slate-100 text-sm font-bold mt-1 block">4,291 tx</span>
+          </div>
+          <div class="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl">
+            <span class="text-slate-400 text-[9px] block">AUTO-BLOCKED</span>
+            <span class="text-red-500 text-sm font-bold mt-1 block">82 nodes</span>
+          </div>
+          <div class="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl">
+            <span class="text-slate-400 text-[9px] block">VERIFICATION RATE</span>
+            <span class="text-emerald-400 text-sm font-bold mt-1 block">99.85%</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. STYLISH HIGH-CONTRAST FOOTER -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#050811] py-12 px-6 md:px-12 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center space-x-3">
+        <div class="bg-indigo-600/10 dark:bg-indigo-500/10 p-2 rounded-xl border border-indigo-500/20">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-indigo-500">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-sm text-slate-800 dark:text-slate-100">FraudShield AI</span>
+      </div>
+
+      <div class="flex space-x-6 text-[10px] text-slate-400 font-bold uppercase font-mono tracking-widest">
+        <a href="#features" class="hover:text-indigo-400">Documentation</a>
+        <a href="#dashboard" class="hover:text-indigo-400">Terms of Service</a>
+        <a href="#integrations" class="hover:text-indigo-400">Security Ingress</a>
+      </div>
+
+      <div class="text-[11px] text-slate-400 font-mono">
+        © 2026 FraudShield. SECURED DATA NETWORK.
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

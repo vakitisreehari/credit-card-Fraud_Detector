@@ -1,0 +1,5383 @@
+[
+  {
+    "_id": "5f0000000000000000000099",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********5174",
+    "amount": 84.59,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.109",
+    "velocity_1h": 0,
+    "device_risk_score": 0.01,
+    "distance_from_home": 16.92,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 84.59,
+        "contribution": 0.08459,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 16.92,
+        "contribution": 0.08460000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-14T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000098",
+    "cardholderName": "Diana Prince",
+    "cardNumber": "4111********9744",
+    "amount": 28.54,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.108",
+    "velocity_1h": 1,
+    "device_risk_score": 0.08,
+    "distance_from_home": 17.1,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 0,
+    "riskScore": 2,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 28.54,
+        "contribution": 0.02854,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.08,
+        "contribution": 0.008,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 17.1,
+        "contribution": 0.0855,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-14T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000097",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********5780",
+    "amount": 3881.38,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.107",
+    "velocity_1h": 1,
+    "device_risk_score": 0.09,
+    "distance_from_home": 2.89,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 64,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 1250,
+        "contribution": 0.8,
+        "importance": 0.25,
+        "percentage": 40
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 12.5,
+        "contribution": 0.1,
+        "importance": 0.2,
+        "percentage": 5
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-14T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000096",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********4148",
+    "amount": 12.09,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.106",
+    "velocity_1h": 6,
+    "device_risk_score": 0.13,
+    "distance_from_home": 11.54,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 73,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "velocity_1h",
+        "value": 5,
+        "contribution": 0.9,
+        "importance": 0.15,
+        "percentage": 42
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.2,
+        "contribution": 0.1,
+        "importance": 0.18,
+        "percentage": 4.7
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-14T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000095",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********5977",
+    "amount": 66.31,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.105",
+    "velocity_1h": 0,
+    "device_risk_score": 0.12,
+    "distance_from_home": 0.77,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 66.31,
+        "contribution": 0.06631000000000001,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.12,
+        "contribution": 0.012,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 0.77,
+        "contribution": 0.00385,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000094",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********9856",
+    "amount": 40.32,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.104",
+    "velocity_1h": 1,
+    "device_risk_score": 0.04,
+    "distance_from_home": 8.8,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 40.32,
+        "contribution": 0.04032,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.04,
+        "contribution": 0.004,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.8,
+        "contribution": 0.044000000000000004,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000093",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********1307",
+    "amount": 26.85,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.103",
+    "velocity_1h": 1,
+    "device_risk_score": 0.09,
+    "distance_from_home": 19.54,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 0,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 26.85,
+        "contribution": 0.026850000000000002,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.09,
+        "contribution": 0.009,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 19.54,
+        "contribution": 0.0977,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000092",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********8230",
+    "amount": 47.68,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.102",
+    "velocity_1h": 0,
+    "device_risk_score": 0.03,
+    "distance_from_home": 7.52,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 8,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 47.68,
+        "contribution": 0.04768,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.03,
+        "contribution": 0.003,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 7.52,
+        "contribution": 0.0376,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000091",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********5638",
+    "amount": 35.36,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.101",
+    "velocity_1h": 1,
+    "device_risk_score": 0,
+    "distance_from_home": 22.4,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 1,
+    "riskScore": 4,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 35.36,
+        "contribution": 0.03536,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0,
+        "contribution": 0,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 22.4,
+        "contribution": 0.11199999999999999,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000090",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********1755",
+    "amount": 67.43,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.100",
+    "velocity_1h": 1,
+    "device_risk_score": 0,
+    "distance_from_home": 21.04,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 0,
+    "riskScore": 10,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 67.43,
+        "contribution": 0.06743,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0,
+        "contribution": 0,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 21.04,
+        "contribution": 0.1052,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000089",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********8629",
+    "amount": 59.97,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.99",
+    "velocity_1h": 1,
+    "device_risk_score": 0.14,
+    "distance_from_home": 6.14,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 0,
+    "riskScore": 7,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 59.97,
+        "contribution": 0.05997,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.14,
+        "contribution": 0.014000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.14,
+        "contribution": 0.030699999999999998,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000088",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********3221",
+    "amount": 2768.29,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.98",
+    "velocity_1h": 0,
+    "device_risk_score": 0.11,
+    "distance_from_home": 18.64,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 64,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 1250,
+        "contribution": 0.8,
+        "importance": 0.25,
+        "percentage": 40
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 12.5,
+        "contribution": 0.1,
+        "importance": 0.2,
+        "percentage": 5
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000087",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********1817",
+    "amount": 2248.54,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.97",
+    "velocity_1h": 0,
+    "device_risk_score": 0.01,
+    "distance_from_home": 17.29,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 0,
+    "riskScore": 68,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 1250,
+        "contribution": 0.8,
+        "importance": 0.25,
+        "percentage": 40
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 12.5,
+        "contribution": 0.1,
+        "importance": 0.2,
+        "percentage": 5
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-15T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000086",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********2314",
+    "amount": 7.46,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.96",
+    "velocity_1h": 1,
+    "device_risk_score": 0.11,
+    "distance_from_home": 13.84,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 10,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 7.46,
+        "contribution": 0.0074600000000000005,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.11,
+        "contribution": 0.011000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 13.84,
+        "contribution": 0.0692,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-15T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000085",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********5696",
+    "amount": 17.35,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.95",
+    "velocity_1h": 1,
+    "device_risk_score": 0.06,
+    "distance_from_home": 24.07,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 4,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 17.35,
+        "contribution": 0.01735,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.06,
+        "contribution": 0.006,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 24.07,
+        "contribution": 0.12035,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000084",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********1646",
+    "amount": 49.48,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.94",
+    "velocity_1h": 1,
+    "device_risk_score": 0.01,
+    "distance_from_home": 13.14,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 0,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 49.48,
+        "contribution": 0.049479999999999996,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 13.14,
+        "contribution": 0.06570000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000083",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********8257",
+    "amount": 25.73,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.93",
+    "velocity_1h": 0,
+    "device_risk_score": 0.07,
+    "distance_from_home": 15.94,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 25.73,
+        "contribution": 0.02573,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 15.94,
+        "contribution": 0.0797,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000082",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********7085",
+    "amount": 72.1,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.92",
+    "velocity_1h": 0,
+    "device_risk_score": 0.02,
+    "distance_from_home": 17.59,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 72.1,
+        "contribution": 0.0721,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 17.59,
+        "contribution": 0.08795,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000081",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********2165",
+    "amount": 16.29,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.91",
+    "velocity_1h": 0,
+    "device_risk_score": 0.15,
+    "distance_from_home": 23.42,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 0,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 16.29,
+        "contribution": 0.01629,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.15,
+        "contribution": 0.015,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 23.42,
+        "contribution": 0.11710000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000080",
+    "cardholderName": "Diana Prince",
+    "cardNumber": "4111********7335",
+    "amount": 62.63,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.90",
+    "velocity_1h": 1,
+    "device_risk_score": 0.01,
+    "distance_from_home": 8.86,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 10,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 62.63,
+        "contribution": 0.06263,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.86,
+        "contribution": 0.0443,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000079",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********5070",
+    "amount": 77.64,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.89",
+    "velocity_1h": 1,
+    "device_risk_score": 0.01,
+    "distance_from_home": 9.57,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 0,
+    "riskScore": 7,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 77.64,
+        "contribution": 0.07764,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 9.57,
+        "contribution": 0.047850000000000004,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000078",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********4679",
+    "amount": 66.78,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.88",
+    "velocity_1h": 0,
+    "device_risk_score": 0.14,
+    "distance_from_home": 8.35,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 9,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 66.78,
+        "contribution": 0.06678,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.14,
+        "contribution": 0.014000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.35,
+        "contribution": 0.04175,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000077",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********5147",
+    "amount": 48.23,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.87",
+    "velocity_1h": 0,
+    "device_risk_score": 0.06,
+    "distance_from_home": 10.77,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 0,
+    "riskScore": 11,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 48.23,
+        "contribution": 0.048229999999999995,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.06,
+        "contribution": 0.006,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 10.77,
+        "contribution": 0.05385,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-16T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000076",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********8165",
+    "amount": 35.61,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "suspicious_fprint_8x3c"
+    },
+    "ipAddress": "192.168.1.86",
+    "velocity_1h": 1,
+    "device_risk_score": 0.94,
+    "distance_from_home": 20.05,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 82,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "device_risk_score",
+        "value": 0.95,
+        "contribution": 1.1,
+        "importance": 0.18,
+        "percentage": 50
+      },
+      {
+        "feature": "velocity_1h",
+        "value": 1,
+        "contribution": 0.05,
+        "importance": 0.15,
+        "percentage": 2.3
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-16T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000075",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********6051",
+    "amount": 60.42,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Lagos",
+      "country": "NG",
+      "latitude": 6.5244,
+      "longitude": 3.3792
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.85",
+    "velocity_1h": 0,
+    "device_risk_score": 0.08,
+    "distance_from_home": 1575.67,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 82,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "distance_from_home",
+        "value": 850.4,
+        "contribution": 1.2,
+        "importance": 0.2,
+        "percentage": 55
+      },
+      {
+        "feature": "amount",
+        "value": 45,
+        "contribution": 0.05,
+        "importance": 0.25,
+        "percentage": 2.5
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-17T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000074",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********5473",
+    "amount": 18.77,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.84",
+    "velocity_1h": 1,
+    "device_risk_score": 0.1,
+    "distance_from_home": 23.3,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 0,
+    "riskScore": 3,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 18.77,
+        "contribution": 0.01877,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.1,
+        "contribution": 0.010000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 23.3,
+        "contribution": 0.1165,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000073",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********6917",
+    "amount": 12.01,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.83",
+    "velocity_1h": 1,
+    "device_risk_score": 0.07,
+    "distance_from_home": 6.04,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 11,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 12.01,
+        "contribution": 0.01201,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.04,
+        "contribution": 0.0302,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000072",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********6192",
+    "amount": 9.07,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.82",
+    "velocity_1h": 5,
+    "device_risk_score": 0.07,
+    "distance_from_home": 1.57,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 60,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "velocity_1h",
+        "value": 5,
+        "contribution": 0.9,
+        "importance": 0.15,
+        "percentage": 42
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.2,
+        "contribution": 0.1,
+        "importance": 0.18,
+        "percentage": 4.7
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-17T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000071",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********5710",
+    "amount": 34.43,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.81",
+    "velocity_1h": 0,
+    "device_risk_score": 0.1,
+    "distance_from_home": 8.38,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 0,
+    "riskScore": 9,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 34.43,
+        "contribution": 0.03443,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.1,
+        "contribution": 0.010000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.38,
+        "contribution": 0.04190000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000070",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********2164",
+    "amount": 32.5,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.80",
+    "velocity_1h": 1,
+    "device_risk_score": 0.06,
+    "distance_from_home": 2.28,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 15,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 32.5,
+        "contribution": 0.0325,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.06,
+        "contribution": 0.006,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 2.28,
+        "contribution": 0.011399999999999999,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000069",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********1507",
+    "amount": 89.28,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.79",
+    "velocity_1h": 1,
+    "device_risk_score": 0.14,
+    "distance_from_home": 7,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 0,
+    "riskScore": 8,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 89.28,
+        "contribution": 0.08928,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.14,
+        "contribution": 0.014000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 7,
+        "contribution": 0.035,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000068",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********3590",
+    "amount": 83.19,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.78",
+    "velocity_1h": 0,
+    "device_risk_score": 0.13,
+    "distance_from_home": 21.02,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 8,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 83.19,
+        "contribution": 0.08319,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 21.02,
+        "contribution": 0.1051,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000067",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********3492",
+    "amount": 80.55,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.77",
+    "velocity_1h": 0,
+    "device_risk_score": 0.02,
+    "distance_from_home": 11.83,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 11,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 80.55,
+        "contribution": 0.08055,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 11.83,
+        "contribution": 0.05915,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000066",
+    "cardholderName": "Diana Prince",
+    "cardNumber": "4111********2234",
+    "amount": 33.39,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.76",
+    "velocity_1h": 1,
+    "device_risk_score": 0.09,
+    "distance_from_home": 13.96,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 11,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 33.39,
+        "contribution": 0.03339,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.09,
+        "contribution": 0.009,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 13.96,
+        "contribution": 0.0698,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-17T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000065",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********1019",
+    "amount": 64.53,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.75",
+    "velocity_1h": 0,
+    "device_risk_score": 0.13,
+    "distance_from_home": 15.05,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 4,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 64.53,
+        "contribution": 0.06453,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 15.05,
+        "contribution": 0.07525000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000064",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********1661",
+    "amount": 76.57,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.74",
+    "velocity_1h": 0,
+    "device_risk_score": 0.1,
+    "distance_from_home": 22.21,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 1,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 76.57,
+        "contribution": 0.07657,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.1,
+        "contribution": 0.010000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 22.21,
+        "contribution": 0.11105000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000063",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********7600",
+    "amount": 1977.57,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.73",
+    "velocity_1h": 1,
+    "device_risk_score": 0.06,
+    "distance_from_home": 5.92,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 82,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 1250,
+        "contribution": 0.8,
+        "importance": 0.25,
+        "percentage": 40
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 12.5,
+        "contribution": 0.1,
+        "importance": 0.2,
+        "percentage": 5
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-18T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000062",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********6243",
+    "amount": 12.34,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.72",
+    "velocity_1h": 1,
+    "device_risk_score": 0.09,
+    "distance_from_home": 6.62,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 12.34,
+        "contribution": 0.01234,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.09,
+        "contribution": 0.009,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.62,
+        "contribution": 0.033100000000000004,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000061",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********2496",
+    "amount": 10.6,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.71",
+    "velocity_1h": 0,
+    "device_risk_score": 0.13,
+    "distance_from_home": 6.1,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 1,
+    "riskScore": 10,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 10.6,
+        "contribution": 0.0106,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.1,
+        "contribution": 0.0305,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000060",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********6040",
+    "amount": 39.71,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.70",
+    "velocity_1h": 0,
+    "device_risk_score": 0.03,
+    "distance_from_home": 24.46,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 39.71,
+        "contribution": 0.03971,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.03,
+        "contribution": 0.003,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 24.46,
+        "contribution": 0.1223,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000059",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********7511",
+    "amount": 7.52,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.69",
+    "velocity_1h": 1,
+    "device_risk_score": 0.05,
+    "distance_from_home": 6.73,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 0,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 7.52,
+        "contribution": 0.00752,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.05,
+        "contribution": 0.005000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.73,
+        "contribution": 0.033650000000000006,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000058",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********7526",
+    "amount": 85.88,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.68",
+    "velocity_1h": 1,
+    "device_risk_score": 0.08,
+    "distance_from_home": 19.05,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 9,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 85.88,
+        "contribution": 0.08588,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.08,
+        "contribution": 0.008,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 19.05,
+        "contribution": 0.09525,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000057",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********1361",
+    "amount": 83.61,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.67",
+    "velocity_1h": 1,
+    "device_risk_score": 0.15,
+    "distance_from_home": 14.81,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 0,
+    "riskScore": 8,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 83.61,
+        "contribution": 0.08361,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.15,
+        "contribution": 0.015,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 14.81,
+        "contribution": 0.07405,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000056",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********3676",
+    "amount": 59.25,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.66",
+    "velocity_1h": 1,
+    "device_risk_score": 0.09,
+    "distance_from_home": 14.44,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 13,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 59.25,
+        "contribution": 0.059250000000000004,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.09,
+        "contribution": 0.009,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 14.44,
+        "contribution": 0.0722,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-18T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000055",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********5648",
+    "amount": 5.52,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.65",
+    "velocity_1h": 0,
+    "device_risk_score": 0.03,
+    "distance_from_home": 0.83,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 0,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 5.52,
+        "contribution": 0.00552,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.03,
+        "contribution": 0.003,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 0.83,
+        "contribution": 0.00415,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000054",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********6692",
+    "amount": 62.94,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.64",
+    "velocity_1h": 0,
+    "device_risk_score": 0.15,
+    "distance_from_home": 23.07,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 0,
+    "riskScore": 9,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 62.94,
+        "contribution": 0.06294,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.15,
+        "contribution": 0.015,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 23.07,
+        "contribution": 0.11535000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000053",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********1836",
+    "amount": 60.6,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.63",
+    "velocity_1h": 0,
+    "device_risk_score": 0.13,
+    "distance_from_home": 17.09,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 5,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 60.6,
+        "contribution": 0.0606,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 17.09,
+        "contribution": 0.08545,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000052",
+    "cardholderName": "Diana Prince",
+    "cardNumber": "4111********5671",
+    "amount": 62.46,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "suspicious_fprint_8x3c"
+    },
+    "ipAddress": "192.168.1.62",
+    "velocity_1h": 0,
+    "device_risk_score": 0.82,
+    "distance_from_home": 7.13,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 72,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "device_risk_score",
+        "value": 0.95,
+        "contribution": 1.1,
+        "importance": 0.18,
+        "percentage": 50
+      },
+      {
+        "feature": "velocity_1h",
+        "value": 1,
+        "contribution": 0.05,
+        "importance": 0.15,
+        "percentage": 2.3
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-19T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000051",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********5207",
+    "amount": 34.53,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.61",
+    "velocity_1h": 0,
+    "device_risk_score": 0.11,
+    "distance_from_home": 17.95,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 1,
+    "riskScore": 3,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 34.53,
+        "contribution": 0.034530000000000005,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.11,
+        "contribution": 0.011000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 17.95,
+        "contribution": 0.08975,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000050",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********7312",
+    "amount": 44.96,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.60",
+    "velocity_1h": 5,
+    "device_risk_score": 0.1,
+    "distance_from_home": 2.06,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 64,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "velocity_1h",
+        "value": 5,
+        "contribution": 0.9,
+        "importance": 0.15,
+        "percentage": 42
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.2,
+        "contribution": 0.1,
+        "importance": 0.18,
+        "percentage": 4.7
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-19T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000049",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********4132",
+    "amount": 20.23,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.59",
+    "velocity_1h": 1,
+    "device_risk_score": 0.08,
+    "distance_from_home": 20.88,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 1,
+    "riskScore": 5,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 20.23,
+        "contribution": 0.02023,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.08,
+        "contribution": 0.008,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 20.88,
+        "contribution": 0.10439999999999999,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000048",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********9398",
+    "amount": 43.18,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.58",
+    "velocity_1h": 1,
+    "device_risk_score": 0.13,
+    "distance_from_home": 5.39,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 0,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 43.18,
+        "contribution": 0.04318,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 5.39,
+        "contribution": 0.026949999999999998,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000047",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********7906",
+    "amount": 84.24,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.57",
+    "velocity_1h": 0,
+    "device_risk_score": 0.02,
+    "distance_from_home": 2.75,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 7,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 84.24,
+        "contribution": 0.08424,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 2.75,
+        "contribution": 0.01375,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000046",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********6325",
+    "amount": 54.73,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.56",
+    "velocity_1h": 0,
+    "device_risk_score": 0.06,
+    "distance_from_home": 20.26,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 0,
+    "riskScore": 13,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 54.73,
+        "contribution": 0.05473,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.06,
+        "contribution": 0.006,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 20.26,
+        "contribution": 0.10130000000000002,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-19T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000045",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********3978",
+    "amount": 38.79,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.55",
+    "velocity_1h": 1,
+    "device_risk_score": 0.07,
+    "distance_from_home": 13.91,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 38.79,
+        "contribution": 0.03879,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 13.91,
+        "contribution": 0.06955,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000044",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********1551",
+    "amount": 89.41,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.54",
+    "velocity_1h": 1,
+    "device_risk_score": 0.12,
+    "distance_from_home": 6.87,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 1,
+    "riskScore": 13,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 89.41,
+        "contribution": 0.08941,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.12,
+        "contribution": 0.012,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.87,
+        "contribution": 0.03435,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000043",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********4226",
+    "amount": 23.37,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.53",
+    "velocity_1h": 0,
+    "device_risk_score": 0.04,
+    "distance_from_home": 0.98,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 5,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 23.37,
+        "contribution": 0.023370000000000002,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.04,
+        "contribution": 0.004,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 0.98,
+        "contribution": 0.0049,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000042",
+    "cardholderName": "Diana Prince",
+    "cardNumber": "4111********4651",
+    "amount": 11.76,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.52",
+    "velocity_1h": 1,
+    "device_risk_score": 0.14,
+    "distance_from_home": 7.73,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 11.76,
+        "contribution": 0.01176,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.14,
+        "contribution": 0.014000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 7.73,
+        "contribution": 0.038650000000000004,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000041",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********1081",
+    "amount": 8.72,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.51",
+    "velocity_1h": 0,
+    "device_risk_score": 0.02,
+    "distance_from_home": 11.72,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 1,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 8.72,
+        "contribution": 0.00872,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 11.72,
+        "contribution": 0.058600000000000006,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000040",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********4150",
+    "amount": 14.72,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.50",
+    "velocity_1h": 1,
+    "device_risk_score": 0.05,
+    "distance_from_home": 5.56,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 13,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 14.72,
+        "contribution": 0.01472,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.05,
+        "contribution": 0.005000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 5.56,
+        "contribution": 0.0278,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000039",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********7001",
+    "amount": 31.06,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.49",
+    "velocity_1h": 0,
+    "device_risk_score": 0.03,
+    "distance_from_home": 11.37,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 0,
+    "riskScore": 2,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 31.06,
+        "contribution": 0.03106,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.03,
+        "contribution": 0.003,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 11.37,
+        "contribution": 0.05685,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000038",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********1525",
+    "amount": 65.87,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.48",
+    "velocity_1h": 1,
+    "device_risk_score": 0.02,
+    "distance_from_home": 4.99,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 65.87,
+        "contribution": 0.06587000000000001,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 4.99,
+        "contribution": 0.02495,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000037",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********4443",
+    "amount": 9.25,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.47",
+    "velocity_1h": 1,
+    "device_risk_score": 0.06,
+    "distance_from_home": 2.59,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 13,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 9.25,
+        "contribution": 0.00925,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.06,
+        "contribution": 0.006,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 2.59,
+        "contribution": 0.01295,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000036",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********9876",
+    "amount": 73.6,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.46",
+    "velocity_1h": 1,
+    "device_risk_score": 0.06,
+    "distance_from_home": 18.46,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 0,
+    "riskScore": 6,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 73.6,
+        "contribution": 0.0736,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.06,
+        "contribution": 0.006,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 18.46,
+        "contribution": 0.09230000000000001,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-20T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000035",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********7217",
+    "amount": 46.45,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.45",
+    "velocity_1h": 1,
+    "device_risk_score": 0.13,
+    "distance_from_home": 18.69,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 2,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 46.45,
+        "contribution": 0.046450000000000005,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 18.69,
+        "contribution": 0.09345,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000034",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********3842",
+    "amount": 77.66,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.44",
+    "velocity_1h": 0,
+    "device_risk_score": 0.07,
+    "distance_from_home": 14.58,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 1,
+    "riskScore": 9,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 77.66,
+        "contribution": 0.07765999999999999,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 14.58,
+        "contribution": 0.0729,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000033",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********5853",
+    "amount": 23.95,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "Lagos",
+      "country": "NG",
+      "latitude": 6.5244,
+      "longitude": 3.3792
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.43",
+    "velocity_1h": 1,
+    "device_risk_score": 0.14,
+    "distance_from_home": 565.24,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 81,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "distance_from_home",
+        "value": 850.4,
+        "contribution": 1.2,
+        "importance": 0.2,
+        "percentage": 55
+      },
+      {
+        "feature": "amount",
+        "value": 45,
+        "contribution": 0.05,
+        "importance": 0.25,
+        "percentage": 2.5
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-21T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000032",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********1157",
+    "amount": 67.3,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.42",
+    "velocity_1h": 0,
+    "device_risk_score": 0.08,
+    "distance_from_home": 1.39,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 7,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 67.3,
+        "contribution": 0.0673,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.08,
+        "contribution": 0.008,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 1.39,
+        "contribution": 0.00695,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000031",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********4785",
+    "amount": 15.16,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.41",
+    "velocity_1h": 1,
+    "device_risk_score": 0.03,
+    "distance_from_home": 21.47,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 0,
+    "riskScore": 5,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 15.16,
+        "contribution": 0.01516,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.03,
+        "contribution": 0.003,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 21.47,
+        "contribution": 0.10735,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000030",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********9404",
+    "amount": 50.22,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.40",
+    "velocity_1h": 0,
+    "device_risk_score": 0.02,
+    "distance_from_home": 0.23,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 50.22,
+        "contribution": 0.05022,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 0.23,
+        "contribution": 0.00115,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000029",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********9301",
+    "amount": 37.91,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.39",
+    "velocity_1h": 0,
+    "device_risk_score": 0.08,
+    "distance_from_home": 6.61,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 1,
+    "riskScore": 15,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 37.91,
+        "contribution": 0.03791,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.08,
+        "contribution": 0.008,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.61,
+        "contribution": 0.03305,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000028",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********8162",
+    "amount": 87.56,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.38",
+    "velocity_1h": 1,
+    "device_risk_score": 0.07,
+    "distance_from_home": 4.83,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 0,
+    "riskScore": 15,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 87.56,
+        "contribution": 0.08756,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 4.83,
+        "contribution": 0.02415,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000027",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********7809",
+    "amount": 83.09,
+    "merchant": "Apple Store",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.37",
+    "velocity_1h": 1,
+    "device_risk_score": 0.12,
+    "distance_from_home": 22.81,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 83.09,
+        "contribution": 0.08309000000000001,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.12,
+        "contribution": 0.012,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 22.81,
+        "contribution": 0.11405,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000026",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********5282",
+    "amount": 71.49,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.36",
+    "velocity_1h": 0,
+    "device_risk_score": 0.01,
+    "distance_from_home": 8.46,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 0,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 71.49,
+        "contribution": 0.07149,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.46,
+        "contribution": 0.042300000000000004,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-21T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000025",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********5637",
+    "amount": 15.67,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.35",
+    "velocity_1h": 0,
+    "device_risk_score": 0,
+    "distance_from_home": 3.17,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 11,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 15.67,
+        "contribution": 0.01567,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0,
+        "contribution": 0,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 3.17,
+        "contribution": 0.01585,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000024",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********2199",
+    "amount": 28.7,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.34",
+    "velocity_1h": 1,
+    "device_risk_score": 0.02,
+    "distance_from_home": 11.75,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 1,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 28.7,
+        "contribution": 0.0287,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 11.75,
+        "contribution": 0.058750000000000004,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000023",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********4813",
+    "amount": 14.99,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.33",
+    "velocity_1h": 1,
+    "device_risk_score": 0.13,
+    "distance_from_home": 19.22,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 14.99,
+        "contribution": 0.01499,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 19.22,
+        "contribution": 0.09609999999999999,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000022",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********8541",
+    "amount": 4023.66,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.32",
+    "velocity_1h": 1,
+    "device_risk_score": 0.08,
+    "distance_from_home": 14.24,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 68,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 1250,
+        "contribution": 0.8,
+        "importance": 0.25,
+        "percentage": 40
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 12.5,
+        "contribution": 0.1,
+        "importance": 0.2,
+        "percentage": 5
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-22T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000021",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********2647",
+    "amount": 41.87,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.31",
+    "velocity_1h": 0,
+    "device_risk_score": 0.04,
+    "distance_from_home": 22.13,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 1,
+    "riskScore": 7,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 41.87,
+        "contribution": 0.04187,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.04,
+        "contribution": 0.004,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 22.13,
+        "contribution": 0.11065,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000020",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********9734",
+    "amount": 9.96,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.30",
+    "velocity_1h": 0,
+    "device_risk_score": 0.13,
+    "distance_from_home": 14.91,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 5,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 9.96,
+        "contribution": 0.009960000000000002,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.13,
+        "contribution": 0.013000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 14.91,
+        "contribution": 0.07455,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000019",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********9428",
+    "amount": 7.01,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.29",
+    "velocity_1h": 0,
+    "device_risk_score": 0.05,
+    "distance_from_home": 6.4,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 1,
+    "riskScore": 3,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 7.01,
+        "contribution": 0.00701,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.05,
+        "contribution": 0.005000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.4,
+        "contribution": 0.032,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000018",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********8562",
+    "amount": 78.28,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.28",
+    "velocity_1h": 1,
+    "device_risk_score": 0.01,
+    "distance_from_home": 14.5,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 10,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 78.28,
+        "contribution": 0.07828,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 14.5,
+        "contribution": 0.0725,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000017",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********4589",
+    "amount": 57.2,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.27",
+    "velocity_1h": 0,
+    "device_risk_score": 0.01,
+    "distance_from_home": 18.09,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 10,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 57.2,
+        "contribution": 0.0572,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 18.09,
+        "contribution": 0.09045,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000016",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********6473",
+    "amount": 7.97,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.26",
+    "velocity_1h": 0,
+    "device_risk_score": 0.01,
+    "distance_from_home": 8.58,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 5,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 7.97,
+        "contribution": 0.00797,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.01,
+        "contribution": 0.001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.58,
+        "contribution": 0.0429,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-22T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000015",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********8905",
+    "amount": 57.7,
+    "merchant": "Walmart Stores",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.25",
+    "velocity_1h": 0,
+    "device_risk_score": 0.12,
+    "distance_from_home": 21.38,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 0,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 57.7,
+        "contribution": 0.0577,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.12,
+        "contribution": 0.012,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 21.38,
+        "contribution": 0.1069,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000014",
+    "cardholderName": "Charlie Brown",
+    "cardNumber": "4111********3563",
+    "amount": 3482.65,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.24",
+    "velocity_1h": 0,
+    "device_risk_score": 0.02,
+    "distance_from_home": 1.29,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 0,
+    "riskScore": 89,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 1250,
+        "contribution": 0.8,
+        "importance": 0.25,
+        "percentage": 40
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 12.5,
+        "contribution": 0.1,
+        "importance": 0.2,
+        "percentage": 5
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-23T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000013",
+    "cardholderName": "John Doe",
+    "cardNumber": "4111********9296",
+    "amount": 83.76,
+    "merchant": "Best Buy Tech",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "dev_and_chrome_3d2a"
+    },
+    "ipAddress": "192.168.1.23",
+    "velocity_1h": 0,
+    "device_risk_score": 0.03,
+    "distance_from_home": 16.95,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 83.76,
+        "contribution": 0.08376,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.03,
+        "contribution": 0.003,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 16.95,
+        "contribution": 0.08474999999999999,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000012",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********3177",
+    "amount": 70.01,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome Mobile",
+      "os": "Android 14",
+      "screenResolution": "390x844",
+      "language": "en-US",
+      "hash": "suspicious_fprint_8x3c"
+    },
+    "ipAddress": "192.168.1.22",
+    "velocity_1h": 0,
+    "device_risk_score": 0.91,
+    "distance_from_home": 5.48,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 0,
+    "riskScore": 79,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "device_risk_score",
+        "value": 0.95,
+        "contribution": 1.1,
+        "importance": 0.18,
+        "percentage": 50
+      },
+      {
+        "feature": "velocity_1h",
+        "value": 1,
+        "contribution": 0.05,
+        "importance": 0.15,
+        "percentage": 2.3
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-23T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000011",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********1180",
+    "amount": 38.31,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.21",
+    "velocity_1h": 0,
+    "device_risk_score": 0.07,
+    "distance_from_home": 9.22,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 38.31,
+        "contribution": 0.038310000000000004,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 9.22,
+        "contribution": 0.0461,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000010",
+    "cardholderName": "Bruce Wayne",
+    "cardNumber": "4111********8192",
+    "amount": 45.48,
+    "merchant": "Shell Fuel",
+    "merchantCategory": "Automotive",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.20",
+    "velocity_1h": 1,
+    "device_risk_score": 0.05,
+    "distance_from_home": 11.37,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 1,
+    "riskScore": 3,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 45.48,
+        "contribution": 0.04548,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.05,
+        "contribution": 0.005000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 11.37,
+        "contribution": 0.05685,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T13:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000009",
+    "cardholderName": "David Lightman",
+    "cardNumber": "4111********6543",
+    "amount": 83.31,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.19",
+    "velocity_1h": 1,
+    "device_risk_score": 0.04,
+    "distance_from_home": 8.61,
+    "is_declined_before": 0,
+    "hour_of_day": 21,
+    "is_foreign": 0,
+    "riskScore": 4,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 83.31,
+        "contribution": 0.08331000000000001,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.04,
+        "contribution": 0.004,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 8.61,
+        "contribution": 0.04305,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T16:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000008",
+    "cardholderName": "Clark Kent",
+    "cardNumber": "4111********8977",
+    "amount": 28.86,
+    "merchant": "Netflix Subscription",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.18",
+    "velocity_1h": 1,
+    "device_risk_score": 0.02,
+    "distance_from_home": 4.59,
+    "is_declined_before": 0,
+    "hour_of_day": 23,
+    "is_foreign": 1,
+    "riskScore": 12,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 28.86,
+        "contribution": 0.02886,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.02,
+        "contribution": 0.002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 4.59,
+        "contribution": 0.022949999999999998,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T18:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000007",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********5746",
+    "amount": 66.36,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "Lagos",
+      "country": "NG",
+      "latitude": 6.5244,
+      "longitude": 3.3792
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.17",
+    "velocity_1h": 1,
+    "device_risk_score": 0.03,
+    "distance_from_home": 429.53,
+    "is_declined_before": 0,
+    "hour_of_day": 2,
+    "is_foreign": 1,
+    "riskScore": 87,
+    "decision": "BLOCKED",
+    "explanation": [
+      {
+        "feature": "distance_from_home",
+        "value": 850.4,
+        "contribution": 1.2,
+        "importance": 0.2,
+        "percentage": 55
+      },
+      {
+        "feature": "amount",
+        "value": 45,
+        "contribution": 0.05,
+        "importance": 0.25,
+        "percentage": 2.5
+      }
+    ],
+    "status": "BLOCKED",
+    "createdAt": "2026-05-23T20:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000006",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********5859",
+    "amount": 43.37,
+    "merchant": "Amazon.com",
+    "merchantCategory": "Retail",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.16",
+    "velocity_1h": 0,
+    "device_risk_score": 0.04,
+    "distance_from_home": 6.35,
+    "is_declined_before": 0,
+    "hour_of_day": 4,
+    "is_foreign": 1,
+    "riskScore": 9,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 43.37,
+        "contribution": 0.04337,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.04,
+        "contribution": 0.004,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 6.35,
+        "contribution": 0.03175,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-23T23:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000005",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********1754",
+    "amount": 45.46,
+    "merchant": "Steam Games",
+    "merchantCategory": "Entertainment",
+    "location": {
+      "city": "London",
+      "country": "UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.15",
+    "velocity_1h": 0,
+    "device_risk_score": 0.08,
+    "distance_from_home": 13.5,
+    "is_declined_before": 0,
+    "hour_of_day": 7,
+    "is_foreign": 1,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 45.46,
+        "contribution": 0.04546,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.08,
+        "contribution": 0.008,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 13.5,
+        "contribution": 0.0675,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-24T01:38:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000004",
+    "cardholderName": "Alice Johnson",
+    "cardNumber": "4111********6273",
+    "amount": 51.73,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "New York",
+      "country": "US",
+      "latitude": 40.7128,
+      "longitude": -74.006
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "dev_win_chrome_9a2f"
+    },
+    "ipAddress": "192.168.1.14",
+    "velocity_1h": 0,
+    "device_risk_score": 0.07,
+    "distance_from_home": 3.66,
+    "is_declined_before": 0,
+    "hour_of_day": 9,
+    "is_foreign": 0,
+    "riskScore": 16,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 51.73,
+        "contribution": 0.05173,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.07,
+        "contribution": 0.007000000000000001,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 3.66,
+        "contribution": 0.0183,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-24T04:02:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000003",
+    "cardholderName": "Sarah Connor",
+    "cardNumber": "4111********4183",
+    "amount": 87.12,
+    "merchant": "Delta Airlines",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Paris",
+      "country": "FR",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    "deviceFingerprint": {
+      "browser": "Safari Mobile",
+      "os": "iOS 17.4",
+      "screenResolution": "393x852",
+      "language": "en-US",
+      "hash": "dev_ios_safari_1e0c"
+    },
+    "ipAddress": "192.168.1.13",
+    "velocity_1h": 0,
+    "device_risk_score": 0.12,
+    "distance_from_home": 23.21,
+    "is_declined_before": 0,
+    "hour_of_day": 11,
+    "is_foreign": 1,
+    "riskScore": 11,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 87.12,
+        "contribution": 0.08712,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.12,
+        "contribution": 0.012,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 23.21,
+        "contribution": 0.11605,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-24T06:26:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000002",
+    "cardholderName": "Bob Miller",
+    "cardNumber": "4111********8474",
+    "amount": 37.59,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "Tokyo",
+      "country": "JP",
+      "latitude": 35.6762,
+      "longitude": 139.6503
+    },
+    "deviceFingerprint": {
+      "browser": "Firefox",
+      "os": "Ubuntu Linux",
+      "screenResolution": "1440x900",
+      "language": "en-US",
+      "hash": "dev_lin_firefox_4f8b"
+    },
+    "ipAddress": "192.168.1.12",
+    "velocity_1h": 0,
+    "device_risk_score": 0.14,
+    "distance_from_home": 11.34,
+    "is_declined_before": 0,
+    "hour_of_day": 14,
+    "is_foreign": 1,
+    "riskScore": 14,
+    "decision": "APPROVED",
+    "explanation": [
+      {
+        "feature": "amount",
+        "value": 37.59,
+        "contribution": 0.037590000000000005,
+        "importance": 0.25,
+        "percentage": 20
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.14,
+        "contribution": 0.014000000000000002,
+        "importance": 0.18,
+        "percentage": 15
+      },
+      {
+        "feature": "distance_from_home",
+        "value": 11.34,
+        "contribution": 0.0567,
+        "importance": 0.2,
+        "percentage": 10
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-24T08:50:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000001",
+    "cardholderName": "Diana Prince",
+    "cardNumber": "4111********3861",
+    "amount": 58.75,
+    "merchant": "Whole Foods Market",
+    "merchantCategory": "Groceries",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "screenResolution": "2560x1600",
+      "language": "en-US",
+      "hash": "dev_mac_safari_7c1d"
+    },
+    "ipAddress": "192.168.1.11",
+    "velocity_1h": 5,
+    "device_risk_score": 0.05,
+    "distance_from_home": 24.58,
+    "is_declined_before": 0,
+    "hour_of_day": 16,
+    "is_foreign": 0,
+    "riskScore": 64,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "velocity_1h",
+        "value": 5,
+        "contribution": 0.9,
+        "importance": 0.15,
+        "percentage": 42
+      },
+      {
+        "feature": "device_risk_score",
+        "value": 0.2,
+        "contribution": 0.1,
+        "importance": 0.18,
+        "percentage": 4.7
+      }
+    ],
+    "status": "PENDING_REVIEW",
+    "createdAt": "2026-05-24T11:14:05.650Z"
+  },
+  {
+    "_id": "5f0000000000000000000000",
+    "cardholderName": "Jane Smith",
+    "cardNumber": "4111********2380",
+    "amount": 68.7,
+    "merchant": "Uber Trips",
+    "merchantCategory": "Travel",
+    "location": {
+      "city": "Los Angeles",
+      "country": "US",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "deviceFingerprint": {
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "screenResolution": "1920x1080",
+      "language": "en-US",
+      "hash": "suspicious_fprint_8x3c"
+    },
+    "ipAddress": "192.168.1.10",
+    "velocity_1h": 0,
+    "device_risk_score": 0.84,
+    "distance_from_home": 12.21,
+    "is_declined_before": 0,
+    "hour_of_day": 19,
+    "is_foreign": 0,
+    "riskScore": 74,
+    "decision": "FLAGGED",
+    "explanation": [
+      {
+        "feature": "device_risk_score",
+        "value": 0.95,
+        "contribution": 1.1,
+        "importance": 0.18,
+        "percentage": 50
+      },
+      {
+        "feature": "velocity_1h",
+        "value": 1,
+        "contribution": 0.05,
+        "importance": 0.15,
+        "percentage": 2.3
+      }
+    ],
+    "status": "APPROVED",
+    "createdAt": "2026-05-24T13:38:05.650Z"
+  }
+]
