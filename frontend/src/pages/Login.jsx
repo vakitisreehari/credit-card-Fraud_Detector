@@ -481,45 +481,52 @@ const Login = ({ onLoginSuccess }) => {
           </div>
         </div>
 
-        {/* ── PREMIUM CYBER SECURITY HERO IMAGE ── */}
-        <div className="absolute right-8 top-1/2 -translate-y-[60%] z-20 w-[260px] xl:w-[340px] bg-[#0c101c]/90 border border-slate-800/80 rounded-2xl p-2 shadow-2xl transition-all duration-300 hover:border-indigo-500/30">
-          <div className="overflow-hidden rounded-xl border border-slate-800/50">
-            <img src="/fraud_detection_hero.png" alt="Fraud Detection Security" className="w-full h-auto object-cover" />
-          </div>
-        </div>
+        {/* ── HERO CONTENT (Grid to prevent overlapping) ── */}
+        <div className="relative z-10 px-8 xl:px-12 flex-1 grid grid-cols-1 xl:grid-cols-12 gap-8 items-center w-full">
+          
+          {/* Left Column: Text & Features (col-span 7) */}
+          <div className="xl:col-span-7 flex flex-col justify-center space-y-6">
+            <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit">
+              <span className="h-2 w-2 bg-emerald-400 rounded-full animate-ping" />
+              <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-widest">Enterprise Security Active</span>
+            </div>
 
-        {/* ── HERO CONTENT ── */}
-        <div className="relative z-10 px-12 flex-1 flex flex-col justify-center space-y-6">
-          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit">
-            <span className="h-2 w-2 bg-emerald-400 rounded-full animate-ping" />
-            <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-widest">Enterprise Security Active</span>
-          </div>
+            <div>
+              <h1 className="text-4xl xl:text-4xl 2xl:text-5xl font-black text-white leading-tight tracking-tight">
+                Real-Time Security.<br />
+                <span style={{ background: 'linear-gradient(90deg,#a5b4fc,#818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  Always One Step Ahead.
+                </span>
+              </h1>
+            </div>
 
-          <div>
-            <h1 className="text-4xl xl:text-5xl font-black text-white leading-tight tracking-tight">
-              Real-Time Security.<br />
-              <span style={{ background: 'linear-gradient(90deg,#a5b4fc,#818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Always One Step Ahead.
-              </span>
-            </h1>
-          </div>
+            <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
+              Harness machine learning models and customizable business rule filters to secure operations and shield payments seamlessly.
+            </p>
 
-          <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-            Harness machine learning models and customizable business rule filters to secure operations and shield payments seamlessly.
-          </p>
-
-          {/* Features checkmarks */}
-          <div className="space-y-4 pt-2">
-            {FEATURES.map((f, i) => (
-              <div key={i} className="flex items-start space-x-3">
-                <span className="bg-indigo-950 border border-indigo-500/30 p-2 rounded-xl text-base leading-none shrink-0">{f.icon}</span>
-                <div>
-                  <p className="text-white text-sm font-bold">{f.title}</p>
-                  <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{f.desc}</p>
+            {/* Features checkmarks */}
+            <div className="space-y-4 pt-2">
+              {FEATURES.map((f, i) => (
+                <div key={i} className="flex items-start space-x-3">
+                  <span className="bg-indigo-950 border border-indigo-500/30 p-2 rounded-xl text-base leading-none shrink-0">{f.icon}</span>
+                  <div>
+                    <p className="text-white text-sm font-bold">{f.title}</p>
+                    <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{f.desc}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* Right Column: Hero Image (col-span 5) */}
+          <div className="xl:col-span-5 flex justify-center">
+            <div className="w-full max-w-[340px] bg-[#0c101c]/90 border border-slate-800/80 rounded-2xl p-2 shadow-2xl transition-all duration-300 hover:border-indigo-500/30">
+              <div className="overflow-hidden rounded-xl border border-slate-800/50">
+                <img src="/fraud_detection_hero.png" alt="Fraud Detection Security" className="w-full h-auto object-cover" />
+              </div>
+            </div>
+          </div>
+
         </div>
 
         {/* ── STATS ROW ── */}
