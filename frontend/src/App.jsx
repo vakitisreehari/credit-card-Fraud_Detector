@@ -11,6 +11,7 @@ import ModelAnalytics from './pages/ModelAnalytics';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import { getMe } from './utils/api';
+import SupportBot from './components/SupportBot';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -93,6 +94,7 @@ function App() {
       <>
         <Toaster position="top-right" toastOptions={{ style: { background: '#1a2235', color: '#fff', border: '1px solid #1f293d' } }} />
         <Login onLoginSuccess={handleLoginSuccess} />
+        <SupportBot />
       </>
     );
   }
@@ -133,6 +135,7 @@ function App() {
         {activeTab === 'profile' && <Profile user={user} onProfileUpdate={handleProfileUpdate} />}
         {is404 && <NotFound onGoHome={() => setActiveTab('dashboard')} />}
       </main>
+      <SupportBot />
     </div>
   );
 }
