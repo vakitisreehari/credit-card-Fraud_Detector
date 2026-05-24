@@ -15,7 +15,8 @@ const connectDB = async () => {
   try {
     // Set connection timeout to 3 seconds for quick local fallback
     await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 3000
+      serverSelectionTimeoutMS: 8000,
+      family: 4
     });
     console.log('MongoDB database connected successfully.');
     global.useMockDB = false;
