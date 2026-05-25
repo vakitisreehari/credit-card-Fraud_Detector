@@ -136,24 +136,30 @@ const MSIcon = () => (
 /* ═══════════════════════════════════════
    STYLED INPUT COMPONENT
 ═══════════════════════════════════════ */
-function StyledInput({ icon: Icon, type = 'text', placeholder, value, onChange, autoComplete, rightEl, error }) {
+function StyledInput({ icon: Icon, type = 'text', placeholder, value, onChange, autoComplete, rightEl, error, dark = true }) {
   const [focused, setFocused] = useState(false);
+  const bgIdle   = dark ? 'rgba(15,23,42,0.65)'  : '#f8fafc';
+  const bgFocus  = dark ? 'rgba(37,99,235,0.06)' : '#eff6ff';
+  const txtColor = dark ? '#e2e8f0' : '#1e293b';
+  const border   = error ? '#EF4444' : focused ? '#2563EB' : (dark ? 'rgba(37,99,235,0.22)' : '#cbd5e1');
+  const shadow   = focused ? '0 0 0 3px rgba(37,99,235,0.12)' : 'none';
   return (
     <div>
       <div className="relative">
         <div className="absolute left-3.5 top-1/2 -translate-y-1/2 transition-colors duration-200"
-          style={{ color: focused ? '#06B6D4' : '#475569' }}>
+          style={{ color: focused ? '#2563EB' : (dark ? '#475569' : '#94a3b8') }}>
           <Icon className="h-4 w-4" />
         </div>
         <input
           type={type} placeholder={placeholder} value={value} onChange={onChange}
           autoComplete={autoComplete}
-          className="w-full pl-10 pr-10 py-3.5 text-sm placeholder-slate-600 outline-none transition-all duration-200 rounded-xl"
+          className="w-full pl-10 pr-10 py-3 text-sm outline-none transition-all duration-200 rounded-xl"
           style={{
-            background: focused ? 'rgba(37,99,235,0.06)' : 'rgba(15,23,42,0.6)',
-            border: `1px solid ${error ? '#EF4444' : focused ? '#2563EB' : 'rgba(37,99,235,0.2)'}`,
-            color: '#e2e8f0',
-            boxShadow: focused ? '0 0 0 3px rgba(37,99,235,0.1)' : 'none',
+            background: focused ? bgFocus : bgIdle,
+            border: `1px solid ${border}`,
+            color: txtColor,
+            boxShadow: shadow,
+            caretColor: '#2563EB',
           }}
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
         />
@@ -207,10 +213,10 @@ function OtpInput({ value, onChange }) {
 function PrimaryBtn({ onClick, type = 'button', loading, children, disabled, className = '' }) {
   return (
     <button type={type} onClick={onClick} disabled={loading || disabled}
-      className={`w-full py-3.5 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`w-full py-3 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       style={{
         background: 'linear-gradient(135deg, #2563EB 0%, #06B6D4 100%)',
-        boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
+        boxShadow: '0 6px 20px rgba(37,99,235,0.3)',
       }}
       onMouseEnter={e => !loading && !disabled && (e.currentTarget.style.transform = 'translateY(-1px)')}
       onMouseLeave={e => e.currentTarget.style.transform = 'none'}
@@ -469,79 +475,73 @@ export default function Login({ onLoginSuccess }) {
 
     /* SIGN UP */
     if (tab === 'signup') return (
-      <div className="fade-in space-y-4">
-        <div className="text-center space-y-0.5">
-          <h3 className="text-2xl font-black text-white">Create Account</h3>
-          <p className="text-slate-400 text-xs">Join the FraudShield security platform</p>
-        </div>
+      <div className="fade-in space-y-3">
         {error && <ErrorBanner msg={error} />}
-        <form onSubmit={handleSignUp} className="space-y-3">
-          <StyledInput icon={User} placeholder="Full Name" value={form.name} onChange={e => upd('name', e.target.value)} error={errors.name} autoComplete="name" />
-          <StyledInput icon={Mail} type="email" placeholder="Email Address" value={form.email} onChange={e => upd('email', e.target.value)} error={errors.email} autoComplete="email" />
-          <StyledInput icon={Phone} type="tel" placeholder="Phone Number (optional)" value={form.phone} onChange={e => upd('phone', e.target.value)} autoComplete="tel" />
-          <StyledInput icon={Lock} type={showPass ? 'text' : 'password'} placeholder="Password (min 8 chars)"
+        <form onSubmit={handleSignUp} className="space-y-2.5">
+          <StyledInput dark={dark} icon={User} placeholder="Full Name" value={form.name} onChange={e => upd('name', e.target.value)} error={errors.name} autoComplete="name" />
+          <StyledInput dark={dark} icon={Mail} type="email" placeholder="Email Address" value={form.email} onChange={e => upd('email', e.target.value)} error={errors.email} autoComplete="email" />
+          <StyledInput dark={dark} icon={Phone} type="tel" placeholder="Phone (optional)" value={form.phone} onChange={e => upd('phone', e.target.value)} autoComplete="tel" />
+          <StyledInput dark={dark} icon={Lock} type={showPass ? 'text' : 'password'} placeholder="Password (min 8 chars)"
             value={form.password} onChange={e => upd('password', e.target.value)} error={errors.password} autoComplete="new-password"
-            rightEl={<button type="button" onClick={() => setShowPass(p => !p)} className="text-slate-500 hover:text-slate-300">{showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
+            rightEl={<button type="button" onClick={() => setShowPass(p => !p)} style={{ color: dark ? '#64748b' : '#94a3b8' }}>{showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
           {form.password && <PasswordStrength pass={form.password} />}
-          <StyledInput icon={Lock} type={showConf ? 'text' : 'password'} placeholder="Confirm Password"
+          <StyledInput dark={dark} icon={Lock} type={showConf ? 'text' : 'password'} placeholder="Confirm Password"
             value={form.confirm} onChange={e => upd('confirm', e.target.value)} error={errors.confirm} autoComplete="new-password"
-            rightEl={<button type="button" onClick={() => setShowConf(p => !p)} className="text-slate-500 hover:text-slate-300">{showConf ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
-          <label className="flex items-start gap-2.5 cursor-pointer">
-            <input type="checkbox" required className="mt-0.5 accent-blue-500" />
-            <span className="text-slate-400 text-[11px] leading-relaxed">I agree to the <span className="text-cyan-400 hover:underline cursor-pointer">Terms of Service</span> and <span className="text-cyan-400 hover:underline cursor-pointer">Privacy Policy</span></span>
+            rightEl={<button type="button" onClick={() => setShowConf(p => !p)} style={{ color: dark ? '#64748b' : '#94a3b8' }}>{showConf ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" required className="mt-0.5 accent-blue-500 shrink-0" />
+            <span className="text-[11px] leading-relaxed" style={{ color: dark ? '#94a3b8' : '#64748b' }}>I agree to the <span className="text-cyan-500 hover:underline cursor-pointer">Terms</span> and <span className="text-cyan-500 hover:underline cursor-pointer">Privacy Policy</span></span>
           </label>
           <PrimaryBtn type="submit" loading={loading}>Create Account <ArrowRight className="h-4 w-4" /></PrimaryBtn>
         </form>
-        <Divider />
-        <SocialRow onGoogle={handleGoogle} gLoading={gLoading} onGErr={() => setError('Google sign-in failed.')} />
+        <Divider dark={dark} />
+        <SocialRow onGoogle={handleGoogle} gLoading={gLoading} onGErr={() => setError('Google sign-in failed.')} dark={dark} />
       </div>
     );
 
     /* SIGN IN (default) */
     return (
-      <div className="fade-in space-y-4">
+      <div className="fade-in space-y-3">
         {error && <ErrorBanner msg={error} />}
-        <form onSubmit={handleSignIn} className="space-y-3">
-          <StyledInput icon={Mail} type="email" placeholder="Email address" value={form.email}
+        <form onSubmit={handleSignIn} className="space-y-2.5">
+          <StyledInput dark={dark} icon={Mail} type="email" placeholder="Email address" value={form.email}
             onChange={e => upd('email', e.target.value)} error={errors.email} autoComplete="email" />
-          <StyledInput icon={Lock} type={showPass ? 'text' : 'password'} placeholder="Password"
+          <StyledInput dark={dark} icon={Lock} type={showPass ? 'text' : 'password'} placeholder="Password"
             value={form.password} onChange={e => upd('password', e.target.value)} error={errors.password} autoComplete="current-password"
-            rightEl={<button type="button" onClick={() => setShowPass(p => !p)} className="text-slate-500 hover:text-slate-300 transition-colors">{showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
+            rightEl={<button type="button" onClick={() => setShowPass(p => !p)} style={{ color: dark ? '#64748b' : '#94a3b8' }} className="transition-colors hover:opacity-80">{showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>} />
 
           {/* Remember + Forgot */}
-          <div className="flex items-center justify-between pt-0.5">
+          <div className="flex items-center justify-between">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} className="accent-blue-500 rounded" />
-              <span className="text-slate-400 text-[11px]">Remember me</span>
+              <span className="text-[11px]" style={{ color: dark ? '#94a3b8' : '#64748b' }}>Remember me</span>
             </label>
-            <button type="button" onClick={() => go('forgot')} className="text-cyan-400 text-[11px] hover:text-cyan-300 transition-colors font-medium">Forgot password?</button>
+            <button type="button" onClick={() => go('forgot')} className="text-cyan-500 text-[11px] hover:text-cyan-400 transition-colors font-semibold">Forgot password?</button>
           </div>
 
           <PrimaryBtn type="submit" loading={loading}>Sign In <ArrowRight className="h-4 w-4" /></PrimaryBtn>
         </form>
 
-        {/* Biometric - clearly marked as coming soon */}
+        {/* Biometric — coming soon */}
         <div className="flex gap-2">
-          <div className="flex-1 relative">
-            <button type="button" disabled
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs text-slate-600 cursor-not-allowed"
-              style={{ background:'rgba(15,23,42,0.35)', border:'1px solid rgba(37,99,235,0.06)' }}>
-              <Fingerprint className="h-3.5 w-3.5" /> Fingerprint
-            </button>
-            <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
-          </div>
-          <div className="flex-1 relative">
-            <button type="button" disabled
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs text-slate-600 cursor-not-allowed"
-              style={{ background:'rgba(15,23,42,0.35)', border:'1px solid rgba(37,99,235,0.06)' }}>
-              <Activity className="h-3.5 w-3.5" /> Face ID
-            </button>
-            <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
-          </div>
+          {[['Fingerprint', Fingerprint], ['Face ID', Activity]].map(([label, Ico], i) => (
+            <div key={i} className="flex-1 relative">
+              <button type="button" disabled
+                className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] cursor-not-allowed transition-none"
+                style={{
+                  background: dark ? 'rgba(15,23,42,0.3)' : '#f1f5f9',
+                  border: `1px solid ${dark ? 'rgba(37,99,235,0.08)' : '#e2e8f0'}`,
+                  color: dark ? '#475569' : '#94a3b8',
+                }}>
+                <Ico className="h-3 w-3" /> {label}
+              </button>
+              <span className="absolute -top-1.5 -right-1 text-[6px] bg-amber-500/20 text-amber-500 border border-amber-500/30 rounded px-1 font-black uppercase">Soon</span>
+            </div>
+          ))}
         </div>
 
-        <Divider />
-        <SocialRow onGoogle={handleGoogle} gLoading={gLoading} onGErr={() => setError('Google sign-in was cancelled.')} />
+        <Divider dark={dark} />
+        <SocialRow onGoogle={handleGoogle} gLoading={gLoading} onGErr={() => setError('Google sign-in was cancelled.')} dark={dark} />
       </div>
     );
   };
@@ -785,24 +785,27 @@ function ErrorBanner({ msg }) {
   );
 }
 
-function Divider() {
+function Divider({ dark = true }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex-1 h-px" style={{ background:'rgba(37,99,235,0.12)' }} />
-      <span className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">or continue with</span>
-      <div className="flex-1 h-px" style={{ background:'rgba(37,99,235,0.12)' }} />
+      <div className="flex-1 h-px" style={{ background: dark ? 'rgba(37,99,235,0.15)' : '#e2e8f0' }} />
+      <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: dark ? '#475569' : '#94a3b8' }}>or</span>
+      <div className="flex-1 h-px" style={{ background: dark ? 'rgba(37,99,235,0.15)' : '#e2e8f0' }} />
     </div>
   );
 }
 
-function SocialRow({ onGoogle, gLoading, onGErr }) {
+function SocialRow({ onGoogle, gLoading, onGErr, dark = true }) {
+  const btnBg     = dark ? 'rgba(15,23,42,0.5)' : '#f1f5f9';
+  const btnBorder = dark ? 'rgba(37,99,235,0.1)' : '#e2e8f0';
+  const btnTxt    = dark ? '#475569' : '#94a3b8';
   return (
     <div className="space-y-2">
-      {/* Official Google button — always visible */}
-      <div className="google-btn-wrap flex justify-center min-h-[44px]">
+      {/* Google — official button */}
+      <div className="google-btn-wrap flex justify-center min-h-[40px]">
         {gLoading ? (
-          <div className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-700 text-slate-400 text-sm"
-            style={{ background:'rgba(15,23,42,0.6)' }}>
+          <div className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm"
+            style={{ background: btnBg, border: `1px solid ${btnBorder}`, color: btnTxt }}>
             <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -811,29 +814,23 @@ function SocialRow({ onGoogle, gLoading, onGErr }) {
           </div>
         ) : (
           <GoogleLogin onSuccess={onGoogle} onError={onGErr}
-            theme="filled_black" shape="pill" size="large"
-            text="continue_with" width="340" logo_alignment="left"
+            theme={dark ? 'filled_black' : 'outline'} shape="pill" size="large"
+            text="continue_with" width="320" logo_alignment="left"
             useOneTap={false} cancel_on_tap_outside={false} />
         )}
       </div>
       {/* GitHub + Microsoft — coming soon */}
       <div className="flex gap-2">
-        <div className="flex-1 relative">
-          <button type="button" disabled
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-slate-600 cursor-not-allowed"
-            style={{ background:'rgba(15,23,42,0.4)', border:'1px solid rgba(37,99,235,0.08)' }}>
-            <GitHubIcon /><span className="hidden sm:inline">GitHub</span>
-          </button>
-          <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
-        </div>
-        <div className="flex-1 relative">
-          <button type="button" disabled
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-slate-600 cursor-not-allowed"
-            style={{ background:'rgba(15,23,42,0.4)', border:'1px solid rgba(37,99,235,0.08)' }}>
-            <MSIcon /><span className="hidden sm:inline">Microsoft</span>
-          </button>
-          <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
-        </div>
+        {[['GitHub', GitHubIcon], ['Microsoft', MSIcon]].map(([label, Ico], i) => (
+          <div key={i} className="flex-1 relative">
+            <button type="button" disabled
+              className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] font-semibold cursor-not-allowed"
+              style={{ background: btnBg, border: `1px solid ${btnBorder}`, color: btnTxt }}>
+              <Ico /><span>{label}</span>
+            </button>
+            <span className="absolute -top-1.5 -right-1 text-[6px] bg-amber-500/20 text-amber-500 border border-amber-500/30 rounded px-1 font-black uppercase">Soon</span>
+          </div>
+        ))}
       </div>
     </div>
   );
