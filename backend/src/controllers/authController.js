@@ -50,6 +50,26 @@ class AuthController {
     }
   }
 
+  static async checkEmail(req, res) {
+    const { email } = req.body;
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ success: false, message: 'Valid email is required.' });
+    }
+    try {
+      const user = await UserModel.findOne({ email });
+      if (user) {
+        return res.status(200).json({
+          success: true,
+          exists: true,
+          name: user.username || user.name || null,
+        });
+      }
+      return res.status(200).json({ success: true, exists: false });
+    } catch (err) {
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  }
+
   static async login(req, res) {
     const { username, password } = req.body;
 

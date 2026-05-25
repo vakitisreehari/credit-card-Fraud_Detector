@@ -5,9 +5,10 @@ const { verifyToken } = require('../middleware/auth');
 const { authLimiter } = require('../middleware/rateLimiter');
 
 // Public routes
+router.post('/check-email', AuthController.checkEmail); // Smart email detection
 router.post('/register', AuthController.register);
 router.post('/login', authLimiter, AuthController.login);
-router.post('/google', AuthController.googleAuth);   // Real Google OAuth endpoint
+router.post('/google', AuthController.googleAuth);
 
 
 // Secure details route
