@@ -41,8 +41,70 @@ const SupportBot = () => {
     }]);
   };
 
+  const SYSTEM_PROMPT = `You are the FraudShield AI Assistant — a helpful, friendly, and knowledgeable support bot embedded inside an AI-powered Credit Card Fraud Detection platform called FraudShield.
+
+You can answer:
+- ANY general knowledge or random questions the user asks (geography, science, history, math, coding, etc.)
+- Questions about fraud detection, cybersecurity, machine learning, and fintech
+- Questions about the FraudShield platform (dashboard, transaction simulator, rules config, analytics, support)
+
+Platform context:
+- FraudShield is a real-time credit card fraud detection SaaS platform
+- It uses ML models that score transactions in <50ms with 99.97% accuracy
+- Features: Transaction Simulator, Rules Config, ML Analytics, Manual Review Queue, Security Profile
+- It is SOC 2, PCI DSS, and GDPR compliant
+- It uses AES-256 encryption and TLS 1.3
+
+Be concise, clear, and friendly. Use bullet points when listing. Use emojis sparingly but naturally.
+If the question is unrelated to the platform, answer it helpfully anyway — you are a general-purpose AI assistant too.`;
+
   const callAI = async (userText) => {
     setIsTyping(true);
+
+    // ── Try Gemini API directly from browser (works on Vercel without a backend) ──
+    const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (geminiKey) {
+      try {
+        const contents = [];
+        for (const h of history.slice(-10)) {
+          contents.push({ role: h.role, parts: [{ text: h.text }] });
+        }
+        contents.push({ role: 'user', parts: [{ text: userText }] });
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            contents,
+            generationConfig: { temperature: 0.7, maxOutputTokens: 512, topP: 0.9 },
+            safetySettings: [
+              { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+              { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+              { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+              { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+            ],
+          }),
+        });
+        const data = await res.json();
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (reply) {
+          setIsTyping(false);
+          pushMessage('bot', reply.trim());
+          setHistory(prev => [
+            ...prev,
+            { role: 'user',  text: userText },
+            { role: 'model', text: reply.trim() },
+          ].slice(-20));
+          return;
+        }
+      } catch (err) {
+        console.warn('Gemini direct call failed, trying backend…', err.message);
+      }
+    }
+
+    // ── Fallback: try backend /api/chat ──
     try {
       const base = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
       const res  = await fetch(`${base}/chat`, {
@@ -54,15 +116,14 @@ const SupportBot = () => {
       const reply = data?.reply || 'Sorry, I couldn\'t process that. Please try again.';
       setIsTyping(false);
       pushMessage('bot', reply);
-      // Keep history for multi-turn context
       setHistory(prev => [
         ...prev,
         { role: 'user',  text: userText },
         { role: 'model', text: reply },
-      ].slice(-20)); // keep last 10 turns
+      ].slice(-20));
     } catch {
       setIsTyping(false);
-      pushMessage('bot', '⚠️ Connection error. Please check your network and try again.');
+      pushMessage('bot', '⚠️ AI is not configured. Please set **VITE_GEMINI_API_KEY** in your Vercel project environment variables and redeploy.');
     }
   };
 
