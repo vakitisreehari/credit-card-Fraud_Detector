@@ -58,10 +58,49 @@ Platform context:
 Be concise, clear, and friendly. Use bullet points when listing. Use emojis sparingly but naturally.
 If the question is unrelated to the platform, answer it helpfully anyway — you are a general-purpose AI assistant too.`;
 
+  /* Build message array for AI calls */
+  const buildMessages = (userText) => {
+    const msgs = [{ role: 'system', content: SYSTEM_PROMPT }];
+    for (const h of history.slice(-10)) {
+      msgs.push({ role: h.role === 'model' ? 'assistant' : 'user', content: h.text });
+    }
+    msgs.push({ role: 'user', content: userText });
+    return msgs;
+  };
+
   const callAI = async (userText) => {
     setIsTyping(true);
 
-    // ── Try Gemini API directly from browser (works on Vercel without a backend) ──
+    // ── PRIMARY: Pollinations.ai — 100% free, zero API key needed ──
+    try {
+      const res = await fetch('https://text.pollinations.ai/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: buildMessages(userText),
+          model: 'openai',
+          seed: 42,
+          jsonMode: false,
+        }),
+      });
+      if (res.ok) {
+        const reply = await res.text();
+        if (reply && reply.trim()) {
+          setIsTyping(false);
+          pushMessage('bot', reply.trim());
+          setHistory(prev => [
+            ...prev,
+            { role: 'user',  text: userText },
+            { role: 'model', text: reply.trim() },
+          ].slice(-20));
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Pollinations failed, trying Gemini…', err.message);
+    }
+
+    // ── OPTIONAL UPGRADE: Gemini (if VITE_GEMINI_API_KEY is set) ──
     const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
     if (geminiKey) {
       try {
@@ -70,7 +109,6 @@ If the question is unrelated to the platform, answer it helpfully anyway — you
           contents.push({ role: h.role, parts: [{ text: h.text }] });
         }
         contents.push({ role: 'user', parts: [{ text: userText }] });
-
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
         const res = await fetch(url, {
           method: 'POST',
@@ -79,12 +117,6 @@ If the question is unrelated to the platform, answer it helpfully anyway — you
             system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
             contents,
             generationConfig: { temperature: 0.7, maxOutputTokens: 512, topP: 0.9 },
-            safetySettings: [
-              { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
-              { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
-              { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
-              { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
-            ],
           }),
         });
         const data = await res.json();
@@ -100,11 +132,11 @@ If the question is unrelated to the platform, answer it helpfully anyway — you
           return;
         }
       } catch (err) {
-        console.warn('Gemini direct call failed, trying backend…', err.message);
+        console.warn('Gemini failed:', err.message);
       }
     }
 
-    // ── Fallback: try backend /api/chat ──
+    // ── LAST RESORT: Backend /api/chat ──
     try {
       const base = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
       const res  = await fetch(`${base}/chat`, {
@@ -123,7 +155,7 @@ If the question is unrelated to the platform, answer it helpfully anyway — you
       ].slice(-20));
     } catch {
       setIsTyping(false);
-      pushMessage('bot', '⚠️ AI is not configured. Please set **VITE_GEMINI_API_KEY** in your Vercel project environment variables and redeploy.');
+      pushMessage('bot', '⚠️ Connection error. Please check your network and try again.');
     }
   };
 
