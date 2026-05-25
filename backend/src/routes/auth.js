@@ -7,6 +7,8 @@ const { authLimiter } = require('../middleware/rateLimiter');
 // Public routes
 router.post('/register', AuthController.register);
 router.post('/login', authLimiter, AuthController.login);
+router.post('/google', AuthController.googleAuth);   // Real Google OAuth endpoint
+
 
 // Secure details route
 router.get('/me', verifyToken, AuthController.getMe);

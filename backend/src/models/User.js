@@ -3,10 +3,13 @@ const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: false, default: null },  // null for Google OAuth users
   email: { type: String, required: true },
   role: { type: String, enum: ['admin', 'operator'], default: 'operator' },
   status: { type: String, enum: ['active', 'suspended'], default: 'active' },
+  google_id: { type: String, default: null },
+  avatar: { type: String, default: null },
+  authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -66,8 +69,12 @@ class UserModel {
   }
 
   static async create(userData) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(userData.password, salt);
+    // Only hash password if one is provided (Google OAuth users have no password)
+    let hashedPassword = null;
+    if (userData.password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(userData.password, salt);
+    }
     
     if (!global.useMockDB) {
       try {
@@ -88,10 +95,41 @@ class UserModel {
       email: userData.email,
       role: userData.role || 'operator',
       status: userData.status || 'active',
+      google_id: userData.google_id || null,
+      avatar: userData.avatar || null,
+      authProvider: userData.authProvider || 'local',
       createdAt: new Date()
     };
     mockUsers.push(newUser);
     return newUser;
+  }
+
+  // Upsert a Google OAuth user (find by google_id or email, create if not found)
+  static async upsertGoogle({ google_id, email, name, avatar }) {
+    // Try to find existing user by google_id first, then by email
+    let user = await UserModel.findOne({ google_id });
+    if (!user) user = await UserModel.findOne({ email });
+
+    if (user) {
+      // Update google_id and avatar if signing in via Google for first time
+      if (!user.google_id) {
+        const updateData = { google_id, avatar, authProvider: 'google' };
+        user = await UserModel.findByIdAndUpdate(user._id, updateData, { new: true });
+      }
+      return user;
+    }
+
+    // Create new user from Google profile
+    const username = email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '') + '_' + Math.random().toString(36).substr(2, 4);
+    return await UserModel.create({
+      username,
+      email,
+      password: null,  // no password for Google users
+      google_id,
+      avatar,
+      authProvider: 'google',
+      role: 'operator'
+    });
   }
 
   static async comparePassword(candidatePassword, hashedPassword) {

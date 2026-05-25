@@ -33,6 +33,7 @@ export const login = (credentials) => API.post('/auth/login', credentials);
 export const register = (userData) => API.post('/auth/register', userData);
 export const getMe = () => API.get('/auth/me');
 export const updateUserProfile = (profileData) => API.put('/auth/profile', profileData);
+export const googleAuth = (credential) => API.post('/auth/google', { credential });
 
 // Transactions
 export const processTransaction = (payload) => API.post('/transactions/process', payload);

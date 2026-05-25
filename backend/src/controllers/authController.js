@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const UserModel = require('../models/User');
 const { JWT_SECRET } = require('../middleware/auth');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 class AuthController {
   static async register(req, res) {
@@ -190,6 +194,68 @@ class AuthController {
       res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
   }
+  static async googleAuth(req, res) {
+    const { credential } = req.body;
+
+    if (!credential) {
+      return res.status(400).json({ success: false, message: 'Google credential (id_token) is required.' });
+    }
+
+    try {
+      // Verify the id_token JWT using Google's OAuth2Client
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      if (!payload) {
+        return res.status(401).json({ success: false, message: 'Invalid Google token payload.' });
+      }
+
+      const { sub: google_id, email, name, picture: avatar } = payload;
+
+      if (!email) {
+        return res.status(400).json({ success: false, message: 'Could not retrieve email from Google account.' });
+      }
+
+      // Upsert user in DB (find by google_id or email, create if not found)
+      const user = await UserModel.upsertGoogle({ google_id, email, name, avatar });
+
+      if (!user) {
+        return res.status(500).json({ success: false, message: 'Failed to create or find user account.' });
+      }
+
+      if (user.status === 'suspended') {
+        return res.status(403).json({ success: false, message: 'Your account has been suspended.' });
+      }
+
+      // Issue FraudShield JWT
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: 'Google login successful.',
+        token,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          avatar: user.avatar,
+          authProvider: 'google'
+        }
+      });
+    } catch (error) {
+      console.error('Google auth error:', error.message);
+      return res.status(401).json({ success: false, message: 'Google authentication failed. Invalid or expired token.' });
+    }
+  }
 }
 
 module.exports = AuthController;
+

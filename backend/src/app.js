@@ -14,14 +14,28 @@ const TransactionModel = require('./models/Transaction');
 
 const app = express();
 
-// Set security headers
-app.use(helmet());
+// Set security headers — allow Google OAuth iframes & scripts
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc:     ["'self'"],
+      scriptSrc:      ["'self'", "'unsafe-inline'", "https://accounts.google.com", "https://apis.google.com"],
+      frameSrc:       ["'self'", "https://accounts.google.com"],
+      connectSrc:     ["'self'", "https://accounts.google.com", "https://oauth2.googleapis.com", "https://openidconnect.googleapis.com"],
+      imgSrc:         ["'self'", "data:", "https://lh3.googleusercontent.com"],
+      styleSrc:       ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc:        ["'self'", "https://fonts.gstatic.com"],
+    }
+  },
+  crossOriginEmbedderPolicy: false,  // needed for Google OAuth popup
+}));
 
 // Enable CORS
 app.use(cors({
-  origin: '*', // Allow all origins for dev simplicity
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: process.env.APP_URL || 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 // Request Logging
