@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 const analyticRoutes = require('./routes/analytics');
 const ruleRoutes = require('./routes/rules');
+const chatRoutes = require('./routes/chat');
 const TransactionModel = require('./models/Transaction');
 
 const app = express();
@@ -21,7 +22,7 @@ app.use(helmet({
       defaultSrc:     ["'self'"],
       scriptSrc:      ["'self'", "'unsafe-inline'", "https://accounts.google.com", "https://apis.google.com"],
       frameSrc:       ["'self'", "https://accounts.google.com"],
-      connectSrc:     ["'self'", "https://accounts.google.com", "https://oauth2.googleapis.com", "https://openidconnect.googleapis.com"],
+      connectSrc:     ["'self'", "https://accounts.google.com", "https://oauth2.googleapis.com", "https://openidconnect.googleapis.com", "https://generativelanguage.googleapis.com"],
       imgSrc:         ["'self'", "data:", "https://lh3.googleusercontent.com"],
       styleSrc:       ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc:        ["'self'", "https://fonts.gstatic.com"],
@@ -86,6 +87,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/analytics', analyticRoutes);
 app.use('/api/rules', ruleRoutes);
+app.use('/api/chat', chatRoutes);
 
 // 404 Route handler
 app.use((req, res, next) => {
