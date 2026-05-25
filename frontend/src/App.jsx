@@ -94,7 +94,6 @@ function App() {
       <>
         <Toaster position="top-right" toastOptions={{ style: { background: '#1a2235', color: '#fff', border: '1px solid #1f293d' } }} />
         <Login onLoginSuccess={handleLoginSuccess} />
-        <SupportBot />
       </>
     );
   }

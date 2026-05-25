@@ -520,14 +520,24 @@ export default function Login({ onLoginSuccess }) {
           <PrimaryBtn type="submit" loading={loading}>Sign In <ArrowRight className="h-4 w-4" /></PrimaryBtn>
         </form>
 
-        {/* Biometric row */}
+        {/* Biometric - clearly marked as coming soon */}
         <div className="flex gap-2">
-          <button type="button" className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs text-slate-400 transition-all duration-200 border border-slate-800 hover:border-blue-500/40 hover:text-blue-400 hover:bg-blue-500/5">
-            <Fingerprint className="h-4 w-4" /> Fingerprint
-          </button>
-          <button type="button" className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs text-slate-400 transition-all duration-200 border border-slate-800 hover:border-cyan-500/40 hover:text-cyan-400 hover:bg-cyan-500/5">
-            <Activity className="h-4 w-4" /> Face ID
-          </button>
+          <div className="flex-1 relative">
+            <button type="button" disabled
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs text-slate-600 cursor-not-allowed"
+              style={{ background:'rgba(15,23,42,0.35)', border:'1px solid rgba(37,99,235,0.06)' }}>
+              <Fingerprint className="h-3.5 w-3.5" /> Fingerprint
+            </button>
+            <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
+          </div>
+          <div className="flex-1 relative">
+            <button type="button" disabled
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs text-slate-600 cursor-not-allowed"
+              style={{ background:'rgba(15,23,42,0.35)', border:'1px solid rgba(37,99,235,0.06)' }}>
+              <Activity className="h-3.5 w-3.5" /> Face ID
+            </button>
+            <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
+          </div>
         </div>
 
         <Divider />
@@ -554,7 +564,8 @@ export default function Login({ onLoginSuccess }) {
         .float-y    { animation: floatY 4s ease-in-out infinite; }
         .spin-slow  { animation: spinSlow 10s linear infinite; }
         .glow-pulse { animation: glowPulse 2s ease-in-out infinite; }
-        .slide-in   { animation: slideIn .4s ease both; }
+        .coming-soon { position:relative; }
+        .coming-soon::after { content:'Soon'; position:absolute; top:-6px; right:-4px; font-size:7px; background:#f59e0b; color:#000; border-radius:3px; padding:1px 4px; font-weight:900; }
         .shimmer-text {
           background: linear-gradient(90deg,#2563EB,#06B6D4,#10B981,#06B6D4,#2563EB);
           background-size:200% auto;
@@ -562,10 +573,12 @@ export default function Login({ onLoginSuccess }) {
           animation: shimmer 5s linear infinite;
         }
         input:-webkit-autofill { -webkit-box-shadow:0 0 0 1000px #0f172a inset!important; -webkit-text-fill-color:#e2e8f0!important; }
+        .light-mode input:-webkit-autofill { -webkit-box-shadow:0 0 0 1000px #f1f5f9 inset!important; -webkit-text-fill-color:#0f172a!important; }
         .tab-active { background:rgba(37,99,235,0.15); color:#60a5fa; border-bottom:2px solid #2563EB; }
         .tab-inactive { color:#64748b; border-bottom:2px solid transparent; }
         ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:#0f172a; } ::-webkit-scrollbar-thumb { background:#1e3a5f; border-radius:4px; }
         .google-btn-wrap > div { width:100%!important; } .google-btn-wrap iframe { width:100%!important; }
+        .coming-soon-badge { font-size:8px; background:rgba(250,204,21,0.12); color:#fbbf24; border:1px solid rgba(251,191,36,0.25); border-radius:4px; padding:1px 5px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
       `}</style>
 
       {/* ═══════════════ LEFT HERO ═══════════════ */}
@@ -649,90 +662,97 @@ export default function Login({ onLoginSuccess }) {
       </div>
 
       {/* ═══════════════ RIGHT AUTH PANEL ═══════════════ */}
-      <div className="w-full lg:w-[480px] xl:w-[520px] flex flex-col overflow-y-auto relative"
-        style={{ background:'linear-gradient(180deg,#080d1f 0%,#0b1028 100%)' }}>
+      <div className="w-full lg:w-[420px] xl:w-[440px] flex flex-col overflow-y-auto relative"
+        style={{ background: dark ? 'linear-gradient(180deg,#080d1f 0%,#0b1028 100%)' : 'linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%)' }}>
 
         {/* Top bar */}
-        <div className="flex items-center justify-between px-8 py-5 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 shrink-0">
           <div className="lg:hidden flex items-center gap-2">
             <Shield className="h-5 w-5 text-blue-400" />
-            <span className="text-white font-black">FraudShield</span>
+            <span className={`font-black ${dark ? 'text-white' : 'text-slate-900'}`}>FraudShield</span>
           </div>
-          <div className="ml-auto flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-2.5">
             {/* Security status */}
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background:'rgba(16,185,129,0.08)', border:'1px solid rgba(16,185,129,0.2)' }}>
               <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 glow-pulse" />
               <span className="text-emerald-400 text-[9px] font-bold uppercase tracking-wider">Secure</span>
             </div>
             {/* Dark/Light toggle */}
-            <button onClick={() => setDark(p => !p)} className="p-2 rounded-lg transition-colors" style={{ background:'rgba(37,99,235,0.1)', border:'1px solid rgba(37,99,235,0.15)' }}>
-              {dark ? <Sun className="h-3.5 w-3.5 text-slate-400" /> : <Moon className="h-3.5 w-3.5 text-slate-400" />}
+            <button onClick={() => setDark(p => !p)}
+              className="p-2 rounded-lg transition-all duration-200"
+              style={{ background: dark ? 'rgba(37,99,235,0.1)' : 'rgba(37,99,235,0.08)', border: dark ? '1px solid rgba(37,99,235,0.2)' : '1px solid rgba(37,99,235,0.15)' }}
+              title={dark ? 'Switch to Light mode' : 'Switch to Dark mode'}>
+              {dark
+                ? <Sun className="h-3.5 w-3.5 text-amber-400" />
+                : <Moon className="h-3.5 w-3.5 text-indigo-500" />}
             </button>
           </div>
         </div>
 
         {/* Main card area */}
-        <div className="flex-1 flex items-center justify-center px-6 py-4">
-          <div className="w-full max-w-[380px]">
+        <div className="flex-1 flex items-center justify-center px-5 py-2">
+          <div className="w-full max-w-[360px]">
 
             {/* Glass card */}
-            <div className="rounded-3xl p-7 relative overflow-hidden"
+            <div className="rounded-2xl p-6 relative overflow-hidden"
               style={{
-                background:'linear-gradient(145deg,rgba(13,21,56,0.95),rgba(8,13,32,0.98))',
-                border:'1px solid rgba(37,99,235,0.2)',
-                boxShadow:'0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(37,99,235,0.05) inset, 0 1px 0 rgba(255,255,255,0.04) inset',
+                background: dark
+                  ? 'linear-gradient(145deg,rgba(13,21,56,0.95),rgba(8,13,32,0.98))'
+                  : 'rgba(255,255,255,0.9)',
+                border: dark ? '1px solid rgba(37,99,235,0.2)' : '1px solid rgba(37,99,235,0.15)',
+                boxShadow: dark
+                  ? '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(37,99,235,0.05) inset'
+                  : '0 20px 60px rgba(37,99,235,0.08), 0 2px 8px rgba(0,0,0,0.06)',
               }}>
 
               {/* Corner accent */}
-              <div className="absolute top-0 right-0 w-32 h-32 pointer-events-none"
+              <div className="absolute top-0 right-0 w-28 h-28 pointer-events-none"
                 style={{ background:'radial-gradient(circle at top right, rgba(6,182,212,0.06), transparent 70%)' }} />
 
-              {/* AI scan indicator (top of card) */}
+              {/* AI scan indicator */}
               {tab === 'signin' && (
-                <div className="flex items-center gap-2 mb-5 px-3 py-2 rounded-xl" style={{ background:'rgba(37,99,235,0.06)', border:'1px solid rgba(37,99,235,0.12)' }}>
-                  <Cpu className="h-3.5 w-3.5 text-blue-400" />
-                  <span className="text-[10px] text-slate-400 font-medium">AI fraud scan <strong className="text-blue-400">{scanActive ? 'active' : 'monitoring'}</strong> on this session</span>
+                <div className="flex items-center gap-2 mb-4 px-3 py-1.5 rounded-xl" style={{ background: dark ? 'rgba(37,99,235,0.06)' : 'rgba(37,99,235,0.05)', border:'1px solid rgba(37,99,235,0.12)' }}>
+                  <Cpu className="h-3 w-3 text-blue-400" />
+                  <span className="text-[10px] font-medium" style={{ color: dark ? '#94a3b8' : '#64748b' }}>AI fraud scan <strong className="text-blue-400">{scanActive ? 'active' : 'monitoring'}</strong></span>
                   <div className={`ml-auto h-1.5 w-1.5 rounded-full ${scanActive ? 'bg-blue-400' : 'bg-slate-600'} transition-colors duration-500`} />
                 </div>
               )}
 
-              {/* ── SIGN IN / SIGN UP TABS ── */}
+              {/* Tabs */}
               {(tab === 'signin' || tab === 'signup') && (
                 <>
-                  <div className="flex mb-6 border-b border-slate-800">
+                  <div className="flex mb-5" style={{ borderBottom: dark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.08)' }}>
                     {[['signin','Sign In'],['signup','Sign Up']].map(([t, l]) => (
-                      <button key={t} onClick={() => go(t)} className={`flex-1 pb-2.5 text-sm font-bold transition-all duration-200 ${tab === t ? 'tab-active' : 'tab-inactive hover:text-slate-300'}`}>
+                      <button key={t} onClick={() => go(t)} className={`flex-1 pb-2 text-sm font-bold transition-all duration-200 ${tab === t ? 'tab-active' : 'tab-inactive hover:text-slate-300'}`}>
                         {l}
                       </button>
                     ))}
                   </div>
-                  {/* Header */}
-                  <div className="text-center mb-5">
-                    <div className="w-14 h-14 mx-auto mb-3 relative">
+                  <div className="text-center mb-4">
+                    <div className="w-12 h-12 mx-auto mb-2.5 relative">
                       <div className="absolute inset-0 border-2 border-dashed border-blue-500/20 rounded-full spin-slow" />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background:'rgba(37,99,235,0.12)', border:'1px solid rgba(37,99,235,0.25)' }}>
-                          <Shield className="h-5 w-5 text-blue-400" />
+                        <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background:'rgba(37,99,235,0.12)', border:'1px solid rgba(37,99,235,0.25)' }}>
+                          <Shield className="h-4 w-4 text-blue-400" />
                         </div>
                       </div>
                     </div>
-                    <h2 className="text-xl font-black text-white">
+                    <h2 className={`text-lg font-black ${dark ? 'text-white' : 'text-slate-900'}`}>
                       {tab === 'signin' ? 'Welcome back' : 'Join FraudShield'}
                     </h2>
-                    <p className="text-slate-500 text-xs mt-1">
+                    <p className="text-slate-500 text-xs mt-0.5">
                       {tab === 'signin' ? 'Sign in to your secure operator console' : 'Create your security account'}
                     </p>
                   </div>
                 </>
               )}
 
-              {/* ── CARD CONTENT ── */}
               {renderCard()}
             </div>
 
             {/* Trust badges */}
             {tab !== 'success' && (
-              <div className="mt-5 flex items-center justify-center gap-4 flex-wrap">
+              <div className="mt-4 flex items-center justify-center gap-4 flex-wrap">
                 {[['🔐','AES-256'],['✅','SOC 2'],['🇪🇺','GDPR'],['🏦','PCI DSS']].map(([ic, l], i) => (
                   <div key={i} className="flex items-center gap-1.5">
                     <span className="text-[10px]">{ic}</span>
@@ -742,12 +762,9 @@ export default function Login({ onLoginSuccess }) {
               </div>
             )}
 
-            {/* Login activity indicator */}
-            <div className="mt-4 flex items-center justify-center gap-2 text-slate-700 text-[10px]">
+            <div className="mt-3 flex items-center justify-center gap-2 text-slate-700 text-[10px]">
               <Wifi className="h-2.5 w-2.5" />
-              <span>Connection encrypted · TLS 1.3</span>
-              <span>·</span>
-              <span className="text-slate-600">Session expires in 24h</span>
+              <span>TLS 1.3 · Session 24h</span>
             </div>
           </div>
         </div>
@@ -780,9 +797,9 @@ function Divider() {
 
 function SocialRow({ onGoogle, gLoading, onGErr }) {
   return (
-    <div className="space-y-2.5">
-      {/* Official Google button */}
-      <div className="google-btn-wrap flex justify-center">
+    <div className="space-y-2">
+      {/* Official Google button — always visible */}
+      <div className="google-btn-wrap flex justify-center min-h-[44px]">
         {gLoading ? (
           <div className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-700 text-slate-400 text-sm"
             style={{ background:'rgba(15,23,42,0.6)' }}>
@@ -799,10 +816,24 @@ function SocialRow({ onGoogle, gLoading, onGErr }) {
             useOneTap={false} cancel_on_tap_outside={false} />
         )}
       </div>
-      {/* GitHub + Microsoft (UI only) */}
+      {/* GitHub + Microsoft — coming soon */}
       <div className="flex gap-2">
-        <SocialBtn icon={<GitHubIcon />} label="GitHub" onClick={() => {}} />
-        <SocialBtn icon={<MSIcon />} label="Microsoft" onClick={() => {}} />
+        <div className="flex-1 relative">
+          <button type="button" disabled
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-slate-600 cursor-not-allowed"
+            style={{ background:'rgba(15,23,42,0.4)', border:'1px solid rgba(37,99,235,0.08)' }}>
+            <GitHubIcon /><span className="hidden sm:inline">GitHub</span>
+          </button>
+          <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
+        </div>
+        <div className="flex-1 relative">
+          <button type="button" disabled
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-slate-600 cursor-not-allowed"
+            style={{ background:'rgba(15,23,42,0.4)', border:'1px solid rgba(37,99,235,0.08)' }}>
+            <MSIcon /><span className="hidden sm:inline">Microsoft</span>
+          </button>
+          <span className="absolute -top-1.5 -right-1 text-[7px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded px-1 font-black uppercase tracking-wide">Soon</span>
+        </div>
       </div>
     </div>
   );
