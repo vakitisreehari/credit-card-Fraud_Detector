@@ -1,0 +1,404 @@
+/* -------------------------------------------------------------
+   FraudShield AI — Production-Grade SaaS Dashboard Stylesheet
+   ------------------------------------------------------------- */
+
+/* Central Design Tokens & Harmonious HSL Palettes */
+:root {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Light Mode (Default Theme tokens matching Notion/Stripe) */
+  --bg-color: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(226, 232, 240, 0.8);
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --indigo-glow: rgba(99, 102, 241, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(226, 232, 240, 0.5);
+  --sidebar-bg: #ffffff;
+  --header-bg: rgba(248, 250, 252, 0.8);
+  
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+}
+
+.dark {
+  /* Dark Mode (High-Fidelity Vercel-like fintech values) */
+  --bg-color: #050811;
+  --card-bg: rgba(15, 19, 34, 0.65);
+  --card-border: rgba(27, 36, 60, 0.7);
+  --text-primary: #f1f5f9;
+  --text-muted: #8e9bb4;
+  --indigo-glow: rgba(99, 102, 241, 0.22);
+  --glass-bg: rgba(10, 15, 30, 0.85);
+  --glass-border: rgba(27, 36, 60, 0.45);
+  --sidebar-bg: #090d1a;
+  --header-bg: rgba(5, 8, 17, 0.85);
+  
+  --scrollbar-track: #050811;
+  --scrollbar-thumb: #1e293b;
+  --scrollbar-thumb-hover: #334155;
+}
+
+/* Base resets and smooth layouts transitions */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  height: 100%;
+  transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium micro-scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Base focus states accessibility */
+*:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   1. Glassmorphism Design Token System
+   ========================================================================== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .glass {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+}
+
+.glass:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 10px 30px var(--indigo-glow);
+}
+
+/* ==========================================================================
+   2. Main Layout Framework (Sidebar + Main panel grid)
+   ========================================================================== */
+.app-container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.sidebar-container {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--glass-border);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: justify-between;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease;
+}
+
+.main-content-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevents flex children from breaking parent boundaries */
+  height: 100%;
+}
+
+.header-container {
+  background-color: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  height: 70px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: justify-between;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  transition: background-color 0.35s ease;
+}
+
+.main-body-viewport {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  position: relative;
+  min-height: calc(100vh - 70px);
+}
+
+/* Extra ambient glowing backdrops in the viewport */
+.glowing-orb-right {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 15%;
+  right: -50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glowing-orb-left {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  bottom: 10%;
+  left: -50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   3. Table Custom Styling
+   ========================================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--glass-border);
+  transition: background-color 0.2s ease;
+}
+
+/* ==========================================================================
+   4. Floating Tooltip Canvas Overlay
+   ========================================================================== */
+.canvas-container {
+  position: relative;
+  width: 100%;
+}
+
+.chart-tooltip {
+  position: absolute;
+  display: none;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-width: 150px;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: left 0.1s ease, top 0.1s ease;
+}
+
+.dark .chart-tooltip {
+  background: rgba(9, 13, 26, 0.95);
+  border-color: rgba(27, 36, 60, 0.8);
+}
+
+/* ==========================================================================
+   5. Dynamic Toast Notification Drawer
+   ========================================================================== */
+.toasts-drawer {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 1000;
+  pointer-events: none; /* Let clicks pass through gaps */
+  max-w: 380px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   6. Multi-Step Wizard Modal
+   ========================================================================== */
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(5, 8, 17, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.modal-card {
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .modal-card {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   7. CSS Transitions & Micro-animations Keyframes
+   ========================================================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Pulse indicator animation for Approved statuses */
+.animate-pulse-slow {
+  animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .3;
+  }
+}
+
+/* Spinning indicators for loading icons */
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scale click triggers */
+button:active {
+  transform: scale(0.97);
+}
+
+/* Custom inputs active focus designs */
+input, select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input:focus, select:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* ==========================================================================
+   8. Fully Responsive Viewports Medias Queries
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 1fr; /* Sidebar collapses to drawer */
+  }
+  
+  .sidebar-container {
+    position: fixed;
+    transform: translateX(-100%);
+    width: 260px;
+    height: 100vh;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .sidebar-container.active {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-body-viewport {
+    padding: 1.25rem;
+  }
+  
+  .header-container {
+    padding: 0 1.25rem;
+  }
+  
+  .toasts-drawer {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+    width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  th, td {
+    padding: 0.75rem 1rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .modal-card {
+    border-radius: 16px;
+  }
+}

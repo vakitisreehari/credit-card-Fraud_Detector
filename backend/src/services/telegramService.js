@@ -1,5 +1,67 @@
 const axios = require('axios');
 
+// ── Shared system prompt for the Telegram AI assistant ──
+const TELEGRAM_SYSTEM_PROMPT = `You are the FraudShield AI Assistant — a helpful, friendly, and knowledgeable support bot inside an AI-powered Credit Card Fraud Detection platform called FraudShield.
+
+You can answer:
+- ANY general knowledge or random questions the user asks (geography, science, history, math, coding, etc.)
+- Questions about fraud detection, cybersecurity, machine learning, and fintech
+- Questions about the FraudShield platform (dashboard, transaction simulator, rules config, analytics, support)
+
+Platform context:
+- FraudShield is a real-time credit card fraud detection SaaS platform
+- It uses ML models that score transactions in <50ms with 99.97% accuracy
+- Features: Transaction Simulator, Rules Config, ML Analytics, Manual Review Queue, Security Profile
+- It is SOC 2, PCI DSS, and GDPR compliant
+- It uses AES-256 encryption and TLS 1.3
+
+Be concise, clear, and friendly. Use bullet points when listing. Keep replies under 300 words. Use plain text only — avoid Markdown bold/italic since Telegram Markdown can be finicky for general text.`;
+
+/**
+ * Send a message to the Gemini 1.5 Flash API and return the text reply.
+ * Falls back to a simple error string if the API call fails or the key is missing.
+ */
+async function callGeminiAI(userMessage, historyTurns = []) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || apiKey === 'your_gemini_api_key_here') {
+    return '⚠️ AI is not configured yet. Please add your GEMINI_API_KEY to the backend .env file.';
+  }
+
+  try {
+    const contents = [];
+    for (const turn of historyTurns.slice(-10)) {
+      contents.push({ role: turn.role, parts: [{ text: turn.text }] });
+    }
+    contents.push({ role: 'user', parts: [{ text: userMessage }] });
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const payload = {
+      system_instruction: { parts: [{ text: TELEGRAM_SYSTEM_PROMPT }] },
+      contents,
+      generationConfig: { temperature: 0.7, maxOutputTokens: 512, topP: 0.9 },
+      safetySettings: [
+        { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+      ],
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return reply ? reply.trim() : '🤖 I could not generate a response. Please try again.';
+  } catch (err) {
+    console.error('Gemini AI error (Telegram):', err.message);
+    return '⚠️ AI is temporarily unavailable. Please try again in a moment.';
+  }
+}
+
 class TelegramService {
   static get BOT_TOKEN() {
     return process.env.TELEGRAM_BOT_TOKEN || '8634001641:AAGqmSRL2a0eowUbE3WrFQBvAj2DAO0RZaY';
@@ -354,10 +416,10 @@ ${process.env.APP_URL || 'http://localhost:5173/'}
       return;
     }
 
-    // ── AI ASSISTANCE SUPPORT DESK ──
+    // ── AI ASSISTANCE SUPPORT DESK (powered by Gemini AI) ──
     if (text.startsWith('/support')) {
       const args = text.split(/\s+/).slice(1);
-      const query = args.join(' ').toLowerCase();
+      const query = args.join(' ').trim();
 
       if (!query) {
         await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -368,21 +430,16 @@ ${process.env.APP_URL || 'http://localhost:5173/'}
         return;
       }
 
-      let answer = '';
-      if (query.includes('limit') || query.includes('amount') || query.includes('rule')) {
-        answer = `🛡️ *FraudShield Helpdesk — Rules & Limits*:\nBy default, transactions exceeding $2,000 or having a high risk score (>75) trigger manual review. You can create, edit, or toggle rules inside the *Rules* panel in your dashboard console.`;
-      } else if (query.includes('connect') || query.includes('mongo') || query.includes('database') || query.includes('ip')) {
-        answer = `🔌 *FraudShield Helpdesk — Database Connection*:\nIf your server fails to connect to MongoDB Atlas, ensure your cluster Network Access whitelist includes \`0.0.0.0/0\` (Access from anywhere) to allow connection handshakes.`;
-      } else if (query.includes('otp') || query.includes('code') || query.includes('verify')) {
-        answer = `🔑 *FraudShield Helpdesk — OTP Verification*:\nHigh-risk transactions trigger a 3D-Secure SMS check. Users submit their 6-digit code on the simulator checkout. You can also view or approve these OTP checks right here in this bot using the \`/otp\` command!`;
-      } else {
-        answer = `🤖 *FraudShield Helpdesk — General Support*:\nI am your automated AI Support Assistant. I can help you check cards (/check), manage OTPs (/otp), check health, and generate operator accounts (/credentials).\n\nIf you have a dedicated technical inquiry, feel free to email our engineering desk at support@fraudshield.ai.`;
-      }
+      // Send a "typing..." action while Gemini thinks
+      await axios.post(`https://api.telegram.org/bot${token}/sendChatAction`, {
+        chat_id: chatId, action: 'typing'
+      }).catch(() => {});
+
+      const answer = await callGeminiAI(query);
 
       await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
         chat_id: chatId,
-        text: answer,
-        parse_mode: 'Markdown'
+        text: `🤖 FraudShield AI:\n\n${answer}`,
       });
       return;
     }
@@ -461,6 +518,22 @@ ${fraudPatterns.map(p => `  _- ${p}_`).join('\n')}
         text: report,
         parse_mode: 'Markdown'
       }).catch(err => console.error('Error sending bot message:', err.message));
+      return;
+    }
+
+    // ── CATCH-ALL: Any plain-text message → Gemini AI ──
+    // If nothing above matched, treat the message as a free-form question for the AI
+    if (!text.startsWith('/')) {
+      await axios.post(`https://api.telegram.org/bot${token}/sendChatAction`, {
+        chat_id: chatId, action: 'typing'
+      }).catch(() => {});
+
+      const aiReply = await callGeminiAI(text);
+
+      await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
+        chat_id: chatId,
+        text: `🤖 FraudShield AI:\n\n${aiReply}`,
+      }).catch(err => console.error('Error sending AI reply:', err.message));
     }
   }
 
