@@ -256,22 +256,6 @@ export default function Login({ onLoginSuccess }) {
           0%, 100% { opacity: 0.85; transform: scale(1); }
           50% { opacity: 0.35; transform: scale(1.3); }
         }
-        @keyframes rotateCW {
-          from { transform: translate(-50%, -50%) rotate(0deg); }
-          to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        @keyframes rotateCCW {
-          from { transform: translate(-50%, -50%) rotate(360deg); }
-          to { transform: translate(-50%, -50%) rotate(0deg); }
-        }
-        @keyframes cardFloat {
-          0%, 100% { transform: perspective(800px) rotateY(-18deg) rotateX(12deg) rotateZ(-6deg) translateY(0); }
-          50% { transform: perspective(800px) rotateY(-18deg) rotateX(12deg) rotateZ(-6deg) translateY(-8px); }
-        }
-        @keyframes shieldFloat {
-          0%, 100% { transform: translateY(0) scale(1); }
-          50% { transform: translateY(-4px) scale(1.03); }
-        }
         .fade-up { animation: fadeUp .35s ease both; }
         input:focus { outline: none; }
         .login-input {
@@ -524,13 +508,13 @@ export default function Login({ onLoginSuccess }) {
                 <div className="hologram-circle-1" style={{
                   position: 'absolute', width: '220px', height: '220px',
                   border: '1.5px dashed rgba(99, 102, 241, 0.22)', borderRadius: '50%',
-                  animation: 'rotateCW 25s linear infinite', top: '50%', left: '50%',
+                  top: '50%', left: '50%',
                   transform: 'translate(-50%, -50%)'
                 }} />
                 <div className="hologram-circle-2" style={{
                   position: 'absolute', width: '170px', height: '170px',
                   border: '1px solid rgba(16, 185, 129, 0.18)', borderRadius: '50%',
-                  animation: 'rotateCCW 18s linear infinite', top: '50%', left: '50%',
+                  top: '50%', left: '50%',
                   transform: 'translate(-50%, -50%)'
                 }} />
                 
@@ -551,7 +535,6 @@ export default function Login({ onLoginSuccess }) {
                   padding: '14px', boxSizing: 'border-box',
                   boxShadow: '0 15px 35px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08)',
                   transform: 'perspective(800px) rotateY(-18deg) rotateX(12deg) rotateZ(-6deg)',
-                  animation: 'cardFloat 4s ease-in-out infinite',
                   display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                   overflow: 'hidden', zIndex: 3, backdropFilter: 'blur(8px)'
                 }}>
@@ -634,7 +617,6 @@ export default function Login({ onLoginSuccess }) {
                   border: '1.5px solid #3b82f6', borderRadius: '10px 10px 24px 24px',
                   boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), inset 0 0 8px rgba(59, 130, 246, 0.3)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  animation: 'shieldFloat 4s ease-in-out infinite alternate',
                   backdropFilter: 'blur(4px)'
                 }}>
                   {/* Shield Grid */}
