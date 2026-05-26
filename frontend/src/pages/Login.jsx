@@ -34,6 +34,7 @@ export default function Login({ onLoginSuccess }) {
   const [accuracy, setAccuracy]   = useState(0);
   const [scanRate, setScanRate]   = useState(45);
   const [logs, setLogs]           = useState([]);
+  const [activeModal, setActiveModal] = useState(null); // null | 'about' | 'contact'
   const cardRef                   = React.useRef(null);
   const logsContainerRef          = React.useRef(null);
   const strokeRef                 = React.useRef(null);
@@ -233,19 +234,39 @@ export default function Login({ onLoginSuccess }) {
     <div style={{ minHeight: '100vh', background: '#f0f2f5', display: 'flex', flexDirection: 'column', fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
       <style>{`
         @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes scaleUp {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
         @keyframes pulse {
           0%, 100% { opacity: 0.85; transform: scale(1); }
           50% { opacity: 0.35; transform: scale(1.3); }
         }
+        @keyframes rotateCW {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes rotateCCW {
+          from { transform: translate(-50%, -50%) rotate(360deg); }
+          to { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+        @keyframes cardFloat {
+          0%, 100% { transform: perspective(800px) rotateY(-18deg) rotateX(12deg) rotateZ(-6deg) translateY(0); }
+          50% { transform: perspective(800px) rotateY(-18deg) rotateX(12deg) rotateZ(-6deg) translateY(-8px); }
+        }
+        @keyframes shieldFloat {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-4px) scale(1.03); }
+        }
         .fade-up { animation: fadeUp .35s ease both; }
         input:focus { outline: none; }
         .login-input {
-          width: 100%; padding: 10px 14px 10px 40px; font-size: 14px;
-          border: 1.5px solid #e2e8f0; border-radius: 8px;
+          width: 100%; padding: 12px 14px 12px 42px; font-size: 14px;
+          border: 1.5px solid #e2e8f0; border-radius: 12px;
           background: #fff; color: #1e293b; transition: all .15s;
           box-sizing: border-box;
         }
-        .login-input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .login-input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
         .login-input::placeholder { color: #94a3b8; }
         .login-btn {
           width: 100%; padding: 11px; font-size: 15px; font-weight: 700;
@@ -302,11 +323,27 @@ export default function Login({ onLoginSuccess }) {
         .console-logs-container::-webkit-scrollbar { width: 4px; }
         .console-logs-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.01); }
         .console-logs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
+
+        .fraud-card-split {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          width: 100%;
+        }
+        @media (min-width: 768px) {
+          .fraud-card-split {
+            flex-direction: row !important;
+          }
+        }
+
         @media (min-width: 992px) {
           .login-grid-container {
-            grid-template-columns: 1.15fr 1fr !important;
+            grid-template-columns: 1.45fr 1fr !important;
             align-items: stretch !important;
-            max-width: 960px !important;
+            max-width: 1100px !important;
+          }
+          #fraud-card-wrapper {
+            max-width: 680px !important;
           }
         }
       `}</style>
@@ -317,12 +354,29 @@ export default function Login({ onLoginSuccess }) {
           <Shield size={18} color="#2563EB" />
           <span style={{ fontWeight: 800, fontSize: '16px', color: '#0f172a' }}>FraudShield</span>
         </div>
-        <div style={{ display: 'flex', gap: '28px' }}>
-          {['Home', 'About', 'Contact'].map(l => (
-            <a key={l} href="#" style={{ fontSize: '14px', color: '#475569', textDecoration: 'none', fontWeight: 500 }}
-              onMouseEnter={e => e.target.style.color = '#2563EB'}
-              onMouseLeave={e => e.target.style.color = '#475569'}>{l}</a>
-          ))}
+        <div style={{ display: 'flex', gap: '28px', height: '100%', alignItems: 'center' }}>
+          {['Home', 'About', 'Contact'].map(l => {
+            const isActive = activeModal === l.toLowerCase() || (l === 'Home' && !activeModal);
+            return (
+              <button key={l} onClick={() => {
+                if (l === 'Home') setActiveModal(null);
+                else setActiveModal(l.toLowerCase());
+              }} style={{
+                position: 'relative', height: '100%', background: 'none', border: 'none',
+                fontSize: '14px', color: isActive ? '#0f172a' : '#475569', fontWeight: 600,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0 4px',
+                transition: 'color 0.2s'
+              }}>
+                {l}
+                {isActive && (
+                  <span style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0, height: '3px',
+                    background: '#2563EB', borderRadius: '999px'
+                  }} />
+                )}
+              </button>
+            );
+          })}
         </div>
       </nav>
 
@@ -340,64 +394,207 @@ export default function Login({ onLoginSuccess }) {
             <div style={{ position: 'absolute', width: '250px', height: '250px', background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)', borderRadius: '50%', top: '-60px', left: '-60px', pointerEvents: 'none' }}></div>
             <div style={{ position: 'absolute', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)', borderRadius: '50%', bottom: '-60px', right: '-60px', pointerEvents: 'none' }}></div>
 
-            <div style={{ position: 'relative', zIndex: 5, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ position: 'relative', display: 'flex', height: '8px', width: '8px' }}>
-                    <span style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', position: 'absolute', display: 'inline-flex', height: '100%', width: '100%', borderRadius: '50%', background: '#10B981', opacity: 0.75 }}></span>
-                    <span style={{ position: 'relative', display: 'inline-flex', borderRadius: '50%', height: '8px', width: '8px', background: '#10B981' }}></span>
-                  </span>
-                  <span style={{ fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', tracking: '0.15em', color: '#10B981', textTransform: 'uppercase' }}>Gatekeeper AI Active</span>
+            <div className="fraud-card-split" style={{ position: 'relative', zIndex: 5 }}>
+              
+              {/* Left Column: Metrics & Logs */}
+              <div style={{ flex: 1.1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ position: 'relative', display: 'flex', height: '8px', width: '8px' }}>
+                      <span style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite', position: 'absolute', display: 'inline-flex', height: '100%', width: '100%', borderRadius: '50%', background: '#10B981', opacity: 0.75 }}></span>
+                      <span style={{ position: 'relative', display: 'inline-flex', borderRadius: '50%', height: '8px', width: '8px', background: '#10B981' }}></span>
+                    </span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', tracking: '0.15em', color: '#10B981', textTransform: 'uppercase' }}>Gatekeeper AI Active</span>
+                  </div>
+                  <span style={{ padding: '2px 8px', border: '1px solid rgba(99,102,241,0.2)', background: 'rgba(99,102,241,0.1)', color: '#818CF8', borderRadius: '6px', fontSize: '8px', fontWeight: 700, fontFamily: 'monospace', textTransform: 'uppercase' }}>🛡️ Protected by AI</span>
                 </div>
-                <span style={{ padding: '2px 8px', border: '1px solid rgba(99,102,241,0.2)', background: 'rgba(99,102,241,0.1)', color: '#818CF8', borderRadius: '6px', fontSize: '8px', fontWeight: 700, fontFamily: 'monospace', textTransform: 'uppercase' }}>🛡️ Protected by AI</span>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left' }}>
+                  <span style={{ fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#64748b', textTransform: 'uppercase', tracking: '0.15em' }}>Scanning Accuracy</span>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                    <span style={{ fontSize: '32px', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>{accuracy.toFixed(2)}%</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#10B981', fontFamily: 'monospace' }}>Real-time</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#475569' }}>
+                    <span>Transaction Scanning velocity</span>
+                    <span style={{ color: '#818CF8', fontWeight: 700 }}>{scanRate} tx/sec</span>
+                  </div>
+                  <div style={{ height: '56px', width: '100%', overflow: 'hidden', display: 'flex', alignItems: 'end' }}>
+                    <svg viewBox="0 0 300 60" style={{ width: '100%', height: '100%', color: '#6366f1', overflow: 'visible' }}>
+                      <defs>
+                        <linearGradient id="wave-grad-react" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0.25"/>
+                          <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0"/>
+                        </linearGradient>
+                      </defs>
+                      <path ref={fillRef} d="M 0 60 Q 25 35, 50 45 T 100 25 T 150 40 T 200 20 T 250 35 T 300 60 L 300 60 L 0 60 Z" fill="url(#wave-grad-react)"></path>
+                      <path ref={strokeRef} d="M 0 60 Q 25 35, 50 45 T 100 25 T 150 40 T 200 20 T 250 35 T 300 60" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"></path>
+                    </svg>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#475569', textTransform: 'uppercase', tracking: '0.15em', textAlign: 'left' }}>Real-time Security Ingress Feed</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#10B981' }}>
+                      <span style={{ display: 'inline-block', width: '5px', height: '5px', borderRadius: '50%', background: '#10B981', animation: 'pulse 1.5s infinite' }}></span>
+                      LIVE
+                    </span>
+                  </div>
+                  <div ref={logsContainerRef} className="console-logs-container" style={{ height: '90px' }}>
+                    {logs.map((log, index) => {
+                      const parts = log.split(' ');
+                      const time = parts[0];
+                      const type = parts[1];
+                      const rest = parts.slice(2).join(' ');
+                      const isOk = type === '[OK]';
+                      return (
+                        <div key={index} style={{ display: 'flex', gap: '6px', marginBottom: '4px', lineHeight: 1.4 }}>
+                          <span style={{ color: '#475569', userSelect: 'none' }}>{time}</span>
+                          <span style={{ color: isOk ? '#10B981' : '#818CF8', fontWeight: 700 }}>{type}</span>
+                          <span style={{ color: '#cbd5e1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{rest}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left' }}>
-                <span style={{ fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#64748b', textTransform: 'uppercase', tracking: '0.15em' }}>Scanning Accuracy</span>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-                  <span style={{ fontSize: '32px', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>{accuracy.toFixed(2)}%</span>
-                  <span style={{ fontSize: '9px', fontWeight: 700, color: '#10B981', fontFamily: 'monospace' }}>Real-time</span>
-                </div>
-              </div>
+              {/* Right Column: Hologram Credit Card & Shield Pedestal */}
+              <div className="card-illustration-container" style={{
+                flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                position: 'relative', minHeight: '240px', overflow: 'visible', pointerEvents: 'none', userSelect: 'none'
+              }}>
+                {/* Hologram Rings */}
+                <div className="hologram-circle-1" style={{
+                  position: 'absolute', width: '220px', height: '220px',
+                  border: '1.5px dashed rgba(99, 102, 241, 0.22)', borderRadius: '50%',
+                  animation: 'rotateCW 25s linear infinite', top: '50%', left: '50%',
+                  transform: 'translate(-50%, -50%)'
+                }} />
+                <div className="hologram-circle-2" style={{
+                  position: 'absolute', width: '170px', height: '170px',
+                  border: '1px solid rgba(16, 185, 129, 0.18)', borderRadius: '50%',
+                  animation: 'rotateCCW 18s linear infinite', top: '50%', left: '50%',
+                  transform: 'translate(-50%, -50%)'
+                }} />
+                
+                {/* Hologram digital pedestal */}
+                <div className="digital-pedestal" style={{
+                  position: 'absolute', bottom: '15px', width: '150px', height: '20px',
+                  background: 'radial-gradient(ellipse, rgba(59, 130, 246, 0.25) 0%, transparent 70%)',
+                  border: '1px solid rgba(59, 130, 246, 0.2)', borderRadius: '50%',
+                  transform: 'rotateX(65deg)', zIndex: 1,
+                  boxShadow: '0 0 15px rgba(59, 130, 246, 0.35)'
+                }} />
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#475569' }}>
-                  <span>Transaction Scanning velocity</span>
-                  <span style={{ color: '#818CF8', fontWeight: 700 }}>{scanRate} tx/sec</span>
+                {/* Floating Credit Card */}
+                <div className="floating-credit-card" style={{
+                  position: 'relative', width: '224px', height: '140px',
+                  background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.55) 100%)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px',
+                  padding: '14px', boxSizing: 'border-box',
+                  boxShadow: '0 15px 35px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.08)',
+                  transform: 'perspective(800px) rotateY(-18deg) rotateX(12deg) rotateZ(-6deg)',
+                  animation: 'cardFloat 4s ease-in-out infinite',
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                  overflow: 'hidden', zIndex: 3, backdropFilter: 'blur(8px)'
+                }}>
+                  {/* Watermark global connections vector background */}
+                  <div style={{ position: 'absolute', inset: 0, opacity: 0.1, pointerEvents: 'none', background: 'radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 80%)' }}>
+                    <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+                      <circle cx="20" cy="30" r="1.2" fill="#fff" />
+                      <circle cx="50" cy="20" r="1.5" fill="#fff" />
+                      <circle cx="80" cy="40" r="1.2" fill="#fff" />
+                      <circle cx="40" cy="70" r="1.2" fill="#fff" />
+                      <circle cx="70" cy="80" r="1.2" fill="#fff" />
+                      <line x1="20" y1="30" x2="50" y2="20" stroke="#fff" strokeWidth="0.25" />
+                      <line x1="50" y1="20" x2="80" y2="40" stroke="#fff" strokeWidth="0.25" />
+                      <line x1="80" y1="40" x2="70" y2="80" stroke="#fff" strokeWidth="0.25" />
+                      <line x1="70" y1="80" x2="40" y2="70" stroke="#fff" strokeWidth="0.25" />
+                      <line x1="40" y1="70" x2="20" y2="30" stroke="#fff" strokeWidth="0.25" />
+                      <line x1="50" y1="20" x2="40" y2="70" stroke="#fff" strokeWidth="0.25" />
+                    </svg>
+                  </div>
+
+                  {/* Top Row: Brand & Contactless */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', position: 'relative', zIndex: 4 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                      <span style={{ fontSize: '9px', fontWeight: 800, color: '#fff', letterSpacing: '0.05em', fontFamily: 'sans-serif' }}>FraudShield AI</span>
+                      <span style={{ fontSize: '4.5px', fontWeight: 600, color: '#94a3b8', letterSpacing: '0.1em', marginTop: '0.5px' }}>SECURE PAYMENTS</span>
+                    </div>
+                    {/* Contactless Wifi Icon */}
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2.5" strokeLinecap="round">
+                      <path d="M5 12a10 10 0 0 1 14 0" />
+                      <path d="M8.5 15.5a5 5 0 0 1 7 0" />
+                      <path d="M12 18a1 1 0 1 1 0-.01" />
+                    </svg>
+                  </div>
+
+                  {/* Chip Row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', position: 'relative', zIndex: 4, margin: '4px 0' }}>
+                    {/* Metallic Gold Chip */}
+                    <div style={{
+                      width: '24px', height: '18px',
+                      background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%)',
+                      borderRadius: '3px', position: 'relative', overflow: 'hidden',
+                      border: '0.5px solid rgba(255,255,255,0.15)',
+                      boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.3)'
+                    }}>
+                      <div style={{ position: 'absolute', top: 0, bottom: 0, left: '33%', width: '1px', background: 'rgba(0,0,0,0.2)' }} />
+                      <div style={{ position: 'absolute', top: 0, bottom: 0, left: '66%', width: '1px', background: 'rgba(0,0,0,0.2)' }} />
+                      <div style={{ position: 'absolute', left: 0, right: 0, top: '40%', height: '1px', background: 'rgba(0,0,0,0.2)' }} />
+                      <div style={{ position: 'absolute', left: 0, right: 0, top: '70%', height: '1px', background: 'rgba(0,0,0,0.2)' }} />
+                      <div style={{ position: 'absolute', top: '15%', bottom: '15%', left: '15%', right: '15%', borderRadius: '1.5px', border: '0.5px solid rgba(0,0,0,0.15)' }} />
+                    </div>
+                  </div>
+
+                  {/* Card Number */}
+                  <div style={{
+                    fontFamily: 'monospace', fontSize: '13px', fontWeight: 700, color: '#fff',
+                    letterSpacing: '1.5px', textAlign: 'left', textShadow: '0 1px 2px rgba(0,0,0,0.6)',
+                    position: 'relative', zIndex: 4, marginBottom: '4px'
+                  }}>
+                    4587 2345 9876 5432
+                  </div>
+
+                  {/* Bottom Row: Name & Date */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', position: 'relative', zIndex: 4 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                      <span style={{ fontSize: '4.5px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Cardholder Name</span>
+                      <span style={{ fontSize: '7.5px', fontWeight: 700, color: '#fff', fontFamily: 'monospace', textTransform: 'uppercase', marginTop: '1px' }}>VAKITI SREEHARI</span>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'end' }}>
+                      <span style={{ fontSize: '4.5px', color: '#94a3b8', textTransform: 'uppercase' }}>Valid Thru</span>
+                      <span style={{ fontSize: '7.5px', fontWeight: 700, color: '#fff', fontFamily: 'monospace', marginTop: '1px' }}>12/26</span>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ height: '64px', width: '100%', overflow: 'hidden', display: 'flex', alignItems: 'end' }}>
-                  <svg viewBox="0 0 300 60" style={{ width: '100%', height: '100%', color: '#6366f1', overflow: 'visible' }}>
-                    <defs>
-                      <linearGradient id="wave-grad-react" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0.25"/>
-                        <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <path ref={fillRef} d="M 0 60 Q 25 35, 50 45 T 100 25 T 150 40 T 200 20 T 250 35 T 300 60 L 300 60 L 0 60 Z" fill="url(#wave-grad-react)"></path>
-                    <path ref={strokeRef} d="M 0 60 Q 25 35, 50 45 T 100 25 T 150 40 T 200 20 T 250 35 T 300 60" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"></path>
+
+                {/* Floating Glowing Shield Overlay */}
+                <div className="neon-security-shield" style={{
+                  position: 'absolute', bottom: '20px', right: '35px', zIndex: 5,
+                  width: '64px', height: '76px',
+                  background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.4) 0%, rgba(99, 102, 241, 0.22) 100%)',
+                  border: '1.5px solid #3b82f6', borderRadius: '10px 10px 24px 24px',
+                  boxShadow: '0 0 20px rgba(59, 130, 246, 0.5), inset 0 0 8px rgba(59, 130, 246, 0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  animation: 'shieldFloat 4s ease-in-out infinite alternate',
+                  backdropFilter: 'blur(4px)'
+                }}>
+                  {/* Shield Grid */}
+                  <div style={{ position: 'absolute', inset: 0, opacity: 0.1, backgroundSize: '6px 6px', backgroundImage: 'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)' }} />
+                  {/* Shield Lock SVG */}
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{ fontSize: '9px', fontWeight: 700, fontFamily: 'monospace', color: '#475569', textTransform: 'uppercase', tracking: '0.15em', textAlign: 'left' }}>Real-time Security Ingress Feed</span>
-                <div ref={logsContainerRef} className="console-logs-container">
-                  {logs.map((log, index) => {
-                    const parts = log.split(' ');
-                    const time = parts[0];
-                    const type = parts[1];
-                    const rest = parts.slice(2).join(' ');
-                    const isOk = type === '[OK]';
-                    return (
-                      <div key={index} style={{ display: 'flex', gap: '6px', marginBottom: '4px', lineHeight: 1.4 }}>
-                        <span style={{ color: '#475569', userSelect: 'none' }}>{time}</span>
-                        <span style={{ color: isOk ? '#10B981' : '#818CF8', fontWeight: 700 }}>{type}</span>
-                        <span style={{ color: '#cbd5e1', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{rest}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', paddingTop: '16px', marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)', position: 'relative', zIndex: 5 }}>
@@ -447,7 +644,12 @@ export default function Login({ onLoginSuccess }) {
             ) : tab === 'login' ? (
               /* ── LOGIN FORM ── */
               <div className="fade-up">
-                <h2 style={{ margin: '0 0 4px', fontSize: '22px', fontWeight: 800, color: '#0f172a', textAlign: 'center' }}>Welcome Back</h2>
+                <h2 style={{ margin: '0 0 4px', fontSize: '22px', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                  Welcome Back
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="#2563EB" style={{ display: 'inline-block', flexShrink: 0 }}>
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#fff" />
+                  </svg>
+                </h2>
                 <p style={{ margin: '0 0 24px', fontSize: '13px', color: '#64748b', textAlign: 'center' }}>Please login to your account</p>
 
                 {error && (
@@ -462,10 +664,10 @@ export default function Login({ onLoginSuccess }) {
                   <div>
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>Email Address</label>
                     <div style={{ position: 'relative' }}>
-                      <Mail size={15} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                      <Mail size={15} color="#94a3b8" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
                       <input className="login-input" type="email" placeholder="Enter your email"
                         value={email} onChange={e => { setEmail(e.target.value); setError(''); }}
-                        autoComplete="email" style={{ paddingLeft: '36px' }} />
+                        autoComplete="email" style={{ paddingLeft: '42px' }} />
                     </div>
                   </div>
 
@@ -473,12 +675,12 @@ export default function Login({ onLoginSuccess }) {
                   <div>
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>Password</label>
                     <div style={{ position: 'relative' }}>
-                      <Lock size={15} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                      <Lock size={15} color="#94a3b8" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
                       <input className="login-input" type={showPass ? 'text' : 'password'} placeholder="Enter your password"
                         value={password} onChange={e => { setPassword(e.target.value); setError(''); }}
-                        autoComplete="current-password" style={{ paddingLeft: '36px', paddingRight: '40px' }} />
+                        autoComplete="current-password" style={{ paddingLeft: '42px', paddingRight: '44px' }} />
                       <button type="button" onClick={() => setShowPass(p => !p)}
-                        style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 0 }}>
+                        style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 0 }}>
                         {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
                     </div>
@@ -498,8 +700,26 @@ export default function Login({ onLoginSuccess }) {
                   </div>
 
                   {/* Login button */}
-                  <button type="submit" className="login-btn" disabled={loading}>
-                    {loading ? 'Signing in…' : 'Login'}
+                  <button type="submit" className="login-btn" disabled={loading} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '12px 20px', background: '#0047FF', borderRadius: '12px',
+                    color: '#fff', fontSize: '15px', fontWeight: 700, width: '100%',
+                    border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                    boxShadow: '0 4px 12px rgba(0, 71, 255, 0.2)'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Lock size={15} />
+                      <span>{loading ? 'Signing in…' : 'Login'}</span>
+                    </div>
+                    <div style={{
+                      width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </div>
                   </button>
                 </form>
 
@@ -517,10 +737,38 @@ export default function Login({ onLoginSuccess }) {
                       Verifying with Google…
                     </div>
                   ) : (
-                    <GoogleLogin onSuccess={handleGoogle} onError={() => setError('Google sign-in failed.')}
-                      theme="outline" shape="rectangular" size="large"
-                      text="continue_with" width="356" logo_alignment="left"
-                      useOneTap={false} cancel_on_tap_outside={false} />
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      padding: '10px 16px', background: '#fff', border: '1.5px solid #e2e8f0',
+                      borderRadius: '12px', width: '100%', boxSizing: 'border-box',
+                      position: 'relative'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {/* Avatar */}
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=vakiti" alt="Avatar" style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#f1f5f9' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                          <span style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b' }}>Continue as VAKITI SREEHARI</span>
+                          <span style={{ fontSize: '11px', color: '#64748b' }}>vakitisrihari90108@gmail.com</span>
+                        </div>
+                      </div>
+                      {/* Google 'G' icon */}
+                      <svg viewBox="0 0 24 24" width="20" height="20" style={{ flexShrink: 0 }}>
+                        <path fill="#EA4335" d="M12 5.04c1.67 0 3.2.58 4.38 1.69l3.27-3.27C17.67 1.47 14.97 1 12 1 7.24 1 3.2 3.65 1.13 7.55l3.8 2.95C5.87 7.2 8.69 5.04 12 5.04z" />
+                        <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.51h6.46c-.29 1.48-1.14 2.73-2.4 3.58l3.76 2.91c2.2-2.03 3.67-5.01 3.67-8.64z" />
+                        <path fill="#FBBC05" d="M5.87 13.51A7.17 7.17 0 0 1 5.5 12c0-.52.07-1.03.18-1.53l-3.8-2.95A11.95 11.95 0 0 0 1 12c0 1.63.32 3.19.92 4.62l3.95-3.11z" />
+                        <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.76-2.91c-1.1.74-2.52 1.18-4.2 1.18-3.31 0-6.13-2.16-7.07-5.06l-3.95 3.11C3.2 20.35 7.24 23 12 23z" />
+                      </svg>
+                      
+                      {/* Invisible GoogleLogin overlay strictly capturing the click */}
+                      <div style={{
+                        position: 'absolute', inset: 0, opacity: 0.01, zIndex: 10,
+                        overflow: 'hidden', cursor: 'pointer', display: 'flex', justifyContent: 'center'
+                      }}>
+                        <GoogleLogin onSuccess={handleGoogle} onError={() => setError('Google sign-in failed.')}
+                          theme="outline" shape="rectangular" size="large" width="380"
+                          useOneTap={false} cancel_on_tap_outside={false} />
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -615,8 +863,26 @@ export default function Login({ onLoginSuccess }) {
                     I agree to the <span style={{ color: '#2563EB', fontWeight: 600, cursor: 'pointer' }}>Terms of Service</span> and <span style={{ color: '#2563EB', fontWeight: 600, cursor: 'pointer' }}>Privacy Policy</span>
                   </label>
 
-                  <button type="submit" className="login-btn" disabled={loading}>
-                    {loading ? 'Creating account…' : 'Create Account'}
+                  <button type="submit" className="login-btn" disabled={loading} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '12px 20px', background: '#0047FF', borderRadius: '12px',
+                    color: '#fff', fontSize: '15px', fontWeight: 700, width: '100%',
+                    border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                    boxShadow: '0 4px 12px rgba(0, 71, 255, 0.2)'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Lock size={15} />
+                      <span>{loading ? 'Creating account…' : 'Create Account'}</span>
+                    </div>
+                    <div style={{
+                      width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </div>
                   </button>
                 </form>
 
@@ -634,10 +900,38 @@ export default function Login({ onLoginSuccess }) {
                       Verifying with Google…
                     </div>
                   ) : (
-                    <GoogleLogin onSuccess={handleGoogle} onError={() => setError('Google sign-in failed.')}
-                      theme="outline" shape="rectangular" size="large"
-                      text="continue_with" width="356" logo_alignment="left"
-                      useOneTap={false} cancel_on_tap_outside={false} />
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      padding: '10px 16px', background: '#fff', border: '1.5px solid #e2e8f0',
+                      borderRadius: '12px', width: '100%', boxSizing: 'border-box',
+                      position: 'relative'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {/* Avatar */}
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=vakiti" alt="Avatar" style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#f1f5f9' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                          <span style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b' }}>Continue as VAKITI SREEHARI</span>
+                          <span style={{ fontSize: '11px', color: '#64748b' }}>vakitisrihari90108@gmail.com</span>
+                        </div>
+                      </div>
+                      {/* Google 'G' icon */}
+                      <svg viewBox="0 0 24 24" width="20" height="20" style={{ flexShrink: 0 }}>
+                        <path fill="#EA4335" d="M12 5.04c1.67 0 3.2.58 4.38 1.69l3.27-3.27C17.67 1.47 14.97 1 12 1 7.24 1 3.2 3.65 1.13 7.55l3.8 2.95C5.87 7.2 8.69 5.04 12 5.04z" />
+                        <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.51h6.46c-.29 1.48-1.14 2.73-2.4 3.58l3.76 2.91c2.2-2.03 3.67-5.01 3.67-8.64z" />
+                        <path fill="#FBBC05" d="M5.87 13.51A7.17 7.17 0 0 1 5.5 12c0-.52.07-1.03.18-1.53l-3.8-2.95A11.95 11.95 0 0 0 1 12c0 1.63.32 3.19.92 4.62l3.95-3.11z" />
+                        <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.76-2.91c-1.1.74-2.52 1.18-4.2 1.18-3.31 0-6.13-2.16-7.07-5.06l-3.95 3.11C3.2 20.35 7.24 23 12 23z" />
+                      </svg>
+                      
+                      {/* Invisible GoogleLogin overlay strictly capturing the click */}
+                      <div style={{
+                        position: 'absolute', inset: 0, opacity: 0.01, zIndex: 10,
+                        overflow: 'hidden', cursor: 'pointer', display: 'flex', justifyContent: 'center'
+                      }}>
+                        <GoogleLogin onSuccess={handleGoogle} onError={() => setError('Google sign-in failed.')}
+                          theme="outline" shape="rectangular" size="large" width="380"
+                          useOneTap={false} cancel_on_tap_outside={false} />
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -655,6 +949,103 @@ export default function Login({ onLoginSuccess }) {
           </div>
         </div>
       </div>
+
+      {/* ── Active Information Modal Overlays ── */}
+      {activeModal && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 100,
+          background: 'rgba(2, 6, 23, 0.65)', backdropFilter: 'blur(10px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          animation: 'fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both',
+          padding: '16px'
+        }}
+        onClick={() => setActiveModal(null)}
+        >
+          <div style={{
+            background: '#060913', border: '1px solid #1e293b', borderRadius: '16px',
+            padding: '28px', width: '100%', maxWidth: '460px', position: 'relative',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.5)', textAlign: 'left',
+            color: '#fff', animation: 'scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both'
+          }}
+          onClick={e => e.stopPropagation()}
+          >
+            <button onClick={() => setActiveModal(null)} style={{
+              position: 'absolute', right: '16px', top: '16px', background: 'none',
+              border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '18px'
+            }}>✕</button>
+
+            {activeModal === 'about' ? (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+                  <div style={{ padding: '8px', background: 'rgba(99,102,241,0.15)', borderRadius: '8px', color: '#818CF8' }}>
+                    <Shield size={20} />
+                  </div>
+                  <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0, color: '#fff' }}>About FraudShield AI</h3>
+                </div>
+                
+                <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.5, marginBottom: '16px' }}>
+                  FraudShield AI is an enterprise-grade cyber-telemetry authentication portal powered by advanced machine learning.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {[
+                    ['XGBoost Risk Classifier', 'Analyzes active transactions with 0.04% false positive margin.'],
+                    ['Biometric Fingerprinting', 'Validates screen dynamics, mouse velocities, and device keys.'],
+                    ['Cryptographic Ingress', 'Ensures instant identity synchronization with zero packet loss.'],
+                    ['Explainable Decision Nodes', 'Translates neural evaluations into readable security logs.']
+                  ].map(([title, desc]) => (
+                    <div key={title} style={{ padding: '10px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+                      <span style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#818CF8', fontFamily: 'monospace', textTransform: 'uppercase' }}>{title}</span>
+                      <span style={{ display: 'block', fontSize: '11px', color: '#cbd5e1', marginTop: '2px' }}>{desc}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+                  <div style={{ padding: '8px', background: 'rgba(16,185,129,0.15)', borderRadius: '8px', color: '#10B981' }}>
+                    <Mail size={20} />
+                  </div>
+                  <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0, color: '#fff' }}>Support Ingress Contact</h3>
+                </div>
+                
+                <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.5, marginBottom: '16px' }}>
+                  Submit an encrypted ticket directly to the Gatekeeper Security Operation Center (SOC).
+                </p>
+
+                <form onSubmit={e => { e.preventDefault(); alert('Message dispatched to Gatekeeper AI Secure Ingress.'); setActiveModal(null); }} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '10px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: '4px', fontFamily: 'monospace' }}>Encrypted Sender</label>
+                    <input type="email" required placeholder="your.email@domain.com" style={{
+                      width: '100%', padding: '8px 12px', background: 'rgba(2, 6, 23, 0.6)',
+                      border: '1px solid #1e293b', borderRadius: '8px', color: '#fff', fontSize: '13px'
+                    }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '10px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: '4px', fontFamily: 'monospace' }}>Ingress Message</label>
+                    <textarea required rows="3" placeholder="Describe the anomaly or query..." style={{
+                      width: '100%', padding: '8px 12px', background: 'rgba(2, 6, 23, 0.6)',
+                      border: '1px solid #1e293b', borderRadius: '8px', color: '#fff', fontSize: '13px',
+                      resize: 'none'
+                    }} />
+                  </div>
+                  <button type="submit" style={{
+                    width: '100%', padding: '10px', background: '#10B981', color: '#fff',
+                    border: 'none', borderRadius: '8px', fontWeight: 700, fontSize: '13px',
+                    cursor: 'pointer', transition: 'background 0.2s'
+                  }}
+                  onMouseEnter={e => e.target.style.background = '#059669'}
+                  onMouseLeave={e => e.target.style.background = '#10B981'}
+                  >
+                    Dispatch Ingress Signal
+                  </button>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
