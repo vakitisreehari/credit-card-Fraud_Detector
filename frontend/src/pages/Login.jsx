@@ -231,8 +231,22 @@ export default function Login({ onLoginSuccess }) {
 
   /* ─────────────── RENDER ─────────────── */
   return (
-    <div style={{ minHeight: '100vh', background: '#f0f2f5', display: 'flex', flexDirection: 'column', fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
+    <div className="login-page-bg">
       <style>{`
+        .login-page-bg {
+          min-height: 100vh;
+          width: 100%;
+          background: #f1f5f9;
+          background-image: 
+            radial-gradient(circle at 15% 25%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
+            radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
+            linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+        }
         @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes scaleUp {
           from { opacity: 0; transform: scale(0.95); }
@@ -348,8 +362,46 @@ export default function Login({ onLoginSuccess }) {
         }
       `}</style>
 
+      {/* ── Fixed Cyber Backdrop Mesh ── */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        {/* Soft glowing spheres */}
+        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)', borderRadius: '50%', top: '-10%', left: '-10%' }} />
+        <div style={{ position: 'absolute', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%)', borderRadius: '50%', bottom: '5%', right: '-5%' }} />
+        
+        {/* Dotted cyber grid overlay */}
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.2, backgroundImage: 'radial-gradient(rgba(99, 102, 241, 0.12) 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
+
+        {/* Left Side: Glowing cyber rings */}
+        <svg viewBox="0 0 100 100" style={{ position: 'absolute', left: '-50px', top: '25%', width: '400px', height: '400px', opacity: 0.4, overflow: 'visible', filter: 'blur(1px)' }}>
+          <circle cx="20" cy="50" r="45" fill="none" stroke="url(#bg-grad-1)" strokeWidth="0.5" strokeDasharray="3 2" />
+          <circle cx="20" cy="50" r="38" fill="none" stroke="url(#bg-grad-2)" strokeWidth="0.8" />
+          <circle cx="20" cy="50" r="30" fill="none" stroke="url(#bg-grad-1)" strokeWidth="0.4" strokeDasharray="10 5" />
+          <defs>
+            <linearGradient id="bg-grad-1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.1" />
+            </linearGradient>
+            <linearGradient id="bg-grad-2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#a855f7" stopOpacity="0.1" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Right Side: Dotted digital networks */}
+        <svg viewBox="0 0 100 100" style={{ position: 'absolute', right: '-100px', bottom: '15%', width: '450px', height: '450px', opacity: 0.35, overflow: 'visible' }}>
+          <path d="M 80 20 Q 50 40, 20 60 T -10 90" fill="none" stroke="#6366f1" strokeWidth="0.15" strokeDasharray="1 1.5" />
+          <path d="M 90 40 Q 60 55, 30 70" fill="none" stroke="#3b82f6" strokeWidth="0.1" strokeDasharray="2 2" />
+          {/* Grid nodes */}
+          <circle cx="80" cy="20" r="1.5" fill="rgba(99, 102, 241, 0.4)" />
+          <circle cx="50" cy="40" r="1.2" fill="rgba(59, 130, 246, 0.3)" />
+          <circle cx="20" cy="60" r="1.5" fill="rgba(168, 85, 247, 0.4)" />
+          <circle cx="60" cy="55" r="1" fill="rgba(6, 182, 212, 0.3)" />
+        </svg>
+      </div>
+
       {/* ── Navbar ── */}
-      <nav style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '0 32px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <nav style={{ position: 'relative', zIndex: 1, background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '0 32px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Shield size={18} color="#2563EB" />
           <span style={{ fontWeight: 800, fontSize: '16px', color: '#0f172a' }}>FraudShield</span>
@@ -381,7 +433,7 @@ export default function Login({ onLoginSuccess }) {
       </nav>
 
       {/* ── Card ── */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
+      <div style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
         <div className="login-grid-container" style={{
           display: 'grid', gridTemplateColumns: '1fr', gap: '32px',
           width: '100%', maxWidth: '440px', margin: '0 auto'
